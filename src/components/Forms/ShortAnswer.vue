@@ -12,6 +12,7 @@
 </template>
 
 <script setup>
+//number, text, date
 import { computed } from "vue";
 
 const props = defineProps({
