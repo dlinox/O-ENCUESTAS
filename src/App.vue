@@ -1,18 +1,11 @@
 
 <template>
      <router-view></router-view>
-     <pre>
-{{ dataSurvey }}
-     </pre>
 </template>
 <script setup>
 import { useSurveyStore } from '@/store/index'
 import { RS, RL, SU, SM, SD, MR } from './models/Structure.js'
-
 const surveyStore = useSurveyStore();
-
-
-
 const dataSurvey = {
      title: "Enuesta de ejemplo",
      secctions: [
@@ -29,9 +22,7 @@ const dataSurvey = {
                          dependent: 2,//Id de la pregunta que depende si dependiera de alguna,
                          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
                          askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
-
-                         RL,
-
+                         structure: RS,
                          options: [// puede ser null ó []
                               {
                                    id: 1,
@@ -52,7 +43,6 @@ const dataSurvey = {
                     },
                ],
           },
-
      ],
 };
 

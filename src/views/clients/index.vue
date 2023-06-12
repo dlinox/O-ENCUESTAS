@@ -3,6 +3,9 @@
     <template #header.title>FICHA INTEGRAL DEL ESTUDIANTE UNIVERSITARIO</template>
     <template #header.subtitle>Los datos a registrar son de carácter confidencial</template>
 
+    <ShortAnswer label="Ejemplo" label-grid="col-span-1" input-grid="col-span-3" type="Number" />
+    <ShortAnswer label="Ejemplo" type="date" />
+
     <div class="grid grid-cols-4 gap-4">
       <div class="col-span-1">
         <IndexSurvey />
@@ -46,6 +49,7 @@
 import ClientLayout from "@/layouts/ClientLayout.vue";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 import IndexSurvey from "./components/IndexSurvey.vue"
+import ShortAnswer from "../../components/Forms/ShortAnswer.vue";
 
 
 const dataStudent = [

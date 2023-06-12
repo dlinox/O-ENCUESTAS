@@ -6,13 +6,14 @@
 // grid: 'col-span-2 inline-flex ... ', // UI de la pregunta 
 
 class Structure {
-    constructor(id, type, code, input, other, grid) {
+    constructor(id, type, code, input, other, labelGrid, inputGrid) {
         this.id = id;
         this.type = type;
         this.code = code;
         this.input = input;
+        this.labelGrid = labelGrid;
+        this.inputGrid = inputGrid;
         this.other = other;
-        this.grid = grid;
     }
 };
 
@@ -22,7 +23,8 @@ const RS = new Structure(
     'RS',
     'text', //input:text
     false,
-    'col-span-2 inline-flex'
+    'col-span-2',
+    'col-span-2'
 );
 
 const RL = new Structure(
@@ -31,7 +33,8 @@ const RL = new Structure(
     'RL',
     'textarea', //input:text
     false,
-    'col-span-2 inline-flex'
+    'col-span-2',
+    'col-span-2'
 );
 
 const SU = new Structure(
@@ -40,7 +43,8 @@ const SU = new Structure(
     'SU',
     'text', //input:text
     false,
-    'col-span-2 inline-flex'
+    'col-span-2',
+    'col-span-2'
 );
 
 const SM = new Structure(
@@ -49,7 +53,8 @@ const SM = new Structure(
     'SM',
     'text', //input:text
     false,
-    'col-span-2 inline-flex'
+    'col-span-2',
+    'col-span-2'
 );
 
 const SD = new Structure(
@@ -58,7 +63,8 @@ const SD = new Structure(
     'SD',
     'text', //input:text
     false,
-    'col-span-2 inline-flex'
+    'col-span-2',
+    'col-span-2'
 );
 
 const MR = new Structure(
@@ -67,7 +73,8 @@ const MR = new Structure(
     'MR',
     'text', //input:text
     false,
-    'col-span-2 inline-flex'
+    'col-span-2',
+    'col-span-2'
 );
 
 export {
