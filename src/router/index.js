@@ -2,8 +2,12 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
-    path: "/encuesta",
+    path: "/",
     component: () => import("../views/clients/index.vue"),
+  },
+  {
+    path: "/encuesta/:id", //?por seccion
+    component: () => import("../views/clients/survey.vue"),
   },
 ];
 
