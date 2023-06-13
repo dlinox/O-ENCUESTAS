@@ -36,7 +36,6 @@
     </ul>
 </template>
 <script setup>
-
 import { useSurveyStore } from '@/store/index';
 const surveyStore = useSurveyStore();
 

@@ -1,5 +1,6 @@
 
 <template>
+     <!-- <a  class="text-blue-600" href="https://docs.google.com/document/d/14Y60ll7pws3E2byvsuK7gX4IksFRf6uXv62cDEJbNXM/edit?usp=sharing" target="_blank">Doc</a> -->
      <router-view></router-view>
 </template>
 <script setup>
@@ -8,172 +9,201 @@ import { RS, RL, SU, SM, SD, MR } from './models/Structure.js'
 const surveyStore = useSurveyStore();
 const dataSurvey = {
      title: "Enuesta de ejemplo",
-     secctions: [
+     sections: [
           {
                id: 1,
-               title: "Seccion 1",
-               description: "Descripcion de la seccion 1",
+               title: "Datos personales",
+               description: "Datos personales del estudiante",
                complete: false,
                current: true,
                questions: [
                     {
                          id: 1,
-                         statement: "Pregunta se respuesta corta (date,  number, text)",
+                         statement: "Codigo",
                          dependent: null,//Id de la pregunta que depende si dependiera de alguna,
-                         helpQuestion: 'Mensaje de ayuda para la pregunta, nota, alerta , etc...',
+                         helpQuestion: 'Ingrese el nombre completo de su padre.',
                          structure: RS,
                          options: null,
                          answerQuestion: '',
-                         /**
-                       * !Structura de respuesta opcion
-                       * id_pregunta
-                       * id_opcion
-                       * value null
-                       */
-                         // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
-                         answer: {
-                              question_id: 1, //---back
-                              option_id: null,
-                              value: 'Respuesta'
-                         }
-                         //answer: value //Respuesta,
+                         // answer: null, //Respuesta,
                     },
+
                     {
                          id: 2,
-                         statement: "Pregunta de seleccion unica",
+                         statement: "Facultad",
+                         dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+                         helpQuestion: 'Ingrese el nombre completo de su padre.',
+                         structure: RS,
+                         options: null,
+                         answerQuestion: '',
+                         answer: null, //Respuesta,
+                    },
+
+
+                    {
+                         id: 3,
+                         statement: "Carrera profesional",
+                         dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+                         helpQuestion: 'Ingrese el nombre completo de su padre.',
+                         structure: RS,
+                         options: null,
+                         answerQuestion: '',
+                         answer: null, //Respuesta,
+                    },
+
+
+                    {
+                         id: 4,
+                         statement: "Modalidad de ingreso",
+                         dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+                         helpQuestion: 'Ingrese el nombre completo de su padre.',
+                         structure: RS,
+                         options: null,
+                         answerQuestion: '',
+                         answer: null, //Respuesta,
+                    },
+
+
+                    {
+                         id: 5,
+                         statement: "Paterno",
+                         dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+                         helpQuestion: 'Ingrese el nombre completo de su padre.',
+                         structure: RS,
+                         options: null,
+                         answerQuestion: '',
+                         // answer: null, //Respuesta,
+                    },
+
+
+                    {
+                         id: 6,
+                         statement: "Materno",
+                         dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+                         helpQuestion: 'Ingrese el nombre completo de su padre.',
+                         structure: RS,
+                         options: null,
+                         answerQuestion: '',
+                         answer: null, //Respuesta,
+                    },
+
+                    {
+                         id: 6,
+                         statement: "Nombres",
+                         dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+                         helpQuestion: 'Ingrese el nombre completo de su padre.',
+                         structure: RS,
+                         options: null,
+                         answerQuestion: '',
+                         answer: null, //Respuesta,
+                    },
+
+                    {
+                         id: 7,
+                         statement: "¿Tiene seguro de salud?",
                          dependent: null,//Id de la pregunta que depende si dependiera de alguna,
                          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
                          askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
-                         structure: SU,
+                         structure: SD,
 
-                         options: [// puede ser null ó []
+                         options: [
+                              {
+                                   id: 20,
+                                   title: "NO TENGO",
+                              },
                               {
                                    id: 21,
-                                   title: "Opcion 1",
+                                   title: "SIS",
                               },
                               {
                                    id: 22,
-                                   title: "Opcion 2",
+                                   title: "ESSALUD",
                               },
                               {
                                    id: 23,
-                                   title: "Opcion 3",
+                                   title: "OTRO",
                               },
                          ],
-
-                         answer: {
-                              question_id: 2, //---back
-                              option_id: 21,
-                              value: null
-                         }
-                         //answer:  option_id //41,
-
                     },
+
+
                     {
-                         id: 3,
-                         statement: "Pregunta de seleccion multiple",
+                         id: 8,
+                         statement: "Tiene Alguna Discapacidad",
                          dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+                         optionTrigger: null,//Id de la pregunta que depende si dependiera de alguna,
                          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
                          askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
-                         structure: SM,
+                         structure: SU,
                          options: [// puede ser null ó []
                               {
                                    id: 31,
-                                   title: "Opcion 1",
+                                   title: "SI",
                               },
                               {
                                    id: 32,
-                                   title: "Opcion 2",
+                                   title: "NO",
                               },
-                              {
-                                   id: 33,
-                                   title: "Opcion 3",
-                              },
-
                          ],
 
-                         answer: {
-                              question_id: 3, //---back
-                              option_id: 31,
-                              value: null
-                         }
-                         //answer:  option_id //41,
-                         
-
                     },
+
                     {
-                         id: 4,
-                         statement: "Pregunta de seleccion simple desplegable",
-                         dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+                         id: 9,
+                         statement: "Tipo de dicapacidad",
+                         dependent: 8,//Id de la pregunta que depende si dependiera de alguna,
+                         optionTrigger: 31,//Id de la pregunta que depende si dependiera de alguna,
                          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
                          askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
                          structure: SD,
-                         options: [// puede ser null ó []
-                              {
-                                   id: 41,
-                                   title: "Opcion 1",
-                              },
-                              {
-                                   id: 42,
-                                   title: "Opcion 2",
-                              },
-                              {
-                                   id: 43,
-                                   title: "Opcion 3",
-                              },
 
+                         options: [
+                              {
+                                   id: 80,
+                                   title: "Discapacidad física o motora: Impedimento para moverse o trasladarse.",
+                              },
+                              {
+                                   id: 81,
+                                   title: "Discapacidad sensorial: Pérdida de la capacidad visual o auditiva, problemas para comunicarse o utilizar el lenguaje.",
+                              },
+                              {
+                                   id: 82,
+                                   title: "Discapacidad intelectual: Limitaciones para aprender y responder a situaciones",
+                              },
+                              {
+                                   id: 83,
+                                   title: "Discapacidad mental o psíquica: Relacionada con el comportamiento adaptativo del individuo.",
+                              },
                          ],
-
-                         // answer: {
-                         //      question_id: 4, //---back
-                         //      option_id: 41,
-                         //      value: null //---back
-                         // }
-                         answer:  option_id //41,
                     },
+
                     {
-                         id: 5,
-                         statement: "Pregunta de respuesta multiple",
-                         dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+                         id: 10,
+                         statement: "Tipo de dicapacidad",
+                         dependent: 8,//Id de la pregunta que depende si dependiera de alguna,
+                         optionTrigger: 31,//Id de la pregunta que depende si dependiera de alguna,
                          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
                          askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
                          structure: SD,
-                         options: [// puede ser null ó []
+
+                         options: [
                               {
-                                   id: 51,
-                                   title: "Ingreso económico del padre",
+                                   id: 101,
+                                   title: "Leve",
                               },
+
                               {
-                                   id: 52,
-                                   title: "Ingreso económico de la madre",
+                                   id: 102,
+                                   title: "Moderado",
                               },
+
                               {
-                                   id: 53,
-                                   title: "Ingreso económico del estudiante",
+                                   id: 103,
+                                   title: "Severo",
                               },
 
                          ],
-
-                         answer: [
-                              {
-                                   question_id: 5, //---back
-                                   option_id: 51,
-                                   value: 500.00,
-                              },
-                              {
-                                   question_id: 5, //---back
-                                   option_id: 52,
-                                   value: 500.00,
-                              },
-                              {
-                                   question_id: 5, //---back
-                                   option_id: 53,
-                                   value: 500.00,
-                              },
-                         ]
-
                     },
-
 
                ],
           },

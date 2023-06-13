@@ -1,16 +1,20 @@
 <template>
-    <ul class="list-inside px-12">
-        <li class="text-lg font-medium mb-4">
-            <h3 class="mb-3"> {{ question.statement }} </h3>
-            <div class="ms-4">
-                <RadioGroupForm :questionIndex="question.id" :options="question.options" v-model="question.result" />
-            </div>
-        </li>
-    </ul>
+    <div class="grid grid-cols-4">
+        <label for="price" class="text-sm font-medium leading-6 text-gray-900" :class="question.structure.labelGrid">
+            {{ question.statement }}
+        </label>
+        <div class="relative mt-1 rounded-md" :class="question.structure.inputGrid">
+            <RadioGroupForm :questionIndex="question.id" :options="question.options" v-model="input" />
+        </div>
+    </div>
+
 </template>
+
 <script setup>
 //number, text, date
 import { computed } from "vue";
+import RadioGroupForm from "../Forms/RadioGroupForm.vue"
+
 
 const props = defineProps({
     modelValue: [String, Number],

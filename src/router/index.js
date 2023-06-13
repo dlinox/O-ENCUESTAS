@@ -6,9 +6,23 @@ const routes = [
     component: () => import("../views/clients/index.vue"),
   },
   {
+    path: "/welcome",
+    component: () => import("../views/clients/welcome.vue"),
+  },
+  {
+    path: "/autocomplete",
+    component: () => import("../views/AutocompleLab.vue"),
+  },
+
+  {
+    path: "/form",
+    component: () => import("../views/formComponents.vue"),
+  },
+  {
     path: "/encuesta/:id", //?por seccion
     component: () => import("../views/clients/survey.vue"),
   },
+
 ];
 
 const router = createRouter({

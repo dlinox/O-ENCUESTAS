@@ -1,87 +1,196 @@
 <template>
-  <ClientLayout>
-    <template #header.title>FICHA INTEGRAL DEL ESTUDIANTE UNIVERSITARIO</template>
-    <template #header.subtitle>Los datos a registrar son de carácter confidencial</template>
-
-    <ShortAnswer label="Ejemplo" label-grid="col-span-1" input-grid="col-span-3" type="Number" />
-    <ShortAnswer label="Ejemplo" type="date" />
-
-    <div class="grid grid-cols-4 gap-4">
-      <div class="col-span-1">
-        <IndexSurvey />
-      </div>
-      <div class="col-span-3 rounded-lg bg-white p-3">
-        <div class="px-6">
-          <h3 class="text-base font-semibold leading-7 text-gray-900">
-            Bienvenido(a)
-          </h3>
-          <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-            FICHA INTEGRAL.
-          </p>
-        </div>
-        <div class="px-8 mt-6 border-t border-gray-100">
-          <dl class="divide-y divide-gray-100">
-            <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" v-for="item in dataStudent">
-              <dt class="text-sm font-medium leading-6 text-gray-900">
-                {{ item.key }}
-              </dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {{ item.value }}
-              </dd>
-            </div>
-          </dl>
-
-          <div class="border-t border-gray-100 pt-4 flex justify-end">
-            <RouterLink to="/encuesta/1">
-              <ButtonPrimary title="Guardar" />
-            </RouterLink>
-            <RouterLink to="/encuesta/1">
-              <ButtonPrimary class="ms-3" title="Guardar y continuar" />
-            </RouterLink>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </ClientLayout>
+  <div>
+    <pre>
+      {{ dataSurvey }}
+    </pre>
+  </div>
 </template>
 <script setup>
-import ClientLayout from "@/layouts/ClientLayout.vue";
-import ButtonPrimary from "@/components/ButtonPrimary.vue";
-import IndexSurvey from "./components/IndexSurvey.vue"
-import ShortAnswer from "../../components/Forms/ShortAnswer.vue";
+
+import { RS, RL, SU, SM, SD, MR } from '../../models/Structure.js'
 
 
-const dataStudent = [
-  {
-    key: "Nombre(s)",
-    value: "Denis Lino",
-  },
-  {
-    key: "Apellidos",
-    value: "Puma Ticona",
-  },
-  {
-    key: "Lugar de origen",
-    value: "Departamento, Provincia, Ditstrito",
-  },
-  {
-    key: "Lugar de residencia",
-    value: "Departamento, Provincia, Ditstrito",
-  },
-  {
-    key: "Fecha de nacimiento",
-    value: "25 de Julio del 1230",
-  },
-  {
-    key: "Correo electronico",
-    value: "dpumaticona@gmail.com",
-  },
-  {
-    key: "Número de celular",
-    value: "951208106",
-  },
-];
+const dataSurvey = {
+  title: "Enuesta de ejemplo",
+  secctions: [
+    {
+      id: 1,
+      title: "Seccion 1",
+      description: "Descripcion de la seccion 1",
+      complete: false,
+      current: true,
+      questions: [
+        {
+          id: 1,
+          statement: "Pregunta se respuesta corta (date,  number, text)",
+          dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+          helpQuestion: 'Mensaje de ayuda para la pregunta, nota, alerta , etc...',
+          structure: {
+            id: 'id',
+            type: 'type',
+            code: 'code',
+            input: 'input',
+            labelGrid: 'labelGrid',
+            inputGrid: 'inputGrid',
+            other: 'other',
+          },
+          options: null,
+          answerQuestion: '',
+          /**
+        * !Structura de respuesta opcion
+        * id_pregunta
+        * id_opcion
+        * value null
+        */
+          // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
+          answer: {
+            question_id: 1, //---back
+            option_id: null,
+            value: 'Respuesta'
+          }
+          //answer: value //Respuesta,
+        },
+        {
+          id: 2,
+          statement: "Pregunta de seleccion unica",
+          dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
+          askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
+          structure: SU,
+
+          options: [// puede ser null ó []
+            {
+              id: 21,
+              title: "Opcion 1",
+            },
+            {
+              id: 22,
+              title: "Opcion 2",
+            },
+            {
+              id: 23,
+              title: "Opcion 3",
+            },
+          ],
+
+          answer: {
+            question_id: 2, //---back
+            option_id: 21,
+            value: null
+          }
+          //answer:  option_id //41,
+
+        },
+        {
+          id: 3,
+          statement: "Pregunta de seleccion multiple",
+          dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
+          askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
+          structure: SM,
+          options: [// puede ser null ó []
+            {
+              id: 31,
+              title: "Opcion 1",
+            },
+            {
+              id: 32,
+              title: "Opcion 2",
+            },
+            {
+              id: 33,
+              title: "Opcion 3",
+            },
+
+          ],
+
+          answer: {
+            question_id: 3, //---back
+            option_id: 31,
+            value: null
+          }
+          //answer:  option_id //41,
+
+
+        },
+        {
+          id: 4,
+          statement: "Pregunta de seleccion simple desplegable",
+          dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
+          askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
+          structure: SD,
+          options: [// puede ser null ó []
+            {
+              id: 41,
+              title: "Opcion 1",
+            },
+            {
+              id: 42,
+              title: "Opcion 2",
+            },
+            {
+              id: 43,
+              title: "Opcion 3",
+            },
+
+          ],
+
+          // answer: {
+          //      question_id: 4, //---back
+          //      option_id: 41,
+          //      value: null //---back
+          // }
+          answer: 41 //option_id //41,
+        },
+        {
+          id: 5,
+          statement: "Pregunta de respuesta multiple",
+          dependent: null,//Id de la pregunta que depende si dependiera de alguna,
+          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
+          askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
+          structure: SD,
+          options: [// puede ser null ó []
+            {
+              id: 51,
+              title: "Ingreso económico del padre",
+            },
+            {
+              id: 52,
+              title: "Ingreso económico de la madre",
+            },
+            {
+              id: 53,
+              title: "Ingreso económico del estudiante",
+            },
+
+          ],
+
+          answer: [
+            {
+              question_id: 5, //---back
+              option_id: 51,
+              value: 500.00,
+            },
+            {
+              question_id: 5, //---back
+              option_id: 52,
+              value: 500.00,
+            },
+            {
+              question_id: 5, //---back
+              option_id: 53,
+              value: 500.00,
+            },
+          ]
+
+        },
+
+
+      ],
+    },
+  ],
+};
 
 
 </script>
