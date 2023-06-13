@@ -51,19 +51,19 @@ const surveyStore = useSurveyStore();
 
 const currentId = route.params.id;
 
-const currentSurvey = computed(() => surveyStore.survey.secctions.filter((item) => (item.current && !item.complete))[0]);
+const currentSurvey = computed(() => surveyStore?.survey?.sections?.filter((item) => (item.current && !item.complete))[0]);
 
 const saveSection = () => {
 
-    let indexSection = surveyStore.survey.secctions.findIndex(item => item.id == currentSurvey.value.id);
-    let countSection = surveyStore.survey.secctions.length;
+    let indexSection = surveyStore.survey.sections.findIndex(item => item.id == currentSurvey.value.id);
+    let countSection = surveyStore.survey.sections.length;
 
     if ((indexSection + 1) != countSection) {
-        surveyStore.survey.secctions[indexSection].complete = true;
-        surveyStore.survey.secctions[indexSection].current = false;
+        surveyStore.survey.sections[indexSection].complete = true;
+        surveyStore.survey.sections[indexSection].current = false;
 
-        surveyStore.survey.secctions[indexSection + 1].current = true;
-        surveyStore.survey.secctions[indexSection + 1].complete = false;
+        surveyStore.survey.sections[indexSection + 1].current = true;
+        surveyStore.survey.sections[indexSection + 1].complete = false;
 
         console.log('Guardando ... ');
     }

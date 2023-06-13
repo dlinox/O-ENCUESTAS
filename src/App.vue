@@ -1,6 +1,5 @@
 
 <template>
-     <!-- <a  class="text-blue-600" href="https://docs.google.com/document/d/14Y60ll7pws3E2byvsuK7gX4IksFRf6uXv62cDEJbNXM/edit?usp=sharing" target="_blank">Doc</a> -->
      <router-view></router-view>
 </template>
 <script setup>
@@ -214,12 +213,5 @@ const init = () => {
      surveyStore.survey = dataSurvey;
 }
 init();
-/************ 
-v-model: cuando cada opcion tiene una respuesta
-answer :{
-     id_option,
-     value,
-}
-*/
 </script>
 
