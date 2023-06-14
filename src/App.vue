@@ -1,11 +1,15 @@
-
 <template>
      <router-view></router-view>
 </template>
 <script setup>
-import { useSurveyStore } from '@/store/index'
+import { useSurveyStore, useDataDemoStore } from '@/store/index'
 import { RS, RL, SU, SM, SD, MR } from './models/Structure.js'
+
+import demoData from "@/assets/dataDemo.json";
+
 const surveyStore = useSurveyStore();
+const demoStore = useDataDemoStore();
+
 const dataSurvey = {
      title: "Enuesta de ejemplo",
      sections: [
@@ -23,7 +27,6 @@ const dataSurvey = {
                          helpQuestion: 'Ingrese el nombre completo de su padre.',
                          structure: RS,
                          options: null,
-                         answerQuestion: '',
                          // answer: null, //Respuesta,
                     },
 
@@ -34,7 +37,6 @@ const dataSurvey = {
                          helpQuestion: 'Ingrese el nombre completo de su padre.',
                          structure: RS,
                          options: null,
-                         answerQuestion: '',
                          answer: null, //Respuesta,
                     },
 
@@ -46,11 +48,8 @@ const dataSurvey = {
                          helpQuestion: 'Ingrese el nombre completo de su padre.',
                          structure: RS,
                          options: null,
-                         answerQuestion: '',
                          answer: null, //Respuesta,
                     },
-
-
                     {
                          id: 4,
                          statement: "Modalidad de ingreso",
@@ -58,11 +57,8 @@ const dataSurvey = {
                          helpQuestion: 'Ingrese el nombre completo de su padre.',
                          structure: RS,
                          options: null,
-                         answerQuestion: '',
                          answer: null, //Respuesta,
                     },
-
-
                     {
                          id: 5,
                          statement: "Paterno",
@@ -70,11 +66,8 @@ const dataSurvey = {
                          helpQuestion: 'Ingrese el nombre completo de su padre.',
                          structure: RS,
                          options: null,
-                         answerQuestion: '',
                          // answer: null, //Respuesta,
                     },
-
-
                     {
                          id: 6,
                          statement: "Materno",
@@ -82,10 +75,8 @@ const dataSurvey = {
                          helpQuestion: 'Ingrese el nombre completo de su padre.',
                          structure: RS,
                          options: null,
-                         answerQuestion: '',
                          answer: null, //Respuesta,
                     },
-
                     {
                          id: 6,
                          statement: "Nombres",
@@ -93,7 +84,6 @@ const dataSurvey = {
                          helpQuestion: 'Ingrese el nombre completo de su padre.',
                          structure: RS,
                          options: null,
-                         answerQuestion: '',
                          answer: null, //Respuesta,
                     },
 
@@ -102,9 +92,7 @@ const dataSurvey = {
                          statement: "¿Tiene seguro de salud?",
                          dependent: null,//Id de la pregunta que depende si dependiera de alguna,
                          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
-                         askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
                          structure: SD,
-
                          options: [
                               {
                                    id: 20,
@@ -132,7 +120,6 @@ const dataSurvey = {
                          dependent: null,//Id de la pregunta que depende si dependiera de alguna,
                          optionTrigger: null,//Id de la pregunta que depende si dependiera de alguna,
                          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
-                         askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
                          structure: SU,
                          options: [// puede ser null ó []
                               {
@@ -153,9 +140,7 @@ const dataSurvey = {
                          dependent: 8,//Id de la pregunta que depende si dependiera de alguna,
                          optionTrigger: 31,//Id de la pregunta que depende si dependiera de alguna,
                          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
-                         askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
                          structure: SD,
-
                          options: [
                               {
                                    id: 80,
@@ -182,7 +167,6 @@ const dataSurvey = {
                          dependent: 8,//Id de la pregunta que depende si dependiera de alguna,
                          optionTrigger: 31,//Id de la pregunta que depende si dependiera de alguna,
                          helpQuestion: 'Mensaje ayuda para la pregunta, nota, alerta , etc....',
-                         askQuestion: '', // solo para preguntas simples o  si seleccionar una opcion distinta (OTROS)
                          structure: SD,
 
                          options: [
@@ -208,8 +192,11 @@ const dataSurvey = {
           },
      ],
 };
+
 const init = () => {
      console.log('init survey');
+     console.log(demoData);
+     demoStore.surveys = demoData;
      surveyStore.survey = dataSurvey;
 }
 init();

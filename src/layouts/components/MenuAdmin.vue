@@ -15,7 +15,7 @@ const menu = [
     title: "Encuestas",
     to: "/encuestas",
     icon: "-",
-    can: ""
+    can: "",
     childrens: [],
   },
 
@@ -24,7 +24,7 @@ const menu = [
     title: "Usuarios",
     to: "/usuarios",
     icon: "-",
-    can: ""
+    can: "",
     childrens: [],
   },
 ];

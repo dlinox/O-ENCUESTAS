@@ -1,12 +1,21 @@
 import { defineStore } from 'pinia'
 
-export const useSurveyStore = defineStore('surveyStore', {
-  // arrow function recommended for full type inference
+const useSurveyStore = defineStore('surveyStore', {
   state: () => {
     return {
-      // all these properties will have their type inferred automatically
       survey: {},
       count: 1,
     }
   },  
-})
+});
+
+const useDataDemoStore = defineStore('demoStore', {
+  
+  state: () => {
+    return {
+      surveys: [],
+    }
+  },  
+});
+
+export {useSurveyStore,  useDataDemoStore}

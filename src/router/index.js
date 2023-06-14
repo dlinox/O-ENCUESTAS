@@ -22,6 +22,18 @@ const routes = [
     path: "/encuesta/:id", //?por seccion
     component: () => import("../views/clients/survey.vue"),
   },
+  {
+    path: "/headless-components",
+    component: () => import("../views/headless-components.vue")
+  },
+  {
+    path: "/demo-data",
+    component: () => import("../views/DemoData.vue")
+  },
+  {
+    path: "/survey/:id",
+    component: () => import("../views/clients/survey.vue")
+  }
 
 ];
 

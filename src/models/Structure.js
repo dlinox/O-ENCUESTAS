@@ -6,7 +6,7 @@
 // grid: 'col-span-2 inline-flex ... ', // UI de la pregunta 
 
 class Structure {
-    constructor(id, type, code, input, other, labelGrid, inputGrid, apiUrl = null) {
+    constructor(id, type, code, input, other, labelGrid, inputGrid, apiUrl = null, validation = null, ) {
         this.id = id;
         this.type = type;
         this.code = code;
@@ -15,6 +15,7 @@ class Structure {
         this.inputGrid = inputGrid;
         this.other = other;
         this.apiUrl = apiUrl;
+        this.validation = validation;
     }
 };
 
@@ -25,7 +26,9 @@ const RS = new Structure(
     'text', //input:text
     false,
     'col-span-2',
-    'col-span-2'
+    'col-span-2',
+    '',
+    'required'
 );
 
 const RL = new Structure(
@@ -65,7 +68,8 @@ const SD = new Structure(
     'text', //input:text
     false,
     'col-span-2',
-    'col-span-2'
+    'col-span-2',
+    
 );
 
 const MR = new Structure(
