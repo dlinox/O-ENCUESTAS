@@ -1,6 +1,6 @@
 <template>
     <div class="grid grid-cols-3 bg-white mx-auto justify-center">
-        <div class="rounded-lg bg-blue-50 p-4">
+        <div class="col-span-2 rounded-lg bg-blue-50 p-4">
             <div v-for="(section, indexSection)  in sections">
                 <h3>Seccion: {{ section.title }}</h3>
 
@@ -43,23 +43,23 @@
             </div>
             <ButtonPrimary title="Guardar" @click="saveSurvey" :isDisabled="!isChange || !isValid" />
         </div>
-        <div class="col-span-2 max-h-96   overflow-auto">
-            <pre>
-                    {{ sections }}
-                </pre>
-        </div>
+      
     </div>
 </template>
 
 <script setup>
 import { ref, watch, computed } from 'vue';
 import { useSurveyStore } from '@/store/index'
-
 import ShortAnswer from '@/components/Forms/ShortAnswer.vue';
 import OneSelection from '@/components/Forms/OneSelection.vue';
 import MultipleSelection from '@/components/Forms/MultipleSelection.vue';
 import SelectSelection from '@/components/Forms/SelectSelection.vue';
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
+
+const props = defineProps({
+    questions : Array,
+});
+
 
 const surveyStore = useSurveyStore();
 

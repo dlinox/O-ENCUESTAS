@@ -1,10 +1,10 @@
 <template>
     <div class="grid grid-cols-4">
-        <label for="price" class="text-sm font-medium leading-6 text-gray-900" :class="question.structure.labelGrid">
+        <label for="price" class="text-sm font-medium leading-6 text-gray-900" :class="question.structure?.labelGrid">
             {{ question.statement }}
         </label>
-        <div class="relative mt-1 rounded-md" :class="question.structure.inputGrid">
-            <RadioGroupForm :questionIndex="question.id" :options="question.options" v-model="input" />
+        <div class="relative mt-1 rounded-md" :class="question.structure?.inputGrid">
+            <RadioGroupForm :questionId="question.id" :options="question.options" v-model="input" />
         </div>
     </div>
 

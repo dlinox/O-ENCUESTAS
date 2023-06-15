@@ -13,7 +13,7 @@
             <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100"
                 leave-to-class="opacity-0">
                 <ListboxOptions
-                    class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    class="absolute mt-1 max-h-60 w-full overflow-auto z-50 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     <ListboxOption v-slot="{ active, selected }" v-for="option in options" :key="option"
                         :value="option[`${itemValue}`]" as="template">
                         <li :class="[
@@ -33,6 +33,7 @@
             </transition>
         </div>
     </Listbox>
+
 </template>
   
 <script setup>
@@ -73,8 +74,8 @@ const selectedItem = computed({
     set: (value) => emit("update:modelValue", value),
 });
 
-const labelItem = ref(selectedItem
-    ? props.options.find((item) => item[`${props.itemValue}`] == selectedItem.value)[`${props.itemTitle}`]
+const labelItem = ref( selectedItem.value 
+    ? props.options.find((item) => item[`${props.itemValue}`] == selectedItem.value)?.[`${props.itemTitle}`]
     : "Seleccione un item");
 </script>
   

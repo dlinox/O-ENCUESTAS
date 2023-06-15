@@ -20,7 +20,13 @@
 								"statement": "Tipo de discapacidad:",
 								"helpQuestion": "",
 								"optionTrigger": "1",
-								"IsDependent": "1"
+								"IsDependent": "1",
+
+								"IsInline": "default = false", 
+								"IsRequiered": "default = true", 
+								"type": "text string, date date, number int , select int, radio int  , checkbox [int, int ...]",  
+								"optionOther" : "si la pregunta acepta una respuesta personalizada (especificar, otro, ...)",
+								"rules": "required|number"
 							},
 							{
 								"id": "16373178-2cb7-4a9e-be10-33d1145fcb48",

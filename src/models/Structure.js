@@ -25,7 +25,7 @@ const RS = new Structure(
     'RS',
     'text', //input:text
     false,
-    'col-span-2',
+    'col-span-2',// distribucion de las perguntas ( inline: true-false)
     'col-span-2',
     '',
     'required'

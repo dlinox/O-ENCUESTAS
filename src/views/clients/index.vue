@@ -1,29 +1,27 @@
 <template>
   <ClientLayout>
-    <template #header.title> Encuestas disponibles </template>
+    <template #header.title> Encuestas </template>
     <template #header.subtitle> Listado de encuestas disponibles </template>
-
     <div class="container">
       <div class="grid bg-white shadow-lg p-5 rounded-lg">
         <ul>
-          <li v-for="(item, index) in demoStore.surveys">
+          <li v-for="(item, index) in surveys" class=" hover:text-blue-600">
             <router-link :to="'/survey/' + item.id">
               {{ item.title }}
             </router-link>
           </li>
         </ul>
       </div>
-
-      {{ demoStore.surveys.surveys }}
     </div>
   </ClientLayout>
 </template>
 <script setup>
-import ClientLayout from '../../layouts/ClientLayout.vue'
-import { useDataDemoStore } from '../../store';
+import { computed, ref } from 'vue';
+import { useDataStore } from '@/store';
+import ClientLayout from '@/layouts/ClientLayout.vue'
 
-const demoStore = useDataDemoStore();
-
+const dataStore = useDataStore();
+const surveys = computed(() => dataStore.surveys);
 
 // import { RS, RL, SU, SM, SD, MR } from '../../models/Structure.js'
 // const dataSurvey = {

@@ -2,13 +2,15 @@
      <router-view></router-view>
 </template>
 <script setup>
-import { useSurveyStore, useDataDemoStore } from '@/store/index'
-import { RS, RL, SU, SM, SD, MR } from './models/Structure.js'
 
+import { useSurveyStore, useDataDemoStore, useDataStore } from '@/store/index'
+import { RS, RL, SU, SM, SD, MR } from './models/Structure.js'
 import demoData from "@/assets/dataDemo.json";
+import https from './utils/https';
 
 const surveyStore = useSurveyStore();
 const demoStore = useDataDemoStore();
+const dataStore = useDataStore();
 
 const dataSurvey = {
      title: "Enuesta de ejemplo",
@@ -193,11 +195,13 @@ const dataSurvey = {
      ],
 };
 
-const init = () => {
-     console.log('init survey');
-     console.log(demoData);
+const init = async () => {
+
+     let res = await https.get('/');
+     console.log('init app');
      demoStore.surveys = demoData;
      surveyStore.survey = dataSurvey;
+     dataStore.surveys = res.data.data
 }
 init();
 </script>

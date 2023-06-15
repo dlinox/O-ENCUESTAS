@@ -1,10 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import HomeCliente from "../views/clients/index.vue"
+
 const routes = [
   {
     path: "/",
-    component: () => import("../views/clients/index.vue"),
+    component: HomeCliente,
   },
+
   {
     path: "/welcome",
     component: () => import("../views/clients/welcome.vue"),
@@ -19,7 +22,7 @@ const routes = [
     component: () => import("../views/formComponents.vue"),
   },
   {
-    path: "/encuesta/:id", //?por seccion
+    path: "/encuesta/:id/:pic?",
     component: () => import("../views/clients/survey.vue"),
   },
   {
@@ -31,9 +34,23 @@ const routes = [
     component: () => import("../views/DemoData.vue")
   },
   {
-    path: "/survey/:id",
+    path: "/survey/:id/:topic?",
     component: () => import("../views/clients/survey.vue")
+  },
+
+  {
+    path: "/structure",
+    component: () => import("../views/structure.vue")
+  },
+
+  {
+    path: "/admin",
+    component: () => import("../views/admin/dashboard.vue"),
+    childrens: [
+
+    ]
   }
+
 
 ];
 
