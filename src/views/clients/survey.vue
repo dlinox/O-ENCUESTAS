@@ -38,7 +38,7 @@
                             </li>
                         </ul> -->
                     <!-- </li> -->
-                    <FormQuestion v-if="dataStore.questions?.length > 0"  :questions="dataStore.questions" />
+                    <FormQuestion v-if="dataStore.questions?.length > 0" :questions="dataStore.questions" />
                     <!-- </ul> -->
                 </template>
 
@@ -48,60 +48,58 @@
                 </div> -->
             </div>
         </div>
-
-
     </ClientLayout>
 </template>
 <script setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { useDataStore } from '@/store';
+import { SurveyService } from "../../services";
 
 import ClientLayout from "@/layouts/ClientLayout.vue";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 import IndexSurvey from "./components/IndexSurvey.vue"
 import FormQuestion from "./components/Form.vue"
-import { useDataStore } from '@/store';
-import http from "../../utils/https";
+
+const surveyService = new SurveyService();
 const dataStore = useDataStore();
 
-
-const sections = computed(() => dataStore.sections);
 const route = useRoute();
 
-
-
-const currentTopic = computed(() => route.params.topic);
-
-const currentId = route.params.id;
-const currentSurvey = computed(() => {
-    let res = dataStore.surveys.find((item) => item.id == currentId);
-    return res;
-});
-
+const sections = computed(() => dataStore.sections);
+const currentSurvey = computed(() => dataStore.currentSurvey);
 
 const getQuestions = (sectionId) => {
-
+    //console.log(dataStore.topics);
+    
     dataStore.topics.map((item) => {
-        if (item.id == dataStore.currentTopic) {
+     
+        if (item.id === dataStore.currentTopic.id) {
+
             item.sections.map(async (section) => {
                 if (section.id == sectionId) {
                     if (section.questions) {
                         dataStore.questions = section.questions;
                     }
-
                     else {
-                        let res = await http.get(`questions/section/${section.id}/`);
-                        let questions = res.data.data;
+                        let res = await surveyService.getQuestions(section.id);
+                        let questions = res;
                         questions.sort((a, b) => a.ordinal - b.ordinal);
                         section.questions = questions;
                         dataStore.questions = questions;
-
                     }
-
                 }
             })
         }
+   
     });
+}
 
-} 
+const initSurvey = () => {
+    dataStore.setCurrentSurvey(route.params.id);
+    
+
+}
+
+initSurvey()
 </script>

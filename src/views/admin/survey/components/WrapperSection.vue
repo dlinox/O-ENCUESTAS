@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4 p-3" :class="listClass">
+  <div class="mt-4" :class="listClass">
     <div class="flex justify-between align-center">
       <slot name="title">
         <h4 class="text-base font-semibold mt-2">{{ title }}</h4>

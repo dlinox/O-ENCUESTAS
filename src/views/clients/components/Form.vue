@@ -15,7 +15,12 @@
                         </li>
                         <li v-else-if="question.options.length > 0">
                             <div>
-                                <OneSelection :question="question" v-model="question.answer" />
+                                <OneSelection :question="question" v-model="question.answer" 
+                                @update:modelValue="validation(question.answer, question)" 
+                                />
+                                <div class="w-full text-end">
+                                    <span class=" text-xs text-red-600 ">{{ question.error }}</span>
+                                </div>
                                 <!-- @update:modelValue="onSelectTrigger($event, indexSection, indexQuestion)" -->
                             </div>
                         </li>
@@ -24,7 +29,6 @@
                                 <MultipleSelection :question="question" v-model="question.answer" />
                             </div>
                         </li>
-
                         <li v-else-if="question.structure.code === 'SD'">
                             <div>
                                 <SelectSelection :question="question" v-model="question.answer"
@@ -81,11 +85,20 @@ const required = (val, question) => {
 }
 
 const saveSection = () => {
+
+    isValid.value = true;
     questionsList.value.forEach((item) => {
         if(!item.answer){
             item.error = "Obligatorio"
             isValid.value =  false;
         }
+        else{
+            item.error = null
+        }
     })
+
+    if(isValid.value){
+        console.log('Guardando ...');
+    }
 }
 </script>

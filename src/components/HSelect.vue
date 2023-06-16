@@ -1,9 +1,9 @@
 <template>
-    <Listbox class="w-56" v-model="selectedItem">
+    <Listbox class="w-full" v-model="selectedItem">
         <div class="relative mt-1">
             <ListboxButton
-                class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm">
-                <span class="block truncate" :class="selectedItem ? 'text-black' : 'text-gray-400'">
+                class="relative block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                <span class="block truncate text-start ms-2" :class="selectedItem ? 'text-black' : 'text-gray-400'">
                     {{ labelItem }}
                 </span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -33,7 +33,6 @@
             </transition>
         </div>
     </Listbox>
-
 </template>
   
 <script setup>
@@ -74,7 +73,7 @@ const selectedItem = computed({
     set: (value) => emit("update:modelValue", value),
 });
 
-const labelItem = ref( selectedItem.value 
+const labelItem = ref(selectedItem.value
     ? props.options.find((item) => item[`${props.itemValue}`] == selectedItem.value)?.[`${props.itemTitle}`]
     : "Seleccione un item");
 </script>
