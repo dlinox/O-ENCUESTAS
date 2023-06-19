@@ -1,0 +1,3 @@
+<template>
+    <h1>lista</h1>
+</template>

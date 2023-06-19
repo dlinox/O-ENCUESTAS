@@ -11,15 +11,17 @@
                 <IndexSurvey />
             </div>
 
+
+            
+
             <div class="col-span-3 rounded-lg bg-white p-4 shadow-lg">
                 <div class="">
-                    <h3 class="text-lg">
-
+                    <h3 class="text-lg font-semibold mb-3 uppercase">
+                        {{ currentTopic.title }}
                     </h3>
                 </div>
                 <template v-if="sections.length == 0">
                     <h4 class="text-center text-lg uppercase  font-extrabold text-gray-400 align-items-center">
-
                         no hay secciones
                     </h4>
                 </template>
@@ -38,7 +40,7 @@
                             </li>
                         </ul> -->
                     <!-- </li> -->
-                    <FormQuestion v-if="dataStore.questions?.length > 0" :questions="dataStore.questions" />
+                    <FormQuestion v-if="questions?.length > 0" :questions="questions" />
                     <!-- </ul> -->
                 </template>
 
@@ -67,13 +69,16 @@ const dataStore = useDataStore();
 const route = useRoute();
 
 const sections = computed(() => dataStore.sections);
+const questions = computed(() => [...dataStore.questions]);
+
 const currentSurvey = computed(() => dataStore.currentSurvey);
+const currentTopic = computed(() => dataStore.currentTopic);
 
 const getQuestions = (sectionId) => {
     //console.log(dataStore.topics);
-    
+
     dataStore.topics.map((item) => {
-     
+
         if (item.id === dataStore.currentTopic.id) {
 
             item.sections.map(async (section) => {
@@ -91,14 +96,12 @@ const getQuestions = (sectionId) => {
                 }
             })
         }
-   
+
     });
 }
 
 const initSurvey = () => {
     dataStore.setCurrentSurvey(route.params.id);
-    
-
 }
 
 initSurvey()

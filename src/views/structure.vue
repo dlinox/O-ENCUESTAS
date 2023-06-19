@@ -1,9 +1,21 @@
 <template>
     <pre>
-        {{ structure }}
-    </pre>
+                {{ structure }}
+            </pre>
+    <button class="p-4 bg-black text-white" @click="sentHeaderCustom">
+        prueba
+    </button>
 </template>
 <script setup>
+
+import http from '../utils/https';
+
+const sentHeaderCustom = async () => {
+
+    http.defaults.headers['custom-header'] = 'valor-custom';
+    let res = await http.get('http://oti.test/custom-header');
+
+}
 
 const structure = [
     {

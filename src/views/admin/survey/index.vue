@@ -1,8 +1,9 @@
 <template>
-  <AdminLayout>
-    <h1>Ecnuestas</h1>
-  </AdminLayout>
+  <!-- <AdminLayout> -->
+    <router-view>
+    </router-view>
+  <!-- </AdminLayout> -->
 </template>
 <script setup>
-import AdminLayout from "@/layout/AdminLayout.vue";
+import AdminLayout from "@/layouts/AdminLayout.vue";
 </script>

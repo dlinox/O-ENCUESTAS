@@ -11,7 +11,7 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
-              <button type="button"
+              <button @click="logout" type="button"
                 class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                   aria-hidden="true">
@@ -47,14 +47,25 @@
 
     <main>
       <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+
+        <div class="p-3 bg-black text-teal-400 text-xs truncate">
+          {{ _key }}
+        </div>
         <slot></slot>
       </div>
     </main>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
-import NavBar from "./components/NavBar.vue";
+import { computed } from "vue";
+import { useAuthStore } from "../store/auth";
+const authStore = useAuthStore();
+const _key = computed(() => authStore.key);
 const props = defineProps({});
-const drawer = ref(null);
+
+const logout = () => {
+  console.log('salir');
+  authStore.logout();
+}
+
 </script>

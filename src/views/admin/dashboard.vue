@@ -1,15 +1,13 @@
 <template>
-  <!-- Todo: Crear componente Button  -->
-  <AdminLayout>
-    <template #header.title> Encuestas </template>
-    <template #header.subtitle> Crear nueva Encuesta </template>
-
     <div class="grid grid-cols-7 gap-6">
       <!-- <div class="col-span-2">
         <div v-for="item in form.secctions " class="bg-white border-gray-100 rounded-lg mb-2 p-2">
             - {{ item.title }}
         </div>
       </div> -->
+
+      
+
       <div class="col-span-7">
         <div class="grid grid-cols-2 gap-4 ">
           <div class="col-span-2 p-4 bg-white rounded-lg">
@@ -110,14 +108,9 @@
         </div>
       </div>
     </div>
-
-
-
-  </AdminLayout>
 </template>
 <script setup>
 import { ref } from "vue";
-import AdminLayout from "@/layouts/AdminLayout.vue";
 import InputForm from "@/components/Forms/inputForm.vue";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 import WrapperSection from "./survey/components/WrapperSection.vue";

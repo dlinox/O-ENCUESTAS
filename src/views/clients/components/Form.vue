@@ -1,5 +1,6 @@
 <template>
     <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
+
         <div class="col-span-2 rounded-lg p-4">
             <div v-for="question in questionsList">
                 <ul>
@@ -15,9 +16,8 @@
                         </li>
                         <li v-else-if="question.options.length > 0">
                             <div>
-                                <OneSelection :question="question" v-model="question.answer" 
-                                @update:modelValue="validation(question.answer, question)" 
-                                />
+                                <OneSelection :question="question" v-model="question.answer"
+                                    @update:modelValue="validation(question.answer, question)" />
                                 <div class="w-full text-end">
                                     <span class=" text-xs text-red-600 ">{{ question.error }}</span>
                                 </div>
@@ -76,7 +76,7 @@ const required = (val, question) => {
                 isRequired = false;
             }
             else {
-                item.error = null;
+                delete item.error;
                 isRequired = true;
             }
         }
@@ -88,16 +88,16 @@ const saveSection = () => {
 
     isValid.value = true;
     questionsList.value.forEach((item) => {
-        if(!item.answer){
+        if (!item.answer) {
             item.error = "Obligatorio"
-            isValid.value =  false;
+            isValid.value = false;
         }
-        else{
-            item.error = null
+        else {
+            delete item.error;
         }
     })
 
-    if(isValid.value){
+    if (isValid.value) {
         console.log('Guardando ...');
     }
 }

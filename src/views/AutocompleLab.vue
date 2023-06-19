@@ -1,12 +1,6 @@
 <template>
-
-<pre>
-
-{{ auto }}
-</pre>
     <AutoComplete v-model="auto" />
 
-  
 </template>
 <script setup>
 import { ref } from 'vue';
