@@ -152,33 +152,8 @@
         </div>
       </div>
     </nav>
-
-    <header class="bg-white shadow">
-      <slot name="header">
-        <div class="mx-auto w-full px-4 py-3 sm:px-6 lg:px-8 flex justify-between align-center bg-blue">
-          <div>
-            <h2 class="text-xl font-bold tracking-tight text-gray-900">
-              <slot name="header.title"> titulo </slot>
-            </h2>
-            <span class="titulo text-sm font-semibold text-gray-400">
-              <slot name="header.subtitle"> subtitle </slot>
-            </span>
-          </div>
-          <div class="flex">
-            <slot name="header.actions">
-              <!-- <button class="rounded-none">Action buttons</button> -->
-            </slot>
-          </div>
-        </div>
-      </slot>
-    </header>
-
     <main>
-
-      <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-
         <slot></slot>
-      </div>
     </main>
   </div>
 </template>

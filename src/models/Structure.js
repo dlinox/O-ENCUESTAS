@@ -17,6 +17,7 @@ class Structure {
         this.apiUrl = apiUrl;
         this.validation = validation;
     }
+
 };
 
 const RS = new Structure(
@@ -30,6 +31,7 @@ const RS = new Structure(
     '',
     'required'
 );
+
 
 const RL = new Structure(
     2,

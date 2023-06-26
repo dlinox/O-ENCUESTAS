@@ -1,6 +1,6 @@
 <template>
     <div class="grid grid-cols-3 bg-white mx-auto justify-center">
-        <div class="col-span-2 rounded-lg bg-blue-50 p-4">
+        <!-- <div class="col-span-2 rounded-lg bg-blue-50 p-4">
             <div v-for="(section, indexSection)  in sections">
                 <h3>Seccion: {{ section.title }}</h3>
 
@@ -43,117 +43,117 @@
             </div>
             <ButtonPrimary title="Guardar" @click="saveSurvey" :isDisabled="!isChange || !isValid" />
         </div>
-      
+       -->
     </div>
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue';
-import { useSurveyStore } from '@/store/index'
-import ShortAnswer from '@/components/Forms/ShortAnswer.vue';
-import OneSelection from '@/components/Forms/OneSelection.vue';
-import MultipleSelection from '@/components/Forms/MultipleSelection.vue';
-import SelectSelection from '@/components/Forms/SelectSelection.vue';
-import ButtonPrimary from '@/components/ButtonPrimary.vue';
+// import { ref, watch, computed } from 'vue';
+// import { useSurveyStore } from '@/store/index'
+// import ShortAnswer from '@/components/Forms/ShortAnswer.vue';
+// import OneSelection from '@/components/Forms/OneSelection.vue';
+// import MultipleSelection from '@/components/Forms/MultipleSelection.vue';
+// import SelectSelection from '@/components/Forms/SelectSelection.vue';
+// import ButtonPrimary from '@/components/ButtonPrimary.vue';
 
-const props = defineProps({
-    questions : Array,
-});
-
-
-const surveyStore = useSurveyStore();
-
-const isValid = ref(true);
-
-const sections = ref(surveyStore.survey.sections);
+// const props = defineProps({
+//     questions : Array,
+// });
 
 
-const onSelectTrigger = (e, indexSection, indexQuestion) => {
-    sections.value[indexSection].questions.map((item) => {
-        if (item.dependent == indexQuestion) {
-            if (item.optionTrigger == e) {
-                item.show = true;
-            }
-            else {
-                item.show = false;
-            }
-        }
-        return item;
-    });
-}
+// const surveyStore = useSurveyStore();
 
-const saveSurvey = () => {
+// const isValid = ref(true);
 
-}
+// const sections = ref(surveyStore.survey.sections);
 
-const isChange = ref(false);
 
-watch(sections.value, (val, oldVal) => {
-    isChange.value = true;
-}, { deep: true })
+// const onSelectTrigger = (e, indexSection, indexQuestion) => {
+//     sections.value[indexSection].questions.map((item) => {
+//         if (item.dependent == indexQuestion) {
+//             if (item.optionTrigger == e) {
+//                 item.show = true;
+//             }
+//             else {
+//                 item.show = false;
+//             }
+//         }
+//         return item;
+//     });
+// }
 
-computed(() => {
-    console.log(sections.value);
-    console.log(auxForm);
-    if (sections.value != auxForm) {
-        return true;
-    }
-    else {
-        return false;
+// const saveSurvey = () => {
 
-    }
-});
+// }
 
-const validation = (val, question, indexSection) => {
+// const isChange = ref(false);
 
-    let validForm = true;
-    if (!question.structure.validation) return;
-    let rules = question.structure.validation.split('|');
-    if (rules.length > 0) {
-        rules.forEach(rule => {
-            let valid = eval(`${rule}(val, question, indexSection)`);
-            if (!valid) {
-                validForm = false;
-                return;
-            }
-        });
-    }
-    isValid.value = validForm;
-}
+// watch(sections.value, (val, oldVal) => {
+//     isChange.value = true;
+// }, { deep: true })
 
-const required = (val, question, indexSection) => {
-    var isRequired = null;
-    sections.value[indexSection].questions.map((item) => {
-        if (item.id == question.id) {
-            if (val === null || val === "") {
-                item.error = "Obligatorio";
-                isRequired = false;
-            }
-            else {
-                item.error = null;
-                isRequired = true;
-            }
-        }
-    });
-    return isRequired;
-}
+// computed(() => {
+//     console.log(sections.value);
+//     console.log(auxForm);
+//     if (sections.value != auxForm) {
+//         return true;
+//     }
+//     else {
+//         return false;
 
-const number = (val, question, indexSection) => {
-    var isNumber = null;
-    if (val === null || val === "") return true;
-    sections.value[indexSection].questions.map((item) => {
-        if (item.id == question.id) {
-            if (!Number.isInteger(parseInt(val))) {
-                item.error = "* Solo se permite numeros";
-                isNumber = false;
-            }
-            else {
-                item.error = null;
-                isNumber = true;
-            }
-        }
-    });
-    return isNumber;
-}
+//     }
+// });
+
+// const validation = (val, question, indexSection) => {
+
+//     let validForm = true;
+//     if (!question.structure.validation) return;
+//     let rules = question.structure.validation.split('|');
+//     if (rules.length > 0) {
+//         rules.forEach(rule => {
+//             let valid = eval(`${rule}(val, question, indexSection)`);
+//             if (!valid) {
+//                 validForm = false;
+//                 return;
+//             }
+//         });
+//     }
+//     isValid.value = validForm;
+// }
+
+// const required = (val, question, indexSection) => {
+//     var isRequired = null;
+//     sections.value[indexSection].questions.map((item) => {
+//         if (item.id == question.id) {
+//             if (val === null || val === "") {
+//                 item.error = "Obligatorio";
+//                 isRequired = false;
+//             }
+//             else {
+//                 item.error = null;
+//                 isRequired = true;
+//             }
+//         }
+//     });
+//     return isRequired;
+// }
+
+// const number = (val, question, indexSection) => {
+//     var isNumber = null;
+//     if (val === null || val === "") return true;
+//     sections.value[indexSection].questions.map((item) => {
+//         if (item.id == question.id) {
+//             if (!Number.isInteger(parseInt(val))) {
+//                 item.error = "* Solo se permite numeros";
+//                 isNumber = false;
+//             }
+//             else {
+//                 item.error = null;
+//                 isNumber = true;
+//             }
+//         }
+//     });
+//     return isNumber;
+// }
 
 </script>
