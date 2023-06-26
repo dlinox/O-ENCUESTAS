@@ -96,15 +96,6 @@
               </WrapperSection>
             </template>
           </WrapperSection>
-
-
-          <div class="relative col-span-2 divide-y-2 divide-gray-400 divide-dashed">
-            <div class="text-center py-2">
-              <ButtonPrimary class="absolute top-0 right-auto " title="Aadir seccin" />
-            </div>
-            <div class="text-center py-2">
-            </div>
-          </div>
         </div>
       </div>
     </div>

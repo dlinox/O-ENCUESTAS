@@ -48,9 +48,7 @@
     <main>
       <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
 
-        <div class="p-3 bg-black text-teal-400 text-xs truncate">
-          {{ _key }}
-        </div>
+
         <slot></slot>
       </div>
     </main>
@@ -60,7 +58,6 @@
 import { computed } from "vue";
 import { useAuthStore } from "../store/auth";
 const authStore = useAuthStore();
-const _key = computed(() => authStore.key);
 const props = defineProps({});
 
 const logout = () => {

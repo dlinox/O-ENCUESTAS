@@ -1,9 +1,5 @@
 <template>
      <router-view></router-view>
-
-<pre>
-     {{  route.query}}
-</pre>
 </template>
 <script setup>
 import { useDataStore } from './store';
@@ -13,8 +9,6 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 const dataStore = useDataStore();
 const authStore = useAuthStore();
-
-
 
 const init = async () => {
      console.log('init app');

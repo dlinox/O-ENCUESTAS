@@ -5,15 +5,13 @@
     <div class="container">
       <div class="grid bg-white shadow-lg p-5 rounded-lg">
         <ul>
-          <li v-for="(item, index) in surveys" class=" hover:text-blue-600">
+          <li v-for="(item, index) in surveys" class="uppercase  hover:text-blue-600">
             <router-link :to="'/survey/' + item.id">
               {{ item.title }}
             </router-link>
           </li>
         </ul>
-
-
-        <ButtonPrimary title="Get Menu" @click="getMenu()" />
+        <!-- <ButtonPrimary title="Get Menu" @click="getMenu()" /> -->
       </div>
     </div>
   </ClientLayout>
@@ -23,13 +21,11 @@ import { computed, ref } from 'vue';
 import ClientLayout from '@/layouts/ClientLayout.vue';
 import { useDataStore } from '../../store/index';
 import { useAuthStore } from '../../store/auth';
-
 import ButtonPrimary from '../../components/ButtonPrimary.vue';
-import httpsys from '../../utils/httpsys';
 import CryptoJS from 'crypto-js';
 import http from '../../utils/https';
 
-const secretKey = '123566asdsd';
+const secretKey = '123566asdsd'; 
 
 const dataStore = useDataStore();
 const authStore = useAuthStore();

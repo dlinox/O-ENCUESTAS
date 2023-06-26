@@ -41,8 +41,7 @@ export default class AuthService {
         Cookies.remove('account');
         Cookies.remove('module');
         Cookies.remove('role');
-        // window.location.replace('http://10.1.2.52:4200/login')
-        window.location.href  = 'http://10.1.2.52:4200/login';
+        //window.location.href  = 'http://10.1.2.52:4200/login';
         return;
     }
 

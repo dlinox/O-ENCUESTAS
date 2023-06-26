@@ -54,7 +54,6 @@ const routes = [
     }
   },
 
-
   //labs
   {
     path: "/welcome",
