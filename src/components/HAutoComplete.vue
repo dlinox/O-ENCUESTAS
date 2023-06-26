@@ -50,9 +50,9 @@ import {
     TransitionRoot,
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
-import apiJson from "@/assets/jsonApi.json";
-//import throttle from 'lodash/throttle';
 
+
+const apiJson = ref([]);
 const props = defineProps({
     itemValue: {
         type: String,

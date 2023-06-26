@@ -21,7 +21,6 @@
 <script setup>
 import { ref, computed } from 'vue';
 import InputForm from '@/components/Forms/InputForm.vue'
-import apiJson from "@/assets/jsonApi.json";
 
 const props = defineProps({
     modelValue: {
@@ -31,6 +30,8 @@ const props = defineProps({
     question: Object
 });
 const emit = defineEmits(["update:modelValue"]);
+
+const apiJson =  ref([]);
 
 const showItems = ref(false);
 const results = ref(null);
