@@ -1,6 +1,5 @@
 <template>
     <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
-
         <div class="col-span-2 rounded-lg p-4">
             <div v-for="question in questionsList">
                 <ul>
@@ -46,11 +45,11 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue';
-
+import { ref, computed } from 'vue';
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
 import ShortAnswer from '@/components/Forms/ShortAnswer.vue';
 import OneSelection from '@/components/Forms/OneSelection.vue';
+
 import MultipleSelection from '@/components/Forms/MultipleSelection.vue';
 import SelectSelection from '@/components/Forms/SelectSelection.vue';
 
@@ -59,6 +58,7 @@ const props = defineProps({
 });
 
 const questionsList = computed(() => props.questions);
+
 const isValid = ref(true);
 
 const validation = (val, question) => {

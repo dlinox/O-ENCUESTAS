@@ -1,11 +1,13 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
-export default defineConfig({
-  base: '/una-surveys',
+export default defineConfig(({ mode }) => ({
+  // base: '/una-surveys',
+  base: mode === 'production' ? '/una-surveys' : '/',
   server: {
     port: 6001,
     host: '10.1.2.62',
   },
+
   plugins: [vue()],
   define: { 'process.env': {} },
   resolve: {
@@ -13,4 +15,4 @@ export default defineConfig({
       '@': '/src',
     },
   },
-})
+}))

@@ -21,7 +21,10 @@ export default class AuthService {
 
         let validation = this.validateUser();
 
-        if (validation) return;
+        if (validation) {
+            //  window.location.href  = '/';
+            return;
+        };
 
         if (!route.key) {
             this.logout();
@@ -36,12 +39,11 @@ export default class AuthService {
     }
 
     logout = () => {
-
         Cookies.remove('key');
         Cookies.remove('account');
         Cookies.remove('module');
         Cookies.remove('role');
-        //window.location.href  = 'http://10.1.2.52:4200/login';
+        window.location.href  = 'http://38.43.133.27/una-core/login';
         return;
     }
 

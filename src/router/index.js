@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeCliente from "../views/clients/index.vue"
+import Loading from "../views/loading.vue"
 
 const routes = [
   {
@@ -41,6 +42,14 @@ const routes = [
   {
     path: "/", //listado de encuestas
     component: HomeCliente,
+    meta: {
+      authGuard: true,
+    }
+  },
+
+  {
+    path: "/loading", //listado de encuestas
+    component: Loading,
     meta: {
       authGuard: true,
     }
@@ -90,6 +99,9 @@ const router = createRouter({
   routes,
 });
 
-
+router.beforeEach(async (to, from) => {
+  //const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+  //if (!answer) return false
+});
 
 export default router;

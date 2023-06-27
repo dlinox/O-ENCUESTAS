@@ -11,9 +11,6 @@
                 <IndexSurvey />
             </div>
 
-
-            
-
             <div class="col-span-3 rounded-lg bg-white p-4 shadow-lg">
                 <div class="">
                     <h3 class="text-lg font-semibold mb-3 uppercase">
@@ -57,7 +54,6 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useDataStore } from '@/store';
 import { SurveyService } from "../../services";
-
 import ClientLayout from "@/layouts/ClientLayout.vue";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 import IndexSurvey from "./components/IndexSurvey.vue"

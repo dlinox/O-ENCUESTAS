@@ -53,8 +53,6 @@ const setDataStore = async (topic) => {
         if (dataStore.sections.length > 0) {
             getQuestions(dataStore.sections[0].id);
         }
-
-
         return;
     }
 
