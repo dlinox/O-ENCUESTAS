@@ -12,6 +12,7 @@ const authStore = useAuthStore();
 
 const init = async () => {
      console.log('init app');
+  
      setTimeout(() => {
           authStore.setCurretUser(route.query);
      }, 100);
