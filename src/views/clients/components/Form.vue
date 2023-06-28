@@ -4,7 +4,8 @@
             <div v-for="question in questionsList">
                 <ul>
                     <template v-if="question.dependent === 0">
-                        <li v-if="question.options === null || question.options?.length === 0">
+                        <li class="mb-4"
+                            v-if="(question.options === null || question.options?.length === 0) && question.id != '16373178-2cb7-4a9e-be10-33d1145fcb48'">
                             <div>
                                 <ShortAnswer :question="question" v-model="question.answer"
                                     @update:modelValue="validation(question.answer, question)" />
@@ -13,27 +14,40 @@
                                 </div>
                             </div>
                         </li>
-                        <li v-else-if="question.options.length > 0">
+
+                        <li class="mb-4"
+                            v-else-if="(question.options === null || question.options?.length === 0) && question.id === '16373178-2cb7-4a9e-be10-33d1145fcb48'">
+                            <UbigeoForm :question="question"  v-model="question.answer" :error="question.error ? true : false"
+                                @update:modelValue="validation(question.answer, question)" />
+                            <div class="w-full text-end">
+                                <span class=" text-xs text-red-600 ">{{ question.error }}</span>
+                            </div>
+
+                        </li>
+
+                        <li class="mb-4" v-else-if="question.options.length > 0">
                             <div>
                                 <OneSelection :question="question" v-model="question.answer"
                                     @update:modelValue="validation(question.answer, question)" />
                                 <div class="w-full text-end">
                                     <span class=" text-xs text-red-600 ">{{ question.error }}</span>
                                 </div>
-                                <!-- @update:modelValue="onSelectTrigger($event, indexSection, indexQuestion)" -->
+                            </div>
+                            <!-- @update:modelValue="onSelectTrigger($event, indexSection, indexQuestion)" -->
+
+                            <div>
+
+                                <!-- <MultiOptionInput :question="question" v-model="question.answer"
+                                @update:modelValue="validation(question.answer, question)"
+                                
+                                />
+                                <div class="w-full text-end">
+                                    <span class=" text-xs text-red-600 ">{{ question.error }}</span>
+                                </div> -->
                             </div>
                         </li>
-                        <!-- <li v-else-if="question.structure.code === 'SM'">
-                            <div>
-                                <MultipleSelection :question="question" v-model="question.answer" />
-                            </div>
-                        </li>
-                        <li v-else-if="question.structure.code === 'SD'">
-                            <div>
-                                <SelectSelection :question="question" v-model="question.answer"
-                                    @update:modelValue="onSelectTrigger($event, indexSection)" />
-                            </div>
-                        </li> -->
+
+
                     </template>
                 </ul>
             </div>
@@ -49,9 +63,8 @@ import { ref, computed } from 'vue';
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
 import ShortAnswer from '@/components/Forms/ShortAnswer.vue';
 import OneSelection from '@/components/Forms/OneSelection.vue';
-
-import MultipleSelection from '@/components/Forms/MultipleSelection.vue';
-import SelectSelection from '@/components/Forms/SelectSelection.vue';
+import UbigeoForm from '@/components/UbigeoForm.vue';
+import MultiOptionInput from '../../../components/Forms/MultiOptionInput.vue';
 
 const props = defineProps({
     questions: Array,
@@ -85,7 +98,6 @@ const required = (val, question) => {
 }
 
 const saveSection = () => {
-
     isValid.value = true;
     questionsList.value.forEach((item) => {
         if (!item.answer) {

@@ -1,6 +1,6 @@
 <template>
     <div class="grid grid-cols-1">
-        <label :for="'id-' + question.id" class="text-sm font-medium leading-6 text-gray-900">
+        <label :for="'id-' + question.id" class="text-sm font-medium leading-6 text-gray-900 capitalize">
             <!-- class="question.structure?.labelGrid" -->
             {{ question.statement }}
         </label>

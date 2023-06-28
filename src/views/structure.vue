@@ -45,7 +45,14 @@ const structure = [
                                 "IsRequiered": "default = true",
                                 "type": "text string, date date, number int , select int, radio int  , checkbox [int, int ...]",
                                 "optionOther": "si la pregunta acepta una respuesta personalizada (especificar, otro, ...)",
-                                "rules": "required|number"
+                                "rules": "required|number",
+                                answer: [
+                                    {
+                                        idOption: '',
+                                        value: '',
+                                    }
+                                ]
+
                             },
 
                         ]

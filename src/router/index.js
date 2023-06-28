@@ -4,6 +4,12 @@ import Loading from "../views/loading.vue"
 
 const routes = [
   {
+    path: "/ubigeo",
+    name: 'Ubigeo',
+    component: () => import("../views/ubigeo.vue"),
+  },
+  
+  {
     path: "/admin",
     component: () => import("../views/admin/index.vue"),
     children: [
