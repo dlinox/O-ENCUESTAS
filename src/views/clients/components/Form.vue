@@ -1,11 +1,41 @@
 <template>
     <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
         <div class="col-span-2 rounded-lg p-4">
+
+
+
             <div v-for="question in questionsList">
                 <ul>
-                    <template v-if="question.dependent === 0">
-                        <li class="mb-4"
-                            v-if="(question.options === null || question.options?.length === 0) && question.id != '16373178-2cb7-4a9e-be10-33d1145fcb48'">
+                    <template v-if="question.isDependent === null">
+
+                        <li class="mb-4" v-if="question.type === '0'">
+                            <div>
+                                <OneSelection :question="question" v-model="question.answer"
+                                    @update:modelValue="validation(question.answer, question)" />
+                                <div class="w-full text-end">
+                                    <span class=" text-xs text-red-600 ">{{ question.error }}</span>
+                                </div>
+
+
+                            </div>
+                            <!-- @update:modelValue="onSelectTrigger($event, indexSection, indexQuestion)" -->
+
+                            <!-- <div>
+                                <MultiOptionSelect :question="question"  v-model="question.answer" />
+
+
+                                <MultiOptionInput :question="question" v-model="question.answer"
+                                @update:modelValue="validation(question.answer, question)"
+                                
+                                />
+                                <div class="w-full text-end">
+                                    <span class=" text-xs text-red-600 ">{{ question.error }}</span>
+                                </div>
+                            </div> -->
+                        </li>
+
+
+                        <li class="mb-4" v-else-if="question.type === '1'">
                             <div>
                                 <ShortAnswer :question="question" v-model="question.answer"
                                     @update:modelValue="validation(question.answer, question)" />
@@ -15,9 +45,26 @@
                             </div>
                         </li>
 
-                        <li class="mb-4"
-                            v-else-if="(question.options === null || question.options?.length === 0) && question.id === '16373178-2cb7-4a9e-be10-33d1145fcb48'">
-                            <UbigeoForm :question="question"  v-model="question.answer" :error="question.error ? true : false"
+                        <li class="mb-4" v-else-if="question.type === '2'">
+                            <ShortAnswer type="date" :question="question" v-model="question.answer"
+                                @update:modelValue="validation(question.answer, question)" />
+                            <div class="w-full text-end">
+                                <span class=" text-xs text-red-600 ">{{ question.error }}</span>
+                            </div>
+                        </li>
+
+                        <li class="mb-4" v-else-if="question.type === '3'">
+                            <ShortAnswer type="number" :question="question" v-model="question.answer"
+                                @update:modelValue="validation(question.answer, question)" />
+                            <div class="w-full text-end">
+                                <span class=" text-xs text-red-600 ">{{ question.error }}</span>
+                            </div>
+                        </li>
+
+
+                        <li class="mb-4" v-else-if="question.type === '10'">
+                            <UbigeoForm :question="question" v-model="question.answer"
+                                :error="question.error ? true : false"
                                 @update:modelValue="validation(question.answer, question)" />
                             <div class="w-full text-end">
                                 <span class=" text-xs text-red-600 ">{{ question.error }}</span>
@@ -25,7 +72,16 @@
 
                         </li>
 
-                        <li class="mb-4" v-else-if="question.options.length > 0">
+                        <li class="mb-4" v-else-if="question.type === '11'">
+                            <UbigeoOtherForm :question="question" v-model="question.answer"
+                                :error="question.error ? true : false"
+                                @update:modelValue="validation(question.answer, question)" />
+                            <div class="w-full text-end">
+                                <span class=" text-xs text-red-600 ">{{ question.error }}</span>
+                            </div>
+                        </li>
+
+                        <li class="mb-4" v-else-if="question.type === '0'">
                             <div>
                                 <OneSelection :question="question" v-model="question.answer"
                                     @update:modelValue="validation(question.answer, question)" />
@@ -46,8 +102,6 @@
                                 </div> -->
                             </div>
                         </li>
-
-
                     </template>
                 </ul>
             </div>
@@ -63,8 +117,13 @@ import { ref, computed } from 'vue';
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
 import ShortAnswer from '@/components/Forms/ShortAnswer.vue';
 import OneSelection from '@/components/Forms/OneSelection.vue';
+import UbigeoOtherForm from '@/components/Forms/UbigeoOtherForm.vue';
 import UbigeoForm from '@/components/UbigeoForm.vue';
+
 import MultiOptionInput from '../../../components/Forms/MultiOptionInput.vue';
+import MultiOptionSelect from '../../../components/Forms/MultiOptionSelect.vue';
+
+
 
 const props = defineProps({
     questions: Array,

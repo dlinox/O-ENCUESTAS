@@ -1,17 +1,28 @@
 import http from "../utils/https";
 import Cookies from "js-cookie";
 
+
+
 export default class AuthService {
+    
+    
+    login = async (data) => {
+        let res = await http.post('http://38.43.133.27/SURVEY_AUTHENTICATIONS/v1/',
+            {
+                "usr_": data.user,
+                "pwd_": data.password
+            }
+        );
+        Cookies.set('token', res.data.token);
+        
+        http.defaults.headers['Authorization'] = 'Bearer ' + res.data.token;
+    }
 
-    validateUser = () => {
-        console.log('cookie: ', Cookies.get('key'));
-        let key = Cookies.get('key');
-        // let account = Cookies.get('account');
-        // let module = Cookies.get('module');
-        // let role = Cookies.get('role');
+    validateUser = async () => {
 
-        if ((key != null && key != 'undefined')) {
+        let token = Cookies.get('token');
 
+        if ((token != null && token != 'undefined')) {
             return true;
         }
         return false;
@@ -22,7 +33,6 @@ export default class AuthService {
         let validation = this.validateUser();
 
         if (validation) {
-            //  window.location.href  = '/';
             return;
         };
 
@@ -31,19 +41,14 @@ export default class AuthService {
             return;
         };
 
-        Cookies.set('key', route.key);
-        Cookies.set('account', route.account);
-        Cookies.set('module', route.module);
-        Cookies.set('role', route.role);
         http.defaults.headers['Authorization'] = 'Bearer ' + route.key;
     }
 
     logout = () => {
-        Cookies.remove('key');
-        Cookies.remove('account');
-        Cookies.remove('module');
-        Cookies.remove('role');
-        window.location.href  = 'http://38.43.133.27/una-core/login';
+
+        Cookies.remove('token');
+        http.defaults.headers['Authorization'] = null;
+        //router.push({name: 'login'});
         return;
     }
 

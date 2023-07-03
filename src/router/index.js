@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
+
+import authGuard from '@/utils/authGuard.js';
+
 import HomeCliente from "../views/clients/index.vue"
 import Loading from "../views/loading.vue"
 
@@ -8,7 +11,7 @@ const routes = [
     name: 'Ubigeo',
     component: () => import("../views/ubigeo.vue"),
   },
-  
+
   {
     path: "/admin",
     component: () => import("../views/admin/index.vue"),
@@ -47,9 +50,19 @@ const routes = [
 
   {
     path: "/", //listado de encuestas
+    name: 'home',
     component: HomeCliente,
     meta: {
-      authGuard: true,
+      authGuard: true, requiresAuth: true
+    }
+  },
+
+  {
+    path: "/login", //listado de encuestas
+    name: "login",
+    component: () => import("../views/auth/login.vue"),
+    meta: {
+      authGuard: false,
     }
   },
 
@@ -105,9 +118,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from) => {
-  //const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
-  //if (!answer) return false
-});
+router.beforeEach(authGuard);
+
 
 export default router;

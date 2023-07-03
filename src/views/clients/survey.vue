@@ -17,34 +17,20 @@
                         {{ currentTopic.title }}
                     </h3>
                 </div>
+
                 <template v-if="sections.length == 0">
                     <h4 class="text-center text-lg uppercase  font-extrabold text-gray-400 align-items-center">
                         no hay secciones
                     </h4>
                 </template>
                 <template v-else>
-                    <!-- <ul role="list" class="divide-y divide-gray-100"> -->
-                    <!-- <li  class=" gap-x-6 pb-5"> -->
+
                     <ButtonPrimary v-for="section in sections" :key="section.id" :title="section.title"
                         @click="getQuestions(section.id)" class="me-3" />
 
-                    <!-- <ul>
-                            <li v-for="question  in section.questions" :key="question.id">
-                                <h4 class="text-md uppercase font-medium mb-3">
-                                    {{ question.ordinal }}. {{ question.statement }}
-                                    
-                                </h4>
-                            </li>
-                        </ul> -->
-                    <!-- </li> -->
                     <FormQuestion v-if="questions?.length > 0" :questions="questions" />
-                    <!-- </ul> -->
                 </template>
 
-                <!-- <div class="border-t border-gray-100 py-4 flex justify-end">
-                    <ButtonPrimary title="Guardar" @click="saveSection()" />
-                    <ButtonPrimary class="ms-3" title="Guardar y continuar" @click="saveSection()" />
-                </div> -->
             </div>
         </div>
     </ClientLayout>

@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import http from "../utils/https";
 
 export default class SurveyService {
@@ -21,6 +22,10 @@ export default class SurveyService {
     // setSections = (sections) => dataStore.sections = sections;
 
     getQuestions = async (section) => {
+
+        let token = Cookies.get('token');
+        http.defaults.headers['Authorization'] = 'Bearer ' + token;
+
         let questions = await http.get(`questions/section/${section}/`);
         return questions.data.data;
     };

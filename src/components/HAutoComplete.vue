@@ -2,7 +2,7 @@
     <Combobox v-model="selected">
         <div class="relative mt-1">
             <label class="block text-sm font-medium leading-6 text-gray-900">
-                {{ label }} {{ errorThis }}
+                {{ label }}
             </label>
             <div class="relative w-full cursor-default overflow-hidden sm:text-sm">
                 <ComboboxInput :class="error && errorThis && !selected ? 'ring-red-600' : 'ring-gray-300'"

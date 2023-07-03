@@ -8,7 +8,7 @@
               <img class="h-8 w-8" src="@/assets/logo.png" alt="UNA PUNO" />
             </div>
           </div>
-          <div class="hidden md:block">
+          <div class="block">
             <div class="ml-4 flex items-center md:ml-6">
               <button @click="logout" type="button"
                 class="rounded-full bg-gray-800 p-2 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -52,14 +52,17 @@
   </div>
 </template>
 <script setup>
-import { computed } from "vue";
 import { useAuthStore } from "../store/auth";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const authStore = useAuthStore();
 const props = defineProps({});
 
 const logout = () => {
   console.log('salir');
   authStore.logout();
+  router.push({ name: 'login' });
 }
 
 </script>
