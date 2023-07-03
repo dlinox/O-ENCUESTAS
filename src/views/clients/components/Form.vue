@@ -121,9 +121,7 @@
             <div class="flex justify-end mt-4 ">
                 <ButtonPrimary title="Guardar sección" :isDisabled="!isValid" @click="saveSection" />
             </div>
-            <pre>
-                {{ questionsList }}
-            </pre>
+   
         </div>
     </div>
 </template>
