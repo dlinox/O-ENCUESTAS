@@ -1,12 +1,12 @@
 <template>
     <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
         <div class="col-span-2 rounded-lg p-4">
-
-
-
+            <!-- <pre>
+                {{ questionsList }}
+            </pre> -->
             <div v-for="question in questionsList">
                 <ul>
-                    <template v-if="question.isDependent === null">
+                    <template v-if="question.type != 500">
 
                         <li class="mb-4" v-if="question.type === 0">
                             <div>
@@ -62,19 +62,19 @@
                         <li class="mb-4" v-else-if="question.type === 8">
 
                             <EmailForm :question="question" v-model="question.answer"
-                                @update:modelValue="validateEmail($event , question)" />
+                                @update:modelValue="validateEmail($event, question)" />
                             <div class="w-full text-end">
                                 <span class=" text-xs text-red-600 ">{{ question.error }}</span>
                             </div>
                         </li>
 
-                        <!-- <li class="mb-4" v-else-if="question.type === '9'">
-                            <ShortAnswer type="number" :question="question" v-model="question.answer"
-                                @update:modelValue="validation(question.answer, question)" />
+                        <li class="mb-4" v-else-if="question.type === 9">
+                            <ShortAnswer type="text" :question="question" v-model="question.answer"
+                                @update:modelValue="validatePhone(question.answer, question)" />
                             <div class="w-full text-end">
                                 <span class=" text-xs text-red-600 ">{{ question.error }}</span>
                             </div>
-                        </li> -->
+                        </li>
 
                         <li class="mb-4" v-else-if="question.type === 10">
                             <UbigeoForm :question="question" v-model="question.answer"
@@ -119,9 +119,17 @@
                 </ul>
             </div>
             <div class="flex justify-end mt-4 ">
-                <ButtonPrimary title="Guardar sección" :isDisabled="!isValid" @click="saveSection" />
+                <!-- <ButtonPrimary title="Guardar sección" :isDisabled="!isValid" @click="saveSection" /> -->
+                
+                <ButtonPrimary  :isDisabled="!isValid" @click="saveSection">
+                    <template #content>
+                            <slot name="buttonNext">
+                                Siguiente
+                            </slot>
+                        </template>
+                    </ButtonPrimary>
+
             </div>
-   
         </div>
     </div>
 </template>
@@ -137,7 +145,6 @@ import UbigeoForm from '@/components/UbigeoForm.vue';
 import MultiOptionInput from '../../../components/Forms/MultiOptionInput.vue';
 import MultiOptionSelect from '../../../components/Forms/MultiOptionSelect.vue';
 import EmailForm from '../../../components/Forms/EmailForm.vue';
-
 
 
 const props = defineProps({
@@ -198,13 +205,13 @@ const validateEmail = (val, question) => {
                 item.error = "Obligatorio";
                 //isRequired = false;
             }
-            else if (!val.match(validRegex)){
+            else if (!val.match(validRegex)) {
                 item.error = "Formato no valido";
 
             }
             else {
                 delete item.error;
-                i//sRequired = true;
+
             }
         }
     });
@@ -223,5 +230,31 @@ const validateEmail = (val, question) => {
         return false;
     }
 
+}
+
+const validatePhone = (val, question) => {
+
+    var validRegex = /^[0-9]+$/;
+
+    questionsList.value.map((item) => {
+        if (item.id == question.id) {
+            if (val === null || val === "") {
+                item.error = "Obligatorio";
+                //isRequired = false;
+            }
+
+            else if (!val.match(validRegex)) {
+                item.error = "Solo se permite numeros";
+
+            }
+            else if (val.length > 9) {
+                item.error = "Longitud debe se 9 digitos";
+            }
+            else {
+                delete item.error;
+
+            }
+        }
+    });
 }
 </script>

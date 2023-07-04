@@ -13,8 +13,8 @@ export const useAuthStore = defineStore('authStore', {
     },
 
     actions: {
-        async setCurretUser(route) {
-            await authService.getCurrentUser(route);
+        async setCurretUser() {
+            await authService.getCurrentUser();
             this.token = Cookies.get('token');
         },
 

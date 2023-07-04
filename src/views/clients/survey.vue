@@ -3,15 +3,20 @@
         <template #header.title> {{ currentSurvey.title }} </template>
         <template #header.subtitle> {{ currentSurvey.subtitle }} </template>
         <div class="grid grid-cols-4 gap-4">
-            <div class=" col-span-4 rounded-lg bg-blue-100 p-4 text-blue-700 mb-1 text-sm">
-                ¡Lea y responda! detenidamente todas las preguntas planteadas. Estudiante que no declare correctamente
-                tendrá la sanción respectiva.
+            <div class="col-span-4 rounded-lg bg-blue-100 p-4 text-blue-700 mb-1 text-sm">
+                <strong> Indicaciones: </strong>
+                <p>
+                    Estudiantes Universitarios. Lea y responda todos los ítems de manera obligatoria, verídica y detallada.
+                </p>
+                <p>
+                    Los datos consignados son confidenciales (Según ley de protección de datos personales).
+                </p>
             </div>
-            <div class="col-span-1  ">
+            <div class="col-span-4 md:col-span-1  ">
                 <IndexSurvey />
             </div>
 
-            <div class="col-span-3 rounded-lg bg-white p-4 shadow-lg">
+            <div class="col-span-4 md:col-span-3 rounded-lg bg-white p-4 shadow-lg">
                 <div class="">
                     <h3 class="text-lg font-semibold mb-3 uppercase">
                         {{ currentTopic.title }}
@@ -23,12 +28,15 @@
                         no hay secciones
                     </h4>
                 </template>
+
                 <template v-else>
 
-                    <ButtonPrimary v-for="section in sections" :key="section.id" :title="section.title"
-                        @click="getQuestions(section.id)" class="me-3" />
+                    <FormQuestion v-if="questions?.length > 0" :questions="questions">
 
-                    <FormQuestion v-if="questions?.length > 0" :questions="questions" />
+                    </FormQuestion>
+
+                    <ButtonPrimary v-for="section in sections" :key="section.id" :title="section.title"
+                        @click="getQuestions(section.id)" class="me-3 mb-3" />
                 </template>
 
             </div>
