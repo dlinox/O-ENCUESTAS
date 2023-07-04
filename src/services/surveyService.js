@@ -9,6 +9,16 @@ export default class SurveyService {
     };
     // setSurveys = (surveys) => dataStore.surveys = surveys;
 
+    getSurvey =  async (id) => {
+
+        let survey = await http.get(`actual/${id}/`);
+
+        console.log(survey.data.data[0]);
+
+        return survey;
+
+    }
+
     getTopics = async (survey) => {
         let topics = await http.get(`topics/${survey}/`);
         return topics.data.data;

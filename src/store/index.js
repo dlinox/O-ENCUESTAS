@@ -28,10 +28,17 @@ const useDataStore = defineStore('dataStore', {
       this.surveys = surveys
     },
 
-    setCurrentSurvey(survey) {
-      if (this.currentSurvey.id != survey) {
-        this.currentSurvey = this.surveys?.find((item) => survey == item.id);
+    async setCurrentSurvey(survey) {
+
+      if (this.surveys.length === 0) {
+        //TODO: CONSUMIR SERVICIO DE GETSURVE
+        let res = await surveyService.getSurvey(survey);
+        this.currentSurvey =  res.data.data[0];
+        return;
       }
+
+      this.currentSurvey = this.surveys?.find((item) => survey == item.id);
+
     },
 
     async getTopics(survey) {
@@ -43,3 +50,4 @@ const useDataStore = defineStore('dataStore', {
 });
 
 export { useDataStore }
+

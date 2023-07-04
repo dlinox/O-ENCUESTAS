@@ -1,9 +1,9 @@
 <template>
     <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
         <div class="col-span-2 rounded-lg p-4">
-            <!-- <pre>
+            <pre>
                 {{ questionsList }}
-            </pre> -->
+            </pre>
             <div v-for="question in questionsList">
                 <ul>
                     <template v-if="question.type != 500">

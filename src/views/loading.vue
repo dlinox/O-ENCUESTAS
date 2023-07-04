@@ -1,6 +1,6 @@
 <template>
     <div class="h-screen w-screen bg-blue-50 flex items-center justify-center">
-        <img src="@/assets/logo.png"  width="120" alt="">
+        <img src="@/assets/logo.png" width="120" alt="">
     </div>
 </template>
 <script setup>

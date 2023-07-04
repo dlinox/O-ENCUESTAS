@@ -2,7 +2,12 @@
   <ClientLayout>
     <template #header.title> Encuestas </template>
     <template #header.subtitle> Listado de encuestas disponibles </template>
-    <div class="container">
+
+
+    <div v-if="isLoading" class="w-100">
+      ...Cargado
+    </div>
+    <div v-else class="container">
       <div class="mx-auto max-w-7xl">
         <div class="p-4 bg-white my-4">
           <ul role="list" class="divide-y divide-gray-100">
@@ -13,7 +18,8 @@
                     <ClipboardDocumentListIcon />
                   </div>
                   <div class="min-w-0 flex-auto">
-                    <p class="text-sm font-semibold leading-6 text-gray-900 uppercase group-hover:text-blue-700 ">{{ survey.title }}</p>
+                    <p class="text-sm font-semibold leading-6 text-gray-900 uppercase group-hover:text-blue-700 ">{{
+                      survey.title }}</p>
                     <p class="mt-1 truncate text-xs leading-5 text-gray-500">{{ survey.description ?
                       survey.description : 'Descripciond de la encuesta' }}</p>
                   </div>
@@ -35,31 +41,26 @@
 <script setup>
 import { computed, ref } from 'vue';
 import ClientLayout from '@/layouts/ClientLayout.vue';
-import { useDataStore } from '@/store/index';
-import { useAuthStore } from '@/store/auth';
-import ButtonPrimary from '../../components/ButtonPrimary.vue';
-import CryptoJS from 'crypto-js';
-import http from '../../utils/https';
+import { useDataStore } from '@/store/index.js';
+
+//crear libreria de iconos
 import { ClipboardDocumentListIcon } from '@heroicons/vue/20/solid';
 
-const secretKey = '123566asdsd';
-const authStore = useAuthStore();
-
 const dataStore = useDataStore();
-const surveys = computed(() => dataStore.surveys);
+const surveys = computed(() => dataStore.surveys); // cambiar a ref
 
-const getMenu = async () => {
+const isLoading = ref(false);
 
-  // let idAccount_ = authStore.account;
-  // let idModule_ = authStore.module;
-  // var bytes = await CryptoJS.AES.decrypt(idAccount_, secretKey);
-  // idAccount_ = await bytes.toString(CryptoJS.enc.Utf8);
-  // console.log(idAccount_);
-  // http.post('http://38.43.133.27/SYSTEMS/SUBMODULE_BY_ACCOUNT/v1/', { idAccount_: idAccount_, idModule_: idModule_ })
+const getListSurveys = async () => {
+  let res = await dataStore.getSurveys();
+  dataStore.setSurveys(res);
 }
 
-const init = () => {
+const init = async () => {
   console.log('ini survey');
+  isLoading.value = true;
+  await getListSurveys();
+  isLoading.value = false;
 }
 init();
 </script>

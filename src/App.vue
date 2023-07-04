@@ -1,20 +1,24 @@
 <template>
+     <template>
+
+     </template>
      <router-view></router-view>
 </template>
 <script setup>
-import { useDataStore } from './store';
-import { useAuthStore } from './store/auth'
+import { ref } from 'vue';
+import { useAuthStore } from './store/auth';
 
-const dataStore = useDataStore();
 const authStore = useAuthStore();
+const appLoading =  ref(false);
 
 const init = async () => {
      console.log('init app');
 
+     appLoading.value = false;
+     setTimeout(() => {
+     }, 100);
      authStore.setCurretUser();
-
-     let res = await dataStore.getSurveys();//pasar al home
-     dataStore.setSurveys(res);//pasar al home
+     appLoading.value= false;
 
 }
 init();

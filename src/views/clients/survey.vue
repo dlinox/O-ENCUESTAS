@@ -1,7 +1,9 @@
 <template>
     <ClientLayout>
-        <template #header.title> {{ currentSurvey.title }} </template>
-        <template #header.subtitle> {{ currentSurvey.subtitle }} </template>
+
+
+        <template #header.title> {{ currentSurvey?.title }} </template>
+        <template #header.subtitle> {{ currentSurvey?.subtitle }} </template>
         <div class="grid grid-cols-4 gap-4">
             <div class="col-span-4 rounded-lg bg-blue-100 p-4 text-blue-700 mb-1 text-sm">
                 <strong> Indicaciones: </strong>
@@ -41,6 +43,8 @@
 
             </div>
         </div>
+
+
     </ClientLayout>
 </template>
 <script setup>
@@ -90,9 +94,18 @@ const getQuestions = (sectionId) => {
     });
 }
 
-const initSurvey = () => {
-    dataStore.setCurrentSurvey(route.params.id);
+
+const serCurrenrSurveys = async () => {
+
+    await dataStore.setCurrentSurvey(route.params.id);
 }
+
+const initSurvey = async () => {
+
+    await serCurrenrSurveys();
+    //currentSurvey.value = dataStore.currentSurvey;
+}
+
 
 initSurvey()
 </script>

@@ -6,10 +6,11 @@ import HomeCliente from "../views/clients/index.vue"
 import Loading from "../views/loading.vue"
 
 const routes = [
+
   {
-    path: "/ubigeo",
-    name: 'Ubigeo',
-    component: () => import("../views/ubigeo.vue"),
+    path: "/loading",
+    component: Loading,
+
   },
 
   {
@@ -43,34 +44,26 @@ const routes = [
         ],
       },
     ],
-    // meta: {
-    //   authGuard: true
-    // }
+    meta: {
+      requiresAuth: true
+    }
   },
 
   {
-    path: "/", //listado de encuestas
+    path: "/",
     name: 'home',
     component: HomeCliente,
     meta: {
-      authGuard: true, requiresAuth: true
+      requiresAuth: true
     }
   },
 
   {
-    path: "/login", //listado de encuestas
+    path: "/login",
     name: "login",
     component: () => import("../views/auth/login.vue"),
     meta: {
-      authGuard: false,
-    }
-  },
-
-  {
-    path: "/loading", //listado de encuestas
-    component: Loading,
-    meta: {
-      authGuard: true,
+      requiresAuth: true
     }
   },
 
@@ -82,34 +75,15 @@ const routes = [
     }
   },
 
-  //labs
   {
     path: "/welcome",
     component: () => import("../views/clients/welcome.vue"),
   },
 
   {
-    path: "/autocomplete",
-    component: () => import("../views/AutocompleLab.vue"),
-  },
-
-  {
-    path: "/form",
-    component: () => import("../views/formComponents.vue"),
-  },
-  {
-    path: "/encuesta/:id/:pic?",
+    path: "/encuesta/:id",
     component: () => import("../views/clients/survey.vue"),
   },
-  {
-    path: "/headless-components",
-    component: () => import("../views/headless-components.vue")
-  },
-  {
-    path: "/structure",
-    component: () => import("../views/structure.vue")
-  },
-
 ];
 
 const router = createRouter({
