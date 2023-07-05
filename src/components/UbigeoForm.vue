@@ -28,7 +28,7 @@ const ubigeoService = new UbigeoService();
 const emit = defineEmits(["update:modelValue", "clickInput"]);
 
 const props = defineProps({
-    modelValue: [String, Number],
+    modelValue: [String, Number, Object, Array],
     question: [Object, Array],
     error: {
         type: Boolean,

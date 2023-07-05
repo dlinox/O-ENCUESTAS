@@ -2,20 +2,13 @@
     <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
         <div class="col-span-2 rounded-lg p-4">
 
-
-            <pre>
-
-                {{
-                    questionsList
-                }}
-                </pre>
             <div v-for="(question, indexQuestion) in questionsList" :key="question.id">
                 <ul>
                     <template v-if="!question.isDependent || question.show">
 
                         <li class="mb-4" v-if="question.type === 0">
                             <div>
-                                <OneSelection :question="question" v-model="question.answer[0].text"
+                                <OneSelection :question="question" v-model="question.answer.text"
                                     @update:modelValue="validation($event, question, indexQuestion)" />
                                 <!-- @update:modelValue="onSelectTrigger($event, indexSection, indexQuestion)" -->
                                 <div class="w-full text-end">
@@ -27,7 +20,7 @@
 
                         <li class="mb-4" v-else-if="question.type === 1">
                             <div>
-                                <ShortAnswer :question="question" v-model="question.answer[0].text"
+                                <ShortAnswer :question="question" v-model="question.answer.text"
                                     @update:modelValue="validation(question.answer, question)" />
                                 <div class="w-full text-end">
                                     <span class=" text-xs text-red-600 ">{{ question.error }}</span>
@@ -36,7 +29,7 @@
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 2">
-                            <ShortAnswer type="date" :question="question" v-model="question.answer[0].text"
+                            <ShortAnswer type="date" :question="question" v-model="question.answer.text"
                                 @update:modelValue="validation(question.answer, question)" />
                             <div class="w-full text-end">
                                 <span class=" text-xs text-red-600 ">{{ question.error }}</span>
@@ -44,7 +37,7 @@
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 3">
-                            <ShortAnswer type="number" :question="question" v-model="question.answer[0].text"
+                            <ShortAnswer type="number" :question="question" v-model="question.answer.text"
                                 @update:modelValue="validation(question.answer, question)" />
                             <div class="w-full text-end">
                                 <span class=" text-xs text-red-600 ">{{ question.error }}</span>
@@ -53,7 +46,7 @@
 
                         <li class="mb-4" v-else-if="question.type === 8">
 
-                            <EmailForm :question="question" v-model="question.answer[0].text"
+                            <EmailForm :question="question" v-model="question.answer.text"
                                 @update:modelValue="validateEmail($event, question)" />
                             <div class="w-full text-end">
                                 <span class=" text-xs text-red-600 ">{{ question.error }}</span>
@@ -61,7 +54,7 @@
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 9">
-                            <ShortAnswer type="text" :question="question" v-model="question.answer[0].text"
+                            <ShortAnswer type="text" :question="question" v-model="question.answer.text"
                                 @update:modelValue="validatePhone(question.answer, question)" />
                             <div class="w-full text-end">
                                 <span class=" text-xs text-red-600 ">{{ question.error }}</span>
