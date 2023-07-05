@@ -12,7 +12,7 @@ const props = defineProps({
   questionIndex: Number,
   options: Array,
   modelValue: {
-    type: [String, Number],
+    type: [Number, Object, String, Array],
     default: null,
   },
 });

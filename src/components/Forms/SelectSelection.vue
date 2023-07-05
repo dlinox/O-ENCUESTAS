@@ -16,7 +16,7 @@ import SelectForm from "./SelectForm.vue";
 
 
 const props = defineProps({
-    modelValue: [String, Number],
+    modelValue: [Number, Object, String, Array],
     label: String,
     type: {
         default: "text",

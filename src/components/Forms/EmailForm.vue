@@ -16,7 +16,7 @@ const props = defineProps({
     question: Object,
     placeholder: String,
 
-    modelValue: [String, Number],
+    modelValue:[Number, Object, String, Array],
 });
 const emit = defineEmits(["update:modelValue", 'onError']);
 

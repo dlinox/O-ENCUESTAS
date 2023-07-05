@@ -24,7 +24,7 @@ import InputForm from '@/components/Forms/InputForm.vue'
 
 const props = defineProps({
     modelValue: {
-        type: [Number, Object, String],
+        type: [Number, Object, String, Array],
         default: null
     },
     question: Object

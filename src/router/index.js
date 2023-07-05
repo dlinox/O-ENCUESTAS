@@ -68,7 +68,7 @@ const routes = [
   },
 
   {
-    path: "/survey/:id",
+    path: "/survey/:id/:topic?/:section?",
     component: () => import("../views/clients/survey.vue"),
     meta: {
       authGuard: true,

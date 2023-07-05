@@ -1,0 +1,26 @@
+[
+    {
+        "codigo_ingreso": "235679",
+        "nombres": "JUAN MANUEL",
+        "segundo_apellido": "MAMANI",
+        "primer_apellido": "VARGAS",
+        "nro_documento": "70757845",
+        "codigo_programa": "05"
+    },
+    {
+        "codigo_ingreso": "235677",
+        "nombres": "GHYNNA LEEZBETH",
+        "segundo_apellido": "CUSACANI",
+        "primer_apellido": "LUQUE",
+        "nro_documento": "70757839",
+        "codigo_programa": "15"
+    },
+    {
+        "codigo_ingreso": "235674",
+        "nombres": "Jhon Ariel",
+        "segundo_apellido": "Cusacani",
+        "primer_apellido": "Luque",
+        "nro_documento": "70757838",
+        "codigo_programa": "05"
+    }
+]

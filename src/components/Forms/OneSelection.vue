@@ -17,7 +17,7 @@ import RadioGroupForm from "../Forms/RadioGroupForm.vue"
 
 
 const props = defineProps({
-    modelValue: [String, Number],
+    modelValue: [Number, Object, String, Array],
     label: String,
     type: {
         default: "text",

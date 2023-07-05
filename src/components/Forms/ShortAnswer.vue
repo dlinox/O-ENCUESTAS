@@ -18,7 +18,7 @@
 import { computed } from "vue";
 
 const props = defineProps({
-    modelValue: [String, Number],
+    modelValue: [Number, Object, String, Array],
     question: Object,
     type: {
         default: "text",

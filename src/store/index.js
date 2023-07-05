@@ -6,8 +6,14 @@ const surveyService = new SurveyService();
 const useDataStore = defineStore('dataStore', {
   state: () => ({
     currentSurvey: {},
+    
     currentTopic: {},
+    nextTocpic: null,
+    prevTocpic: null,
+    
     currentSection: {},
+    nextSection: null,
+    prevSection: null,
 
     surveys: [],
     topics: [],

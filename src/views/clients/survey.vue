@@ -1,7 +1,5 @@
 <template>
     <ClientLayout>
-
-
         <template #header.title> {{ currentSurvey?.title }} </template>
         <template #header.subtitle> {{ currentSurvey?.subtitle }} </template>
         <div class="grid grid-cols-4 gap-4">
@@ -25,6 +23,7 @@
                     </h3>
                 </div>
 
+                
                 <template v-if="sections.length == 0">
                     <h4 class="text-center text-lg uppercase  font-extrabold text-gray-400 align-items-center">
                         no hay secciones
@@ -43,18 +42,18 @@
 
             </div>
         </div>
-
-
     </ClientLayout>
 </template>
 <script setup>
-import { computed } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useDataStore } from '@/store';
 import { SurveyService } from "../../services";
 import ClientLayout from "@/layouts/ClientLayout.vue";
 import ButtonPrimary from "@/components/ButtonPrimary.vue";
 import IndexSurvey from "./components/IndexSurvey.vue"
+
+
 import FormQuestion from "./components/Form.vue"
 
 const surveyService = new SurveyService();
@@ -69,7 +68,6 @@ const currentSurvey = computed(() => dataStore.currentSurvey);
 const currentTopic = computed(() => dataStore.currentTopic);
 
 const getQuestions = (sectionId) => {
-    //console.log(dataStore.topics);
 
     dataStore.topics.map((item) => {
 
@@ -94,7 +92,6 @@ const getQuestions = (sectionId) => {
     });
 }
 
-
 const serCurrenrSurveys = async () => {
 
     await dataStore.setCurrentSurvey(route.params.id);
@@ -107,5 +104,6 @@ const initSurvey = async () => {
 }
 
 
-initSurvey()
+initSurvey();
+
 </script>

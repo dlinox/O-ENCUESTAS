@@ -1,40 +1,33 @@
 <template>
     <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
         <div class="col-span-2 rounded-lg p-4">
+
+
             <pre>
-                {{ questionsList }}
-            </pre>
-            <div v-for="question in questionsList">
+
+                {{
+                    questionsList
+                }}
+                </pre>
+            <div v-for="(question, indexQuestion) in questionsList" :key="question.id">
                 <ul>
-                    <template v-if="question.type != 500">
+                    <template v-if="!question.isDependent || question.show">
 
                         <li class="mb-4" v-if="question.type === 0">
                             <div>
-                                <OneSelection :question="question" v-model="question.answer"
-                                    @update:modelValue="validation(question.answer, question)" />
+                                <OneSelection :question="question" v-model="question.answer[0].text"
+                                    @update:modelValue="validation($event, question, indexQuestion)" />
+                                <!-- @update:modelValue="onSelectTrigger($event, indexSection, indexQuestion)" -->
                                 <div class="w-full text-end">
                                     <span class=" text-xs text-red-600 ">{{ question.error }}</span>
                                 </div>
-
-
                             </div>
                             <!-- @update:modelValue="onSelectTrigger($event, indexSection, indexQuestion)" -->
-                            <!-- <div>
-                                <MultiOptionSelect :question="question"  v-model="question.answer" />
-                                <MultiOptionInput :question="question" v-model="question.answer"
-                                @update:modelValue="validation(question.answer, question)"
-
-                                />
-                                <div class="w-full text-end">
-                                    <span class=" text-xs text-red-600 ">{{ question.error }}</span>
-                                </div>
-                            </div> -->
                         </li>
-
 
                         <li class="mb-4" v-else-if="question.type === 1">
                             <div>
-                                <ShortAnswer :question="question" v-model="question.answer"
+                                <ShortAnswer :question="question" v-model="question.answer[0].text"
                                     @update:modelValue="validation(question.answer, question)" />
                                 <div class="w-full text-end">
                                     <span class=" text-xs text-red-600 ">{{ question.error }}</span>
@@ -43,7 +36,7 @@
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 2">
-                            <ShortAnswer type="date" :question="question" v-model="question.answer"
+                            <ShortAnswer type="date" :question="question" v-model="question.answer[0].text"
                                 @update:modelValue="validation(question.answer, question)" />
                             <div class="w-full text-end">
                                 <span class=" text-xs text-red-600 ">{{ question.error }}</span>
@@ -51,17 +44,16 @@
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 3">
-                            <ShortAnswer type="number" :question="question" v-model="question.answer"
+                            <ShortAnswer type="number" :question="question" v-model="question.answer[0].text"
                                 @update:modelValue="validation(question.answer, question)" />
                             <div class="w-full text-end">
                                 <span class=" text-xs text-red-600 ">{{ question.error }}</span>
                             </div>
                         </li>
 
-
                         <li class="mb-4" v-else-if="question.type === 8">
 
-                            <EmailForm :question="question" v-model="question.answer"
+                            <EmailForm :question="question" v-model="question.answer[0].text"
                                 @update:modelValue="validateEmail($event, question)" />
                             <div class="w-full text-end">
                                 <span class=" text-xs text-red-600 ">{{ question.error }}</span>
@@ -69,7 +61,7 @@
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 9">
-                            <ShortAnswer type="text" :question="question" v-model="question.answer"
+                            <ShortAnswer type="text" :question="question" v-model="question.answer[0].text"
                                 @update:modelValue="validatePhone(question.answer, question)" />
                             <div class="w-full text-end">
                                 <span class=" text-xs text-red-600 ">{{ question.error }}</span>
@@ -102,32 +94,19 @@
                                     <span class=" text-xs text-red-600 ">{{ question.error }}</span>
                                 </div>
                             </div>
-                            <!-- @update:modelValue="onSelectTrigger($event, indexSection, indexQuestion)" -->
-
-                            <div>
-
-                                <!-- <MultiOptionInput :question="question" v-model="question.answer"
-                                @update:modelValue="validation(question.answer, question)"
-                                
-                                />
-                                <div class="w-full text-end">
-                                    <span class=" text-xs text-red-600 ">{{ question.error }}</span>
-                                </div> -->
-                            </div>
                         </li>
                     </template>
                 </ul>
             </div>
             <div class="flex justify-end mt-4 ">
                 <!-- <ButtonPrimary title="Guardar sección" :isDisabled="!isValid" @click="saveSection" /> -->
-                
-                <ButtonPrimary  :isDisabled="!isValid" @click="saveSection">
+                <ButtonPrimary :isDisabled="!isValid" @click="saveSection">
                     <template #content>
-                            <slot name="buttonNext">
-                                Siguiente
-                            </slot>
-                        </template>
-                    </ButtonPrimary>
+                        <slot name="buttonNext">
+                            Siguiente
+                        </slot>
+                    </template>
+                </ButtonPrimary>
 
             </div>
         </div>
@@ -141,11 +120,12 @@ import ShortAnswer from '@/components/Forms/ShortAnswer.vue';
 import OneSelection from '@/components/Forms/OneSelection.vue';
 import UbigeoOtherForm from '@/components/Forms/UbigeoOtherForm.vue';
 import UbigeoForm from '@/components/UbigeoForm.vue';
-
-import MultiOptionInput from '../../../components/Forms/MultiOptionInput.vue';
-import MultiOptionSelect from '../../../components/Forms/MultiOptionSelect.vue';
 import EmailForm from '../../../components/Forms/EmailForm.vue';
+import { IsRequired, IsEmail, IsNumber } from '../../../helpers/validationForm'
 
+import { useDataStore } from '../../../store/index.js'
+
+const dataStore = useDataStore();
 
 const props = defineProps({
     questions: Array,
@@ -155,11 +135,36 @@ const questionsList = computed(() => props.questions);
 
 const isValid = ref(true);
 
-const validation = (val, question) => {
+
+
+const onSelectTrigger = (question) => {
+
+    questionsList.value.map((item) => {
+        if (item.isDependent == question.id) {
+
+            console.log(item.optionTrigger, ' = ', question.answer);
+
+            if (item.optionTrigger === question.answer) {
+                item.show = true;
+            }
+            else {
+                item.show = false;
+            }
+        }
+        return item;
+    });
+}
+
+const validation = (val, question, indexQuestion = null) => {
     let validForm = true;
     validForm = required(val, question);
     isValid.value = validForm;
+
+    if (indexQuestion) {
+        onSelectTrigger(question)
+    }
 }
+
 
 const required = (val, question) => {
     var isRequired = null;
@@ -197,62 +202,36 @@ const saveSection = () => {
 
 const validateEmail = (val, question) => {
 
-    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
     questionsList.value.map((item) => {
         if (item.id == question.id) {
-            if (val === null || val === "") {
+            if (!IsRequired(val)) {
                 item.error = "Obligatorio";
-                //isRequired = false;
             }
-            else if (!val.match(validRegex)) {
+            else if (!IsEmail(val)) {
                 item.error = "Formato no valido";
-
             }
             else {
                 delete item.error;
-
             }
         }
     });
-
-
-    if (val.match(validRegex)) {
-
-        console.log('alido');
-
-        return true;
-
-    } else {
-
-        console.log('ahora si eno es valido')
-
-        return false;
-    }
-
 }
 
 const validatePhone = (val, question) => {
 
-    var validRegex = /^[0-9]+$/;
-
     questionsList.value.map((item) => {
         if (item.id == question.id) {
-            if (val === null || val === "") {
+            if (!IsRequired(val)) {
                 item.error = "Obligatorio";
-                //isRequired = false;
             }
-
-            else if (!val.match(validRegex)) {
+            else if (!IsNumber(val)) {
                 item.error = "Solo se permite numeros";
-
             }
-            else if (val.length > 9) {
+            else if (!MaxLong(val, 9)) {
                 item.error = "Longitud debe se 9 digitos";
             }
             else {
                 delete item.error;
-
             }
         }
     });

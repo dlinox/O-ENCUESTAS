@@ -43,11 +43,10 @@ import { computed, ref } from 'vue';
 import ClientLayout from '@/layouts/ClientLayout.vue';
 import { useDataStore } from '@/store/index.js';
 
-//crear libreria de iconos
 import { ClipboardDocumentListIcon } from '@heroicons/vue/20/solid';
 
 const dataStore = useDataStore();
-const surveys = computed(() => dataStore.surveys); // cambiar a ref
+const surveys = computed(() => dataStore.surveys); 
 
 const isLoading = ref(false);
 

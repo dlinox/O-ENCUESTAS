@@ -46,29 +46,26 @@ const router = useRouter();
 const route = useRoute();
 const authService = new AuthService();
 const form = ref({
-  user: '10102020',
-  password: ''
+  user: '70757838',
+  password: '235674'
 });
 
 const submit = async () => {
-  try {
-    await authService.login(form.value);
-    router.push({ name: 'home' });
 
-  } catch (error) {
+  await authService.login(form.value);
+  router.push({ name: 'home' });
 
-    alert('Ocurrio un error');
-  }
+
 }
 
 const init = async () => {
 
-  let isLogget =  authService.validateUser();
+  let isLogget = authService.validateUser();
   if (isLogget) {
-    router.push({name: 'home'});
+    router.push({ name: 'home' });
   }
 }
 
- init();
+init();
 
 </script>
