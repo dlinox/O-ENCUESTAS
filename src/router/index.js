@@ -63,9 +63,10 @@ const routes = [
     name: "login",
     component: () => import("../views/auth/login.vue"),
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
+
 
   {
     path: "/survey/:id/:topic?/:section?",

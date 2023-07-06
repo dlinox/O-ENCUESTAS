@@ -6,7 +6,7 @@
             </label>
             <div class="relative w-full cursor-default overflow-hidden sm:text-sm">
                 <ComboboxInput :class="error && errorThis && !selected ? 'ring-red-600' : 'ring-gray-300'"
-                    class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 rounded-md"
+                    class="w-full bg-gray-50 border-gray-300 border-none p-2.5 text-sm leading-5 text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 rounded-md"
                     :displayValue="(item) => item?.[`${this.itemTitle}`]"
                     @change="$event.target.value == '' ? errorThis = true : errorThis = false; query = $event.target.value"
                     :placeholder="placeholder" />

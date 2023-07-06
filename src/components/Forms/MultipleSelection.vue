@@ -1,10 +1,13 @@
 <template>
     <div class="grid grid-cols-4">
-        <label for="price" class="text-sm font-medium leading-6 text-gray-900" :class="question.structure.labelGrid">
+        <label for="price" class="col-span-4 text-sm font-medium leading-6 text-gray-900">
             {{ question.statement }}
         </label>
-        <div class="relative mt-1 rounded-md" :class="question.structure.inputGrid">
+        <div class="relative mt-1 rounded-md col-span-4 ps-4">
             <CheckBoxesFrom :questionIndex="question.id" :options="question.options" v-model="input" />
+        </div>
+        <div class="col-span-4 text-end">
+            <span class=" text-xs text-red-600 ">{{ question.error?.text }}</span>
         </div>
     </div>
 </template>

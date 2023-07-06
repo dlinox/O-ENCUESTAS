@@ -16,6 +16,8 @@
     "@vueuse/core": "^10.1.2",
     "axios": "^1.4.0",
     "crypto-js": "^4.1.1",
+    "flowbite": "^1.7.0",
+    "flowbite-vue": "^0.0.14",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "pinia": "^2.1.3",

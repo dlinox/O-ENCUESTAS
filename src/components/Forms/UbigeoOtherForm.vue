@@ -18,9 +18,7 @@
         </div>
 
         <div class="col-span-3">
-
             <InputForm v-model="question.other" label="Dirección"></InputForm>
-
         </div>
     </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <div v-for="(option, index) in options" :key="option.title" class="flex items-center my-2">
+    <div v-for="(option, index) in options" :key="option.title" class="flex items-center my-3">
         <input :id="`radio-${index}${questionId}`" type="radio" :value="option.id" v-model="input"
             :name="`name-${index}${questionId}`"
             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  focus:ring-2 dark:bg-gray-700 dark:border-gray-600">

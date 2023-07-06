@@ -10,55 +10,42 @@
                             <div>
                                 <OneSelection :question="question" v-model="question.answer.text"
                                     @update:modelValue="validation($event, question, indexQuestion)" />
-                                <!-- @update:modelValue="onSelectTrigger($event, indexSection, indexQuestion)" -->
-                                <div class="w-full text-end">
-                                    <span class=" text-xs text-red-600 ">{{ question.error }}</span>
-                                </div>
                             </div>
-                            <!-- @update:modelValue="onSelectTrigger($event, indexSection, indexQuestion)" -->
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 1">
-                            <div>
-                                <ShortAnswer :question="question" v-model="question.answer.text"
-                                    @update:modelValue="validation(question.answer, question)" />
-                                <div class="w-full text-end">
-                                    <span class=" text-xs text-red-600 ">{{ question.error }}</span>
-                                </div>
-                            </div>
+                            <InputForm v-model="question.answer.text" type="text" :label="question.statement"
+                                :error="question.error" @update:modelValue="validation($event, question)" />
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 2">
-                            <ShortAnswer type="date" :question="question" v-model="question.answer.text"
-                                @update:modelValue="validation(question.answer, question)" />
-                            <div class="w-full text-end">
-                                <span class=" text-xs text-red-600 ">{{ question.error }}</span>
-                            </div>
+                            <InputForm v-model="question.answer.text" type="date" :label="question.statement"
+                                :error="question.error" @update:modelValue="validation($event, question)" />
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 3">
-                            <ShortAnswer type="number" :question="question" v-model="question.answer.text"
-                                @update:modelValue="validation(question.answer, question)" />
-                            <div class="w-full text-end">
-                                <span class=" text-xs text-red-600 ">{{ question.error }}</span>
-                            </div>
+                            <InputForm v-model="question.answer.text" type="number" :label="question.statement"
+                                :error="question.error" @update:modelValue="validation(question.answer, question)" />
+                        </li>
+
+                        <li class="mb-4" v-else-if="question.type === 4">
+                            <HSelect v-model="question.answer.text" label="question.statement" :error="question.error"
+                                @update:modelValue="validation($event, question, indexQuestion)" />
+                        </li>
+
+                        <li class="mb-4" v-else-if="question.type === 6">
+                            <MultipleSelection :question="question" v-model="question.answer.options"
+                                @update:modelValue="validation($event, question, indexQuestion)" />
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 8">
-
-                            <EmailForm :question="question" v-model="question.answer.text"
-                                @update:modelValue="validateEmail($event, question)" />
-                            <div class="w-full text-end">
-                                <span class=" text-xs text-red-600 ">{{ question.error }}</span>
-                            </div>
+                            <InputForm v-model="question.answer.text" type="email" :label="question.statement"
+                                :error="question.error" @update:modelValue="validateEmail(question.answer, question)" />
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 9">
-                            <ShortAnswer type="text" :question="question" v-model="question.answer.text"
-                                @update:modelValue="validatePhone(question.answer, question)" />
-                            <div class="w-full text-end">
-                                <span class=" text-xs text-red-600 ">{{ question.error }}</span>
-                            </div>
+                            <InputForm v-model="question.answer.text" type="tel" :label="question.statement"
+                                :error="question.error" @update:modelValue="validatePhone($event, question)" />
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 10">
@@ -79,15 +66,6 @@
                             </div>
                         </li>
 
-                        <li class="mb-4" v-else-if="question.type === 100000">
-                            <div>
-                                <OneSelection :question="question" v-model="question.answer"
-                                    @update:modelValue="validation(question.answer, question)" />
-                                <div class="w-full text-end">
-                                    <span class=" text-xs text-red-600 ">{{ question.error }}</span>
-                                </div>
-                            </div>
-                        </li>
                     </template>
                 </ul>
             </div>
@@ -100,7 +78,6 @@
                         </slot>
                     </template>
                 </ButtonPrimary>
-
             </div>
         </div>
     </div>
@@ -108,17 +85,14 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { IsRequired, IsEmail, IsNumber, MaxLong } from '@/helpers/validationForm'
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
-import ShortAnswer from '@/components/Forms/ShortAnswer.vue';
 import OneSelection from '@/components/Forms/OneSelection.vue';
+import MultipleSelection from '@/components/Forms/MultipleSelection.vue';
 import UbigeoOtherForm from '@/components/Forms/UbigeoOtherForm.vue';
 import UbigeoForm from '@/components/UbigeoForm.vue';
-import EmailForm from '../../../components/Forms/EmailForm.vue';
-import { IsRequired, IsEmail, IsNumber } from '../../../helpers/validationForm'
-
-import { useDataStore } from '../../../store/index.js'
-
-const dataStore = useDataStore();
+import InputForm from '@/components/Forms/InputForm.vue';
+import HSelect from '@/components/HSelect.vue';
 
 const props = defineProps({
     questions: Array,
@@ -128,16 +102,11 @@ const questionsList = computed(() => props.questions);
 
 const isValid = ref(true);
 
-
-
 const onSelectTrigger = (question) => {
 
     questionsList.value.map((item) => {
         if (item.isDependent == question.id) {
-
-            console.log(item.optionTrigger, ' = ', question.answer);
-
-            if (item.optionTrigger === question.answer) {
+            if (item.optionTrigger === question.answer.text) {
                 item.show = true;
             }
             else {
@@ -150,7 +119,7 @@ const onSelectTrigger = (question) => {
 
 const validation = (val, question, indexQuestion = null) => {
     let validForm = true;
-    validForm = required(val, question);
+    validForm = required(val.text, question);
     isValid.value = validForm;
 
     if (indexQuestion) {
@@ -158,17 +127,22 @@ const validation = (val, question, indexQuestion = null) => {
     }
 }
 
-
 const required = (val, question) => {
     var isRequired = null;
     questionsList.value.map((item) => {
         if (item.id == question.id) {
             if (val === null || val === "") {
-                item.error = "Obligatorio";
+                item.error = {
+                    isError: true,
+                    text: 'Obligatorio'
+                };
                 isRequired = false;
             }
             else {
-                delete item.error;
+                item.error = {
+                    isError: false,
+                    text: null
+                };
                 isRequired = true;
             }
         }
@@ -176,11 +150,73 @@ const required = (val, question) => {
     return isRequired;
 }
 
+const validateEmail = (val, question) => {
+
+    questionsList.value.map((item) => {
+        if (item.id == question.id) {
+            if (!IsRequired(val)) {
+                item.error = {
+                    isError: true,
+                    text: 'Obligatorio'
+                };
+            }
+            else if (!IsEmail(val)) {
+                item.error = {
+                    isError: true,
+                    text: 'Formato no valido',
+                };
+            }
+            else {
+                item.error = {
+                    isError: false,
+                    text: null,
+                };
+            }
+        }
+    });
+}
+
+const validatePhone = (val, question) => {
+
+    questionsList.value.map((item) => {
+        if (item.id == question.id) {
+            if (!IsRequired(val)) {
+                item.error = {
+                    isError: true,
+                    text: 'Obligatorio',
+                };
+            }
+            else if (!IsNumber(val)) {
+                item.error = {
+                    isError: true,
+                    text: 'Solo se permite numeros',
+                };
+            }
+            else if (!MaxLong(val, 9)) {
+                item.error = {
+                    isError: true,
+                    text: `Longitud debe se ${9} digitos`,
+                };
+            }
+            else {
+                item.error = {
+                    isError: false,
+                    text: null,
+                };
+            }
+        }
+    });
+}
+
 const saveSection = () => {
     isValid.value = true;
     questionsList.value.forEach((item) => {
-        if (!item.answer) {
-            item.error = "Obligatorio"
+        if (!item.answer?.options && !item.answer?.text && (!item.isDependent || item.show)) {
+
+            item.error = {
+                isError: true,
+                text: 'Obligatorio',
+            };
             isValid.value = false;
         }
         else {
@@ -193,40 +229,5 @@ const saveSection = () => {
     }
 }
 
-const validateEmail = (val, question) => {
-
-    questionsList.value.map((item) => {
-        if (item.id == question.id) {
-            if (!IsRequired(val)) {
-                item.error = "Obligatorio";
-            }
-            else if (!IsEmail(val)) {
-                item.error = "Formato no valido";
-            }
-            else {
-                delete item.error;
-            }
-        }
-    });
-}
-
-const validatePhone = (val, question) => {
-
-    questionsList.value.map((item) => {
-        if (item.id == question.id) {
-            if (!IsRequired(val)) {
-                item.error = "Obligatorio";
-            }
-            else if (!IsNumber(val)) {
-                item.error = "Solo se permite numeros";
-            }
-            else if (!MaxLong(val, 9)) {
-                item.error = "Longitud debe se 9 digitos";
-            }
-            else {
-                delete item.error;
-            }
-        }
-    });
-}
 </script>
+

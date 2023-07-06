@@ -1,8 +1,13 @@
 <template>
+    <label for="price" class=" col-span-4 text-sm font-medium leading-6 text-gray-900 capitalize">
+        {{ label }}
+    </label>
+
     <Listbox class="w-full" v-model="selectedItem">
         <div class="relative mt-1">
             <ListboxButton
-                class="relative block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6">
+                class="relative block w-full rounded-md  bg-gray-50  p-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                :class="error.isError ? 'ring-2 ring-red-500' : 'border-gray-300'">
                 <span class="block truncate text-start ms-2" :class="selectedItem ? 'text-black' : 'text-gray-400'">
                     {{ labelItem }}
                 </span>
@@ -33,6 +38,9 @@
             </transition>
         </div>
     </Listbox>
+    <div class="w-full text-end">
+        <span class=" text-xs text-red-600 ">{{ error?.text }}</span>
+    </div>
 </template>
   
 <script setup>
@@ -64,6 +72,18 @@ const props = defineProps({
     modelValue: {
         type: [String, Number, Object],
         default: null,
+    },
+    label: {
+        type: [String, Number, Object],
+        default: null,
+    },
+    error: {
+        type: [Object],
+        default: {
+            isError: false,
+            text: null
+        }
+
     },
 });
 
