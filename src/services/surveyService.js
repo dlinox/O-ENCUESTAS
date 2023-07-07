@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import http from "../utils/https";
 
+
 export default class SurveyService {
 
     getSurveys = async () => {
@@ -9,12 +10,21 @@ export default class SurveyService {
         let surveys = await http.get('/');
         return surveys.data.data;
     };
-    
-    getSurvey =  async (id) => {
-        let token = Cookies.get('token');
-        http.defaults.headers['Authorization'] = 'Bearer ' + token;
-        let survey = await http.get(`actual/${id}/`);
-        return survey;
+
+    getSurvey = async (id) => {
+
+        try {
+            let token = Cookies.get('token');
+            http.defaults.headers['Authorization'] = 'Bearer ' + token;
+            let survey = await http.get(`actual/${id}/`);
+
+            console.log(survey);
+            return survey.data.data[0];
+        } catch (error) {
+            console.log('error: ', error);
+            return false;
+        }
+
     }
 
     getTopics = async (survey) => {
@@ -37,5 +47,20 @@ export default class SurveyService {
         let questions = await http.get(`questions/section/${section}/`);
         return questions.data.data;
     };
-    
+
+    setPositionsCurrents = async (currents) => {
+
+        console.log('currents', currents);
+
+        try {
+            let token = Cookies.get('token');
+            http.defaults.headers['Authorization'] = 'Bearer ' + token;
+            await http.post(`position/`, currents);
+            return true;
+
+        } catch (error) {
+            return false;
+        }
+    }
+
 }

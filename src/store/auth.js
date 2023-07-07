@@ -9,6 +9,7 @@ export const useAuthStore = defineStore('authStore', {
         return {
             currentUser: null,
             token: null,
+           
         }
     },
 

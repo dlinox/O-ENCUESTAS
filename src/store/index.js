@@ -5,22 +5,20 @@ const surveyService = new SurveyService();
 
 const useDataStore = defineStore('dataStore', {
   state: () => ({
+
     currentSurvey: {},
-    
     currentTopic: {},
-    nextTocpic: null,
-    prevTocpic: null,
-    
+
     currentSection: {},
-    nextSection: null,
-    prevSection: null,
+    nextSection: {},
+    prevSection: {},
 
     surveys: [],
     topics: [],
     sections: [], //currents
     questions: [], //currents
 
-
+    cont: 0,
   }),
   actions: {
     async getSurveys() {
@@ -30,6 +28,13 @@ const useDataStore = defineStore('dataStore', {
       }
       return this.surveys;
     },
+
+    async setPositions(survey, topic, section) {
+      let body = { "survey_": survey, "topic_": topic, "section_": section };
+      let res = await surveyService.setPositionsCurrents(body);
+      return res;
+    },
+
     setSurveys(surveys) {
       this.surveys = surveys
     },
@@ -39,11 +44,11 @@ const useDataStore = defineStore('dataStore', {
       if (this.surveys.length === 0) {
         //TODO: CONSUMIR SERVICIO DE GETSURVE
         let res = await surveyService.getSurvey(survey);
-        this.currentSurvey =  res.data.data[0];
+        // this.currentSurvey = res.data.data[0];
         return;
       }
 
-      this.currentSurvey = this.surveys?.find((item) => survey == item.id);
+      // this.currentSurvey = this.surveys?.find((item) => survey == item.id);
 
     },
 

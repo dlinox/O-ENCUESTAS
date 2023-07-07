@@ -1,7 +1,7 @@
 <template>
     <form class="mt-4" @submit.prevent="submit">
-        <Input v-model="form.user" class="mb-2" placeholder="Ingrese su numero de DNI" label="DNI" />
-        <Input v-model="form.password" class="mb-2" placeholder="Ingrese su contaseña" label="Contraseña" type="password" />
+        <Input v-model.trim="form.user" class="mb-2" placeholder="Ingrese su numero de DNI" label="DNI" />
+        <Input v-model.trim="form.password" class="mb-2" placeholder="Ingrese su contaseña" label="Contraseña" type="password" />
         <div class="flex justify-end mt-4">
             <Button color="default" tyep="submit">
                 Ingresar

@@ -70,6 +70,7 @@ const routes = [
 
   {
     path: "/survey/:id/:topic?/:section?",
+    name: "survey",
     component: () => import("../views/clients/survey.vue"),
     meta: {
       authGuard: true,

@@ -5,18 +5,19 @@
 
     <div class="grid grid-cols-3 gap-5">
         <div>
-            <HAutoComplete placeholder="Departamento" :error="error" :items="departamentos" itemTitle="name"
+            <HAutoComplete placeholder="Departamento" :error="error" :items="departamentos" itemTitle="title" itemValue="code"
                 v-model="form.departamento" @update:modelValue="changeDepartamento" />
         </div>
         <div>
-            <HAutoComplete :error="error" :items="provincias" itemTitle="name" placeholder="Provincia"
+            <HAutoComplete :error="error" :items="provincias" itemTitle="title" itemValue="code" placeholder="Provincia"
                 v-model="form.provincia" @update:modelValue="changeProvincia" />
         </div>
         <div>
-            <HAutoComplete :error="error" :items="distritos" itemTitle="name" placeholder="Distrito" v-model="form.distrito"
+            <HAutoComplete :error="error" :items="distritos" itemTitle="title" itemValue="code" placeholder="Distrito" v-model="form.distrito"
                 @update:modelValue="input = $event.id" />
         </div>
     </div>
+    
 </template>
 
 <script setup>
@@ -67,8 +68,34 @@ const changeProvincia = async (val) => {
     distritos.value = await ubigeoService.getDistritos(val.id);
 }
 
+
+
+const setInputs = async (ubigeo) => {
+    let dep = ubigeo.slice(0, 2);
+    let pro = ubigeo.slice(0, 4);
+    let dis = ubigeo;
+
+    let depar = departamentos.value.find((item) => item.code == dep);
+
+    if (depar) {
+        form.value.departamento = depar;
+        let provs = await ubigeoService.getProvincias(dep);
+        let prov = provs.find((item) => item.code == pro);
+
+        if (prov) {
+            form.value.provincia = prov;
+            let dists = await ubigeoService.getDistritos(pro);
+            let dist = dists.find((item) => item.code == dis);
+            form.value.distrito = dist;
+        }
+    }
+
+}
+
 const init = async () => {
     departamentos.value = await ubigeoService.getDepartamentos();
+    await setInputs(input.value.text);
+
 }
 
 init();

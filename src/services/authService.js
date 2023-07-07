@@ -1,9 +1,6 @@
 import http from "../utils/https";
 import Cookies from "js-cookie";
-
 import enchuData from '../assets/datademo.json';
-
-
 
 export default class AuthService {
 

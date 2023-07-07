@@ -1,11 +1,10 @@
 <template>
     <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
         <div class="col-span-2 rounded-lg p-4">
-
+            
             <div v-for="(question, indexQuestion) in questionsList" :key="question.id">
                 <ul>
                     <template v-if="!question.isDependent || question.show">
-
                         <li class="mb-4" v-if="question.type === 0">
                             <div>
                                 <OneSelection :question="question" v-model="question.answer.text"
@@ -62,22 +61,15 @@
                                 :error="question.error ? true : false"
                                 @update:modelValue="validation(question.answer, question)" />
                             <div class="w-full text-end">
-                                <span class=" text-xs text-red-600 ">{{ question.error }}</span>
+                                <span class=" text-xs text-red-600 ">{{ question.error?.text }}</span>
                             </div>
                         </li>
-
                     </template>
                 </ul>
             </div>
             <div class="flex justify-end mt-4 ">
-                <!-- <ButtonPrimary title="Guardar sección" :isDisabled="!isValid" @click="saveSection" /> -->
-                <ButtonPrimary :isDisabled="!isValid" @click="saveSection">
-                    <template #content>
-                        <slot name="buttonNext">
-                            Siguiente
-                        </slot>
-                    </template>
-                </ButtonPrimary>
+                <slot name="footer" :submit="saveSection">
+                </slot>
             </div>
         </div>
     </div>
@@ -86,7 +78,6 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { IsRequired, IsEmail, IsNumber, MaxLong } from '@/helpers/validationForm'
-import ButtonPrimary from '@/components/ButtonPrimary.vue';
 import OneSelection from '@/components/Forms/OneSelection.vue';
 import MultipleSelection from '@/components/Forms/MultipleSelection.vue';
 import UbigeoOtherForm from '@/components/Forms/UbigeoOtherForm.vue';
@@ -209,10 +200,10 @@ const validatePhone = (val, question) => {
 }
 
 const saveSection = () => {
+
     isValid.value = true;
     questionsList.value.forEach((item) => {
         if (!item.answer?.options && !item.answer?.text && (!item.isDependent || item.show)) {
-
             item.error = {
                 isError: true,
                 text: 'Obligatorio',
@@ -229,5 +220,6 @@ const saveSection = () => {
     }
 }
 
-</script>
 
+
+</script>

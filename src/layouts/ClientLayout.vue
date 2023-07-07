@@ -2,7 +2,7 @@
   <div class="bg-blue-50 h-full min-h-screen">
     <Navbar>
       <template #logo>
-        <NavbarLogo link="https://www.google.com/" alt="Flowbite logo" image-url="/logo.png">
+        <NavbarLogo link="/" alt="Flowbite logo" image-url="/logo.png">
           UNA-PUNO
         </NavbarLogo>
       </template>
@@ -22,7 +22,7 @@
 
 
     <main>
-      <div class="main-wrapper mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+      <div class="main-wrapper mx-auto max-w-7xl  sm:px-6 lg:px-8">
         <slot></slot>
       </div>
     </main>

@@ -2,19 +2,17 @@
     <ClientLayout>
 
         <template v-if="isLoading">
-            cargando...
+            <div class="pre-loading">
+                cargando...
+            </div>
         </template>
 
         <template v-else>
-            <pre>
-            {{ survey }}
-        </pre>
-
             <h2 class="text-xl uppercase mb-4 font-bold"> {{ currentSurvey?.title }} </h2>
-
+ 
             <div class="grid grid-cols-4 gap-4">
 
-                <Alert type="info" class="col-span-4">
+                <Alert type="info" class="col-span-4" ref="alert">
                     <strong> Indicaciones: </strong>
                     <p>
                         Estudiantes Universitarios. Lea y responda todos los ítems de manera obligatoria, verídica y
@@ -34,6 +32,7 @@
                         <h3 class="text-lg font-semibold mb-3 uppercase">
                             {{ currentTopic.title }}
                         </h3>
+                        <h4 class="text-sm uppercase mb-4 font-bold"> {{ currentSection?.title }} </h4>
                     </div>
 
                     <template v-if="sections.length == 0">
@@ -43,15 +42,31 @@
                     </template>
 
                     <template v-else>
-                        <ButtonPrimary v-for="section in sections" :key="section.id" :title="section.title"
-                            @click="getQuestions(section.id)" class="me-3 mb-3" />
-
-                        <FormQuestion v-if="questions?.length > 0" :questions="questions" />
+                        <FormQuestion v-if="questions?.length > 0" :questions="questions">
+                            <template v-slot:footer="{ submit }">
+                                <div class="flex justify-between">
+                                    <div>
+                                        <Button v-if="currentSection.previous">
+                                            <div class="text-start">
+                                                <span>Anterior</span>
+                                                <h5 class="text-lg"> {{ nextSection.title }} </h5>
+                                            </div>
+                                        </Button>
+                                    </div>
+                                    <div>
+                                        <Button v-if="currentSection.next" @click="submit">
+                                            <div class="text-end">
+                                                <span>Siguiente </span>
+                                                <h5 class="text-lg capitalize"> {{ nextSection.title }} </h5>
+                                            </div>
+                                        </Button>
+                                    </div>
+                                </div>
+                            </template>
+                        </FormQuestion>
                     </template>
-
                 </div>
             </div>
-
         </template>
     </ClientLayout>
 </template>
@@ -60,107 +75,141 @@ import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useDataStore } from '@/store';
 import { SurveyService } from "@/services";
-import { useAuthStore } from "@/store/auth";
 
 import ClientLayout from "@/layouts/ClientLayout.vue";
-import ButtonPrimary from "@/components/ButtonPrimary.vue";
+
 import IndexSurvey from "./components/IndexSurvey.vue"
-
-import { Alert } from "flowbite-vue";
-
-const authStore = useAuthStore();
-const router = new useRouter();
-
 import FormQuestion from "./components/Form.vue"
+
+import { Alert, Button } from "flowbite-vue";
+
+const router = new useRouter();
 
 const surveyService = new SurveyService();
 const dataStore = useDataStore();
 
 const route = useRoute();
 
-const sections = computed(() => dataStore.sections);
-
-const questions = computed(() => [...dataStore.questions]);
-
-const _questions = ref([]);
+const surveyCurrent = ref(null);
+const questions = ref([]);
+const sections = computed(() => dataStore.sections)
 
 const currentSurvey = computed(() => dataStore.currentSurvey);
 const currentTopic = computed(() => dataStore.currentTopic);
 
-const getQuestions = (sectionId) => {
-
-    dataStore.topics.map((item) => {
-
-        if (item.id === dataStore.currentTopic.id) {
-            item.sections.map(async (section) => {
-                if (section.id == sectionId) {
-                    let res = await surveyService.getQuestions(section.id);
-                    let questions = res;
-                    questions.sort((a, b) => a.ordinal - b.ordinal);
-                    section.questions = questions;
-                    dataStore.questions = questions;
-                    _questions.value = questions;
-                }
-            })
-        }
-
-    });
-}
-
-const paramsSurvey = computed(() => route.params.id);
-const paramsTopic = computed(() => route.params.topic);
-const paramsSection = computed(() => route.params.section);
-
+const currentSection = computed(() => dataStore.currentSection);
+const nextSection = computed(() => dataStore.nextSection);
 
 const isLoading = ref(false);
 
-const serCurrenrSurveys = async () => {
-    await dataStore.setCurrentSurvey(route.params.id);
-}
+const setCurrerts = (survey, _topics, _sections) => {
 
-const survey  = ref();
+    dataStore.currentTopic = _topics.find((item) => item.id === route.params.topic);
+    dataStore.currentSection = _sections.find((item) => item.id === survey.section);
+    dataStore.nextSection = _sections.find((item) => item.id === dataStore.currentSection.next);
+    dataStore.prevSection = _sections.find((item) => item.id === dataStore.currentSection.previous);
+
+}
 
 const getSurveyData = async () => {
 
-
     let survey = await surveyService.getSurvey(route.params.id);
-    survey = survey.data.data;
-    console.log(survey);
-    if (survey.topic === route.params.topic && survey.section === route.params.section) {
 
-
-        let topics = await surveyService.getTopics(route.params.id);
-        let section = await surveyService.getTopics(route.params.topic);
-        let questions = await surveyService.getQuestions(route.params.section);
-
-        console.log(topics);
-        console.log(section);
-        console.log(questions);
-
+    if (!survey) {
+        router.push({ name: 'home' });
     }
-    else {
-        // router.go(`http://10.1.2.70:6001/survey/${survey.id}/${survey.topic}/${survey.section}`);
 
+    else {
+        surveyCurrent.value = survey;
+        if (survey.topic === route.params.topic && survey.section === route.params.section) {
+            let _topics = await surveyService.getTopics(route.params.id);
+            let _sections = await surveyService.getSections(route.params.topic);
+            let _questions = await surveyService.getQuestions(route.params.section);
+
+            dataStore.topics = _topics;
+            dataStore.sections = _sections;
+            questions.value = _questions;
+            setCurrerts(survey, _topics, _sections);
+        }
+
+        else {
+            router.back();
+            dataStore.cont++;
+        }
     }
 }
 
+const getSurveyDataWithOutCurrents = async () => {
 
+    let survey = await surveyService.getSurvey(route.params.id);
+
+    if (!survey) {
+        router.push({ name: 'home' });
+    }
+
+    else {
+
+        surveyCurrent.value = survey;
+
+        let _topics = await surveyService.getTopics(route.params.id);
+        let _sections = await surveyService.getSections(_topics[0].id);
+        let _questions = await surveyService.getQuestions(_sections[0].id);
+
+        let res = await dataStore.setPositions(survey.id, _topics[0].id, _sections[0].id);
+
+        if (res) {
+
+            dataStore.topics = _topics;
+            dataStore.sections = _sections;
+            questions.value = _questions;
+
+            dataStore.currentTopic = _topics[0];
+            dataStore.currentSection = _sections[0];
+            //dataStore.nextSection = _sections.find((item) => item.id === survey.section);
+
+        }
+        else {
+            router.push({ name: 'home' });
+        }
+    }
+}
 
 const initSurvey = async () => {
+    let idParams = route.params.id;
+    let topicParams = route.params.topic;
+    let sectionParams = route.params.section;
+    if (topicParams == 'null' && sectionParams == 'null') {
+        isLoading.value = true;
+        await getSurveyDataWithOutCurrents();
+        isLoading.value = false;
+    }
 
-    if (route.params.id &&
-        route.params.topic &&
-        route.params.section) {
+    else if (idParams && topicParams && sectionParams) {
         isLoading.value = true;
         await getSurveyData();
         isLoading.value = false;
     }
-    else {
-        router.back();
-    }
 
+    else {
+        router.push({ name: 'home' });
+    }
 }
 
 initSurvey();
 
+
 </script>
+<style>
+.pre-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+</style>
