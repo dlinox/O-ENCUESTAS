@@ -70,14 +70,12 @@ const changeDepartamento = async (val) => {
     provincias.value = await ubigeoService.getProvincias(val.code);
     emit("update:modelValue", null)
 }
+
 const changeProvincia = async (val) => {
     emit("update:modelValue", null)
     distritos.value = [];
     form.value.distrito = null;
-
     distritos.value = await ubigeoService.getDistritos(val.code);
-
-
 }
 
 const setInputs = async (ubigeo) => {
