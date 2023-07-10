@@ -28,8 +28,8 @@ const router = useRouter();
 const authService = new AuthService();
 
 const form = ref({
-    user: '70757838',
-    password: '235674'
+    user: '70757845',
+    password: '235679'
 });
 
 const submit = async () => {

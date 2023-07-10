@@ -10,7 +10,6 @@
 
 
     <div v-else class="mx-auto max-w-7xl">
-
       <div class="p-4 bg-white my-4">
         <ul role="list" class="divide-y divide-gray-100">
           <li v-for="survey in surveys" :key="survey.id" class="">

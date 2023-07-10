@@ -17,14 +17,11 @@ export default class SurveyService {
             let token = Cookies.get('token');
             http.defaults.headers['Authorization'] = 'Bearer ' + token;
             let survey = await http.get(`actual/${id}/`);
-
-            console.log(survey);
             return survey.data.data[0];
         } catch (error) {
             console.log('error: ', error);
             return false;
         }
-
     }
 
     getTopics = async (survey) => {
@@ -49,13 +46,22 @@ export default class SurveyService {
     };
 
     setPositionsCurrents = async (currents) => {
-
-        console.log('currents', currents);
-
         try {
             let token = Cookies.get('token');
             http.defaults.headers['Authorization'] = 'Bearer ' + token;
             await http.post(`position/`, currents);
+            return true;
+
+        } catch (error) {
+            return false;
+        }
+    }
+
+    saveSection = async (data) => {
+        try {
+            let token = Cookies.get('token');
+            http.defaults.headers['Authorization'] = 'Bearer ' + token;
+            await http.post(`/answers/section/`, data);
             return true;
 
         } catch (error) {

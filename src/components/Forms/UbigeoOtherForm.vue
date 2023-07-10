@@ -6,6 +6,7 @@
     <div class="grid grid-cols-3 gap-x-5">
         <div>
             <HAutoComplete placeholder="Departamento" :error="error" :items="departamentos" itemTitle="title"
+                 @mouseup="getDepartamentos"
                 itemValue="code" v-model="form.departamento" @update:modelValue="changeDepartamento" />
         </div>
 
@@ -15,16 +16,12 @@
         </div>
         <div>
             <HAutoComplete :error="error" :items="distritos" itemTitle="title" itemValue="code" placeholder="Distrito"
-                v-model="form.distrito" @update:modelValue="input = $event.id" />
+                v-model="form.distrito" @update:modelValue="input = $event.code" />
         </div>
 
         <div class="col-span-3">
             <InputForm v-model="question.other" label="Dirección"></InputForm>
         </div>
-
-        <pre>
-            {{ question }}
-        </pre>
     </div>
 </template>
 
@@ -79,34 +76,41 @@ const changeProvincia = async (val) => {
 }
 
 const setInputs = async (ubigeo) => {
-    let dep = ubigeo[0].slice(0, 2);
-    let pro = ubigeo[0].slice(0, 4);
-    let dis = ubigeo[0];
+    let res = await ubigeoService.getUbigeo(ubigeo[0]);
 
-    let depar = departamentos.value.find((item) => item.code == dep);
+    form.value.departamento = {
+        "code": res.idDepartment,
+        "title": res.department,
+    };
 
-    if (depar) {
-        form.value.departamento = depar;
-        let provs = await ubigeoService.getProvincias(dep);
-        let prov = provs.find((item) => item.code == pro);
+    form.value.provincia = {
+        "code": res.idProvince,
+        "title": res.province,
+    };
 
-        if (prov) {
-            form.value.provincia = prov;
-            let dists = await ubigeoService.getDistritos(pro);
-            let dist = dists.find((item) => item.code == dis);
-            form.value.distrito = dist;
+    form.value.distrito = {
+        "code": res.idDistrict,
+        "title": res.district,
+    };
 
-            props.question.other = ubigeo[1];
-        }
-    }
-
+    props.question.other = ubigeo[1];
 }
 
+const getDepartamentos = async () => {
+    if(departamentos.value.length == 0){
+        departamentos.value = await ubigeoService.getDepartamentos();
+    }
+}
+
+
 const init = async () => {
-    departamentos.value = await ubigeoService.getDepartamentos();
-    let withValue = input.value.text;
-    withValue = withValue.split('%%%', 2);
-    await setInputs(withValue);
+    //departamentos.value = await ubigeoService.getDepartamentos();
+    let withValue = input.value;
+    if(withValue){
+        withValue = withValue.split('%%%', 2);
+        await setInputs(withValue);
+
+    }
 }
 
 init();

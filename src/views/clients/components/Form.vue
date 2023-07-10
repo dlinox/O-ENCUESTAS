@@ -1,14 +1,18 @@
 <template>
     <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
         <div class="col-span-2 rounded-lg p-4">
-            
+
+            <pre>
+                {{ questionsList }}
+            </pre>
+
             <div v-for="(question, indexQuestion) in questionsList" :key="question.id">
                 <ul>
                     <template v-if="!question.isDependent || question.show">
                         <li class="mb-4" v-if="question.type === 0">
                             <div>
-                                <OneSelection :question="question" v-model="question.answer.text"
-                                    @update:modelValue="validation($event, question, indexQuestion)" />
+                                <OneSelection :question="question" v-model="question.answer.options"
+                                    @update:modelValue="validation($event, question, true)" />
                             </div>
                         </li>
 
@@ -28,8 +32,9 @@
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 4">
-                            <HSelect v-model="question.answer.text" label="question.statement" :error="question.error"
+                            <HSelect v-model="question.answer.text" :label="question.statement" :error="question.error"
                                 @update:modelValue="validation($event, question, indexQuestion)" />
+
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 6">
@@ -39,7 +44,7 @@
 
                         <li class="mb-4" v-else-if="question.type === 8">
                             <InputForm v-model="question.answer.text" type="email" :label="question.statement"
-                                :error="question.error" @update:modelValue="validateEmail(question.answer, question)" />
+                                :error="question.error" @update:modelValue="validateEmail($event, question)" />
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 9">
@@ -48,7 +53,7 @@
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 10">
-                            <UbigeoForm :question="question" v-model="question.answer"
+                            <UbigeoForm :question="question" v-model="question.answer.text"
                                 :error="question.error ? true : false"
                                 @update:modelValue="validation(question.answer, question)" />
                             <div class="w-full text-end">
@@ -57,7 +62,7 @@
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 11">
-                            <UbigeoOtherForm :question="question" v-model="question.answer"
+                            <UbigeoOtherForm :question="question" v-model="question.answer.text"
                                 :error="question.error ? true : false"
                                 @update:modelValue="validation(question.answer, question)" />
                             <div class="w-full text-end">
@@ -66,12 +71,14 @@
                         </li>
                     </template>
                 </ul>
+
             </div>
             <div class="flex justify-end mt-4 ">
                 <slot name="footer" :submit="saveSection">
                 </slot>
             </div>
         </div>
+
     </div>
 </template>
 
@@ -84,9 +91,13 @@ import UbigeoOtherForm from '@/components/Forms/UbigeoOtherForm.vue';
 import UbigeoForm from '@/components/UbigeoForm.vue';
 import InputForm from '@/components/Forms/InputForm.vue';
 import HSelect from '@/components/HSelect.vue';
+import { SurveyService } from "@/services";
+
+const surveyService = new SurveyService();
 
 const props = defineProps({
     questions: Array,
+    section: Object,
 });
 
 const questionsList = computed(() => props.questions);
@@ -94,10 +105,9 @@ const questionsList = computed(() => props.questions);
 const isValid = ref(true);
 
 const onSelectTrigger = (question) => {
-
     questionsList.value.map((item) => {
         if (item.isDependent == question.id) {
-            if (item.optionTrigger === question.answer.text) {
+            if (item.optionTrigger === question.answer.options) {
                 item.show = true;
             }
             else {
@@ -108,37 +118,41 @@ const onSelectTrigger = (question) => {
     });
 }
 
-const validation = (val, question, indexQuestion = null) => {
-    let validForm = true;
-    validForm = required(val.text, question);
-    isValid.value = validForm;
+const validation = (val, question, isTrigger = false) => {
 
-    if (indexQuestion) {
+    // if (!val) return;
+    if (isTrigger) {
         onSelectTrigger(question)
     }
+
+    let validForm = true;
+    validForm = required(val, question);
+
+    isValid.value = validForm;
 }
 
 const required = (val, question) => {
-    var isRequired = null;
+
     questionsList.value.map((item) => {
-        if (item.id == question.id) {
-            if (val === null || val === "") {
+        if (item.id === question.id) {
+
+            if (!IsRequired(val)) {
                 item.error = {
                     isError: true,
                     text: 'Obligatorio'
                 };
-                isRequired = false;
+
             }
             else {
                 item.error = {
                     isError: false,
                     text: null
                 };
-                isRequired = true;
+
             }
         }
     });
-    return isRequired;
+
 }
 
 const validateEmail = (val, question) => {
@@ -199,6 +213,55 @@ const validatePhone = (val, question) => {
     });
 }
 
+
+const setAnswers = () => {
+    // {"section_" : "", "answers_" : [{"qst_":<id-pregunta>, "opts_":NULL, "txt_":NULL }] }
+    let answerSection = {
+        section_: props.section.id,
+        answers_: []
+    };
+
+    // 20 //Todo: Programa academico
+    const restInText = [1, 2, 3, 5, 8, 9, 10, 20];
+    const restInOptionsSimple = [0, 4,];
+    const restInOptionsMulti = [6];
+
+    const restInWithOther = [11];
+
+    questionsList.value.forEach((item) => {
+
+        if(!item.isDependent || item.show){
+
+            if (restInText.includes(item.type)) {
+                answerSection.answers_.push(
+                    { "qst_": item.id, "opts_": null, "txt_": item.answer.text }
+                );
+            }
+            else if (restInOptionsSimple.includes(item.type)) {
+                answerSection.answers_.push(
+                    { "qst_": item.id, "opts_": [item.answer.options], "txt_": null }
+                );
+            }
+            else if (restInOptionsMulti.includes(item.type)) {
+                answerSection.answers_.push(
+                    { "qst_": item.id, "opts_": item.answer.options, "txt_": null }
+                );
+            }
+            else if (restInWithOther.includes(item.type)) {
+
+                let ubigeo = item.answer.text.split('%%%', 2);
+                answerSection.answers_.push(
+                    { "qst_": item.id, "opts_": null, "txt_": ubigeo[0] + '%%%' + item.other }
+                );
+            }
+        }
+
+    })
+
+    return answerSection;
+    // console.log(answerSection);
+}
+
 const saveSection = () => {
 
     isValid.value = true;
@@ -216,10 +279,11 @@ const saveSection = () => {
     })
 
     if (isValid.value) {
+
+        let data = setAnswers()
+        console.log(setAnswers());
+        surveyService.saveSection(data)
         console.log('Guardando ...');
     }
 }
-
-
-
 </script>

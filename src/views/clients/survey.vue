@@ -42,7 +42,7 @@
                     </template>
 
                     <template v-else>
-                        <FormQuestion v-if="questions?.length > 0" :questions="questions">
+                        <FormQuestion v-if="questions?.length > 0" :questions="questions" :section="currentSection">
                             <template v-slot:footer="{ submit }">
                                 <div class="flex justify-between">
                                     <div>
@@ -69,6 +69,7 @@
             </div>
         </template>
     </ClientLayout>
+    
 </template>
 <script setup>
 import { computed, ref } from "vue";
@@ -165,7 +166,7 @@ const getSurveyDataWithOutCurrents = async () => {
 
             dataStore.currentTopic = _topics[0];
             dataStore.currentSection = _sections[0];
-            //dataStore.nextSection = _sections.find((item) => item.id === survey.section);
+            dataStore.nextSection = _sections.find((item) => item.id === survey.section);
 
         }
         else {
