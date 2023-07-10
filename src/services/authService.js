@@ -43,7 +43,6 @@ export default class AuthService {
                     {
                         "usr_": data.user,
                         "pwd_": data.password,
-
                         ...data,
                         ...restEnchufate,
                     }
@@ -69,6 +68,7 @@ export default class AuthService {
     getCurrentUser = async () => {
 
         let validation = this.validateUser();
+
         if (validation) {
             return;
         };

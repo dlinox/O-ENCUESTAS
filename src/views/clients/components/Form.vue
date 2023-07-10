@@ -283,9 +283,8 @@ const saveSection = () => {
         console.log(setAnswers());
         surveyService.saveSection(data);
 
-
-        let currents = {};
-        surveyService.setPositionsCurrents(currents);
+        // let currents = {};
+        // surveyService.setPositionsCurrents(currents);
         console.log('Guardando ...');
     }
 }
