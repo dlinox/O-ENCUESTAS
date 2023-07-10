@@ -2,18 +2,15 @@
   <ClientLayout>
     <template #header.title> Encuestas </template>
     <template #header.subtitle> Listado de encuestas disponibles </template>
-
-
     <div v-if="isLoading" class="w-100">
-      ...Cargado...
+      ...Cargando...
     </div>
-
-
     <div v-else class="mx-auto max-w-7xl">
       <div class="p-4 bg-white my-4">
         <ul role="list" class="divide-y divide-gray-100">
           <li v-for="survey in surveys" :key="survey.id" class="">
-            <router-link :to="`/survey/${survey.id}/${survey.topic}/${survey.section}`" class="flex justify-between gap-x-6 py-5 relative group">
+            <router-link :to="`/survey/${survey.id}/${survey.topic}/${survey.section}`"
+              class="flex justify-between gap-x-6 py-5 relative group">
               <div class="flex gap-x-4 ">
                 <div class="h-12 w-12 p-2 flex-none rounded-sm bg-blue-50 text-blue-500">
                   <ClipboardDocumentListIcon />

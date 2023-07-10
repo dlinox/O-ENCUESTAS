@@ -159,15 +159,12 @@ const getSurveyDataWithOutCurrents = async () => {
         let res = await dataStore.setPositions(survey.id, _topics[0].id, _sections[0].id);
 
         if (res) {
-
             dataStore.topics = _topics;
             dataStore.sections = _sections;
             questions.value = _questions;
-
             dataStore.currentTopic = _topics[0];
             dataStore.currentSection = _sections[0];
             dataStore.nextSection = _sections.find((item) => item.id === survey.section);
-
         }
         else {
             router.push({ name: 'home' });

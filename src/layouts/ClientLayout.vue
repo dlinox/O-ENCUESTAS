@@ -31,7 +31,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../store/auth";
-import { Navbar, NavbarLogo, NavbarCollapse, NavbarLink, Button } from 'flowbite-vue'
+import { Navbar, NavbarLogo, Button } from 'flowbite-vue'
 const router = useRouter();
 const authStore = useAuthStore();
 const props = defineProps({});

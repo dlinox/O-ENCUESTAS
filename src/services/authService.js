@@ -12,7 +12,7 @@ export default class AuthService {
         if (!res) return {
             data: null,
             status: false,
-        };;
+        };
 
         return {
             data: res,
@@ -22,7 +22,8 @@ export default class AuthService {
     }
 
     setDataAdmicion = async (dni) => {
-        let res = await http.get('http://38.43.133.27/encuestas_api_rest/public/api/consulta/' + dni);
+
+        let res = await http.get('http://172.80.80.60/api/consulta/' + dni);
         return res;
 
     }
@@ -31,12 +32,11 @@ export default class AuthService {
 
         let restEnchufate = await this.loginEnchufate(data.user, data.password);
 
-        console.log(restEnchufate);
-
         if (restEnchufate.status) {
 
             let dni = restEnchufate.data.nro_documento;
             let resAdmicion = await this.setDataAdmicion(dni);
+
             if (resAdmicion.data.status) {
 
                 let resLogin = await http.post('http://38.43.133.27/SURVEY_AUTHENTICATIONS/v1/',
@@ -49,43 +49,27 @@ export default class AuthService {
                     }
                 );
 
-                let datos = {
-                    "usr_": data.user,
-                    "pwd_": data.password,
-
-                    ...data,
-                    ...restEnchufate.data,
-                };
-                console.log(datos);
                 if (resLogin) {
                     Cookies.set('token', resLogin.data.token);
                     http.defaults.headers['Authorization'] = 'Bearer ' + resLogin.data.token;
                 }
             }
         }
-
     }
 
     validateUser = async () => {
 
         let token = Cookies.get('token');
-
         if ((token != null && token != 'undefined')) {
             return true;
         }
         return false;
     }
 
-    getCurrentUser = async (route) => {
+    getCurrentUser = async () => {
 
         let validation = this.validateUser();
-
         if (validation) {
-            return;
-        };
-
-        if (!route.key) {
-            this.logout();
             return;
         };
 

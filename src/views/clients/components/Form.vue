@@ -230,7 +230,7 @@ const setAnswers = () => {
 
     questionsList.value.forEach((item) => {
 
-        if(!item.isDependent || item.show){
+        if (!item.isDependent || item.show) {
 
             if (restInText.includes(item.type)) {
                 answerSection.answers_.push(
@@ -259,7 +259,6 @@ const setAnswers = () => {
     })
 
     return answerSection;
-    // console.log(answerSection);
 }
 
 const saveSection = () => {
@@ -282,7 +281,11 @@ const saveSection = () => {
 
         let data = setAnswers()
         console.log(setAnswers());
-        surveyService.saveSection(data)
+        surveyService.saveSection(data);
+
+
+        let currents = {};
+        surveyService.setPositionsCurrents(currents);
         console.log('Guardando ...');
     }
 }

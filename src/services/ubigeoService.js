@@ -1,10 +1,8 @@
 import axios from "axios"
 
-export default class Ubigeo {
+export default class UbigeoService {
     getDepartamentos = async () => {
         let departamentos = await axios.get('http://38.43.133.27/SURVEY_PLACES/v1/departments/');
-
-        console.log(departamentos);
         return departamentos.data.data;
 
     }
@@ -22,7 +20,6 @@ export default class Ubigeo {
     getUbigeo = async (ubigeo) => {
         try {
             let res = await axios.get(`http://38.43.133.27/SURVEY_PLACES/v1/${ubigeo}/`);
-
             return res.data.data[0];
         } catch (error) {
             return null;
