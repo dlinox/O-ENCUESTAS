@@ -5,17 +5,16 @@
 
     <div class="grid grid-cols-3 gap-5">
         <div>
-            <HAutoComplete placeholder="Departamento" :error="error" :items="departamentos" itemTitle="title"
-                @mouseup="getDepartamentos" itemValue="code" v-model="form.departamento"
-                @update:modelValue="changeDepartamento" />
+            <HAutoComplete placeholder="Departamento" :error="error" :items="departamentos" @mouseup="getDepartamentos"
+                itemValue="code" v-model="form.departamento" @update:modelValue="changeDepartamento" />
         </div>
         <div>
-            <HAutoComplete :error="error" :items="provincias" itemTitle="title" itemValue="code" placeholder="Provincia"
+            <HAutoComplete :error="error" :items="provincias" itemValue="code" placeholder="Provincia"
                 v-model="form.provincia" @update:modelValue="changeProvincia" />
         </div>
         <div>
-            <HAutoComplete :error="error" :items="distritos" itemTitle="title" itemValue="code" placeholder="Distrito"
-                v-model="form.distrito" @update:modelValue="input = $event.code" />
+            <HAutoComplete :error="error" :items="distritos" itemValue="code" placeholder="Distrito" v-model="form.distrito"
+                @update:modelValue="input = $event.code" />
         </div>
     </div>
 </template>

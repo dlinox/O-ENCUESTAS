@@ -7,7 +7,7 @@
             <div class="relative w-full cursor-default overflow-hidden sm:text-sm">
                 <ComboboxInput :class="error && errorThis && !selected ? 'ring-red-600' : 'ring-gray-300'"
                     class="w-full bg-gray-50 border-gray-300 border-none p-2.5 text-sm leading-5 text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 rounded-md"
-                    :displayValue="(item) => item?.[`${this.itemTitle}`]"
+                    :displayValue="(item) => item?.[`${itemTitle}`]"
                     @change="$event.target.value == '' ? errorThis = true : errorThis = false; query = $event.target.value"
                     :placeholder="placeholder" />
                 <ComboboxButton class="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -23,14 +23,14 @@
                         Sin datos
                     </div>
 
-                    <ComboboxOption v-for="item in filteredItem" as="template" :key="item[`${this.itemValue}`]"
+                    <ComboboxOption v-for="item in filteredItem" as="template" :key="item[`${itemValue}`]"
                         :value="item" v-slot="{ selected, active }">
                         <li class="relative cursor-default select-none py-2 pl-10 pr-4" :class="{
                             'bg-teal-600 text-white': active,
                             'text-gray-900': !active,
                         }">
                             <span class="block truncate" :class="{ 'font-medium': selected, 'font-normal': !selected }">
-                                {{ item[`${this.itemTitle}`] }}
+                                {{ item[`${itemTitle}`] }}
                             </span>
                             <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-3"
                                 :class="{ 'text-white': active, 'text-teal-600': !active }">

@@ -62,11 +62,7 @@ const init = async () => {
   isLoading.value = true;
 
   await getListSurveys();
-  setTimeout(() => {
-
-    isLoading.value = false;
-
-  }, 1000);
+  isLoading.value = false;
 }
 init();
 </script>
