@@ -1,0 +1,78 @@
+[
+    {
+        "id": "001",
+        "title": "trabajo social"
+    },
+    {
+        "id": "003",
+        "title": "medicina veterinaria y zootecnía"
+    },
+    {
+        "id": "004",
+        "title": "medicina humana"
+    },
+    {
+        "id": "005",
+        "title": "ingeniería química"
+    },
+    {
+        "id": "006",
+        "title": "ingeniería mecánica, eléctrica, electrónica y sistemas"
+    },
+    {
+        "id": "007",
+        "title": "ingeniería geológica y metalúrgica"
+    },
+    {
+        "id": "008",
+        "title": "ingeniería estadística e informática"
+    },
+    {
+        "id": "009",
+        "title": "ingeniería económica"
+    },
+    {
+        "id": "010",
+        "title": "ingeniería de minas"
+    },
+    {
+        "id": "011",
+        "title": "ingeniería civil y arquitectura"
+    },
+    {
+        "id": "012",
+        "title": "ingeniería agrícola"
+    },
+    {
+        "id": "013",
+        "title": "ciencias sociales"
+    },
+    {
+        "id": "014",
+        "title": "enfermería"
+    },
+    {
+        "id": "015",
+        "title": "ciencias jurídicas y políticas"
+    },
+    {
+        "id": "016",
+        "title": "ciencias de la salud"
+    },
+    {
+        "id": "017",
+        "title": "ciencias de la educación"
+    },
+    {
+        "id": "018",
+        "title": "ciencias contables y administrativas"
+    },
+    {
+        "id": "019",
+        "title": "ciencias biológicas"
+    },
+    {
+        "id": "020",
+        "title": "ciencias agrarias"
+    }
+]

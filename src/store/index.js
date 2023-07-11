@@ -32,6 +32,7 @@ const useDataStore = defineStore('dataStore', {
     async setPositions(survey, topic, section) {
       let body = { "survey_": survey, "topic_": topic, "section_": section };
       let res = await surveyService.setPositionsCurrents(body);
+      console.log(res);
       return res;
     },
 

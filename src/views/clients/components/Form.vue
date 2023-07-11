@@ -1,10 +1,6 @@
 <template>
-    <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
-        <div class="col-span-2 rounded-lg p-4">
-
-            <pre>
-                {{ questionsList }}
-            </pre>
+    <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center ">
+        <div class="col-span-2 rounded-lg ">
 
             <div v-for="(question, indexQuestion) in questionsList" :key="question.id">
                 <ul>
@@ -31,10 +27,21 @@
                                 :error="question.error" @update:modelValue="validation(question.answer, question)" />
                         </li>
 
+                        <li class="mb-4" v-else-if="question.type === 50">
+                            <StudyCycleForm :question="question" v-model="question.answer.text" />
+                        </li>
+
+                        <li class="mb-4" v-else-if="question.type === 21">
+                            <FacuForm :question="question" v-model="question.answer.text" />
+
+                        </li>
+                        <li class="mb-4" v-else-if="question.type === 20">
+                            <ProStudyForm :question="question" v-model="question.answer.text" />
+                        </li>
+
                         <li class="mb-4" v-else-if="question.type === 4">
                             <HSelect v-model="question.answer.text" :label="question.statement" :error="question.error"
                                 @update:modelValue="validation($event, question, indexQuestion)" />
-
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 6">
@@ -74,7 +81,7 @@
 
             </div>
             <div class="flex justify-end mt-4 ">
-                <slot name="footer" :submit="saveSection">
+                <slot name="footer" :submit="submit">
                 </slot>
             </div>
         </div>
@@ -92,6 +99,9 @@ import UbigeoForm from '@/components/UbigeoForm.vue';
 import InputForm from '@/components/Forms/InputForm.vue';
 import HSelect from '@/components/HSelect.vue';
 import { SurveyService } from "@/services";
+import StudyCycleForm from '@/components/Forms/StudyCycleForm.vue';
+import FacuForm from '@/components/Forms/FacuForm.vue';
+import ProStudyForm from '@/components/Forms/ProStudyForm.vue';
 
 const surveyService = new SurveyService();
 
@@ -99,6 +109,8 @@ const props = defineProps({
     questions: Array,
     section: Object,
 });
+
+const emit = defineEmits(['onSuccess', 'onFaild']);
 
 const questionsList = computed(() => props.questions);
 
@@ -125,10 +137,13 @@ const validation = (val, question, isTrigger = false) => {
         onSelectTrigger(question)
     }
 
-    let validForm = true;
-    validForm = required(val, question);
+    if (question.isRequired) {
 
-    isValid.value = validForm;
+        let validForm = true;
+        validForm = required(val, question);
+
+        isValid.value = validForm;
+    }
 }
 
 const required = (val, question) => {
@@ -141,8 +156,15 @@ const required = (val, question) => {
                     isError: true,
                     text: 'Obligatorio'
                 };
-
             }
+
+            else if (question.isRequired === 'false' && !IsRequired(val)) {
+                item.error = {
+                    isError: false,
+                    text: null,
+                };
+            }
+
             else {
                 item.error = {
                     isError: false,
@@ -159,10 +181,16 @@ const validateEmail = (val, question) => {
 
     questionsList.value.map((item) => {
         if (item.id == question.id) {
-            if (!IsRequired(val)) {
+            if (question.isRequired === 'true' && !IsRequired(val)) {
                 item.error = {
                     isError: true,
                     text: 'Obligatorio'
+                };
+            }
+            else if (question.isRequired === 'false' && !IsRequired(val)) {
+                item.error = {
+                    isError: false,
+                    text: null,
                 };
             }
             else if (!IsEmail(val)) {
@@ -197,6 +225,14 @@ const validatePhone = (val, question) => {
                     text: 'Solo se permite numeros',
                 };
             }
+
+            else if (question.isRequired === 'false' && !IsRequired(val)) {
+                item.error = {
+                    isError: false,
+                    text: null,
+                };
+            }
+
             else if (!MaxLong(val, 9)) {
                 item.error = {
                     isError: true,
@@ -215,17 +251,15 @@ const validatePhone = (val, question) => {
 
 
 const setAnswers = () => {
-    // {"section_" : "", "answers_" : [{"qst_":<id-pregunta>, "opts_":NULL, "txt_":NULL }] }
     let answerSection = {
         section_: props.section.id,
         answers_: []
     };
 
-    // 20 //Todo: Programa academico
-    const restInText = [1, 2, 3, 5, 8, 9, 10, 20];
+    const restInText = [1, 2, 3, 5, 8, 9, 10, 20, 50];
+
     const restInOptionsSimple = [0, 4,];
     const restInOptionsMulti = [6];
-
     const restInWithOther = [11];
 
     questionsList.value.forEach((item) => {
@@ -261,19 +295,24 @@ const setAnswers = () => {
     return answerSection;
 }
 
-const saveSection = () => {
-
+const submit = async () => {
     isValid.value = true;
     questionsList.value.forEach((item) => {
-        if (!item.answer?.options && !item.answer?.text && (!item.isDependent || item.show)) {
+        //TODO: validar si ews requerido o no
+            if (!item.answer?.options && !item.answer?.text && item.isRequired === 'true' && (!item.isDependent || item.show)) {
             item.error = {
                 isError: true,
                 text: 'Obligatorio',
             };
+
             isValid.value = false;
         }
         else {
-            delete item.error;
+            item.error = {
+                isError: false,
+                text: null,
+            };
+            isValid.value = true;
         }
     })
 
@@ -281,11 +320,17 @@ const saveSection = () => {
 
         let data = setAnswers()
         console.log(setAnswers());
-        surveyService.saveSection(data);
+        let res = await surveyService.saveSection(data);
 
-        // let currents = {};
-        // surveyService.setPositionsCurrents(currents);
+        emit('onSuccess');
         console.log('Guardando ...');
+        return res;
     }
+
+    console.log('Error ...');
+    emit('onFaild');
+    return false;
 }
+
+
 </script>

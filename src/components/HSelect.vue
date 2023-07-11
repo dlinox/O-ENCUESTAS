@@ -6,9 +6,10 @@
     <Listbox class="w-full" v-model="selectedItem">
         <div class="relative mt-1">
             <ListboxButton
-                class="relative block w-full rounded-md  bg-gray-50  p-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                class="relative block w-full rounded-md h-11  bg-gray-50  p-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                 :class="error.isError ? 'ring-2 ring-red-500' : 'border-gray-300'">
-                <span class="block truncate text-start ms-2" :class="selectedItem ? 'text-black' : 'text-gray-400'">
+                <span class="block truncate uppercase text-start ms-2"
+                    :class="selectedItem ? 'text-black' : 'text-gray-400'">
                     {{ labelItem }}
                 </span>
                 <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -18,7 +19,7 @@
             <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100"
                 leave-to-class="opacity-0">
                 <ListboxOptions
-                    class="absolute mt-1 max-h-60 w-full overflow-auto z-50 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    class="absolute mt-1 max-h-60 w-full overflow-auto z-50 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm uppercase">
                     <ListboxOption v-slot="{ active, selected }" v-for="option in options" :key="option"
                         :value="option[`${itemValue}`]" as="template">
                         <li :class="[
@@ -39,7 +40,7 @@
         </div>
     </Listbox>
     <div class="w-full text-end">
-        <span class=" text-xs text-red-600 ">{{ error?.text }}</span>
+        <span class="  text-xs text-red-600 ">{{ error?.text }}</span>
     </div>
 </template>
   

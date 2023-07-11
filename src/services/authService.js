@@ -3,8 +3,6 @@ import Cookies from "js-cookie";
 import enchuData from '../assets/datademo.json';
 
 export default class AuthService {
-
-
     loginEnchufate = async (username, password = null) => {
 
         let res = enchuData.find((item) => item.nro_documento === username);
@@ -20,7 +18,6 @@ export default class AuthService {
         };
 
     }
-
     setDataAdmicion = async (dni) => {
 
         let res = await http.get('http://172.80.80.60/api/consulta/' + dni);

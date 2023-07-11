@@ -1,0 +1,178 @@
+[
+    {
+        "id": "001",
+        "title": "administración"
+    },
+    {
+        "id": "002",
+        "title": "antropología"
+    },
+    {
+        "id": "003",
+        "title": "arquitectura y urbanismo"
+    },
+    {
+        "id": "004",
+        "title": "arte: artes plásticas"
+    },
+    {
+        "id": "005",
+        "title": "arte: danza"
+    },
+    {
+        "id": "006",
+        "title": "arte: música"
+    },
+    {
+        "id": "007",
+        "title": "arte: teatro"
+    },
+    {
+        "id": "008",
+        "title": "biología: ecología"
+    },
+    {
+        "id": "009",
+        "title": "biología: microbiología y laboratorio clínico"
+    },
+    {
+        "id": "010",
+        "title": "biología: pesquería"
+    },
+    {
+        "id": "011",
+        "title": "ciencias contables"
+    },
+    {
+        "id": "012",
+        "title": "ciencias de la comunicación social"
+    },
+    {
+        "id": "013",
+        "title": "ciencias físico matemáticas: física"
+    },
+    {
+        "id": "014",
+        "title": "ciencias físico matemáticas: matemáticas"
+    },
+    {
+        "id": "015",
+        "title": "derecho"
+    },
+    {
+        "id": "034",
+        "title": "educación física"
+    },
+    {
+        "id": "035",
+        "title": "educación inicial"
+    },
+    {
+        "id": "036",
+        "title": "educación primaria"
+    },
+    {
+        "id": "037",
+        "title": "educación secundaria de la especialidad de ciencia, tecnología y ambiente"
+    },
+    {
+        "id": "038",
+        "title": "educación secundaria de la especialidad de ciencias sociales"
+    },
+    {
+        "id": "039",
+        "title": "educación secundaria de la especialidad de lengua, literatura, psicología y filosofía"
+    },
+    {
+        "id": "040",
+        "title": "educación secundaria de la especialidad de matemática, física, computación e informática"
+    },
+    {
+        "id": "041",
+        "title": "enfermería"
+    },
+    {
+        "id": "042",
+        "title": "ingeniería agrícola"
+    },
+    {
+        "id": "043",
+        "title": "ingeniería agroindustrial"
+    },
+    {
+        "id": "044",
+        "title": "ingeniería agronómica"
+    },
+    {
+        "id": "045",
+        "title": "ingeniería civil"
+    },
+    {
+        "id": "046",
+        "title": "ingeniería de minas"
+    },
+    {
+        "id": "047",
+        "title": "ingeniería de sistemas"
+    },
+    {
+        "id": "048",
+        "title": "ingeniería económica"
+    },
+    {
+        "id": "049",
+        "title": "ingeniería electrónica"
+    },
+    {
+        "id": "050",
+        "title": "ingeniería estadística e informática"
+    },
+    {
+        "id": "051",
+        "title": "ingeniería geológica"
+    },
+    {
+        "id": "052",
+        "title": "ingeniería mecánica eléctrica"
+    },
+    {
+        "id": "053",
+        "title": "ingeniería metalúrgica"
+    },
+    {
+        "id": "054",
+        "title": "ingeniería química"
+    },
+    {
+        "id": "055",
+        "title": "ingeniería topográfica y agrimensura"
+    },
+    {
+        "id": "169",
+        "title": "medicina humana"
+    },
+    {
+        "id": "170",
+        "title": "medicina veterinaria y zootecnía"
+    },
+    {
+        "id": "171",
+        "title": "nutrición humana"
+    },
+    {
+        "id": "172",
+        "title": "odontología"
+    },
+    {
+        "id": "231",
+        "title": "sociología"
+    },
+    {
+        "id": "232",
+        "title": "trabajo social"
+    },
+    {
+        "id": "233",
+        "title": "turismo"
+    }
+]

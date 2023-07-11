@@ -14,11 +14,8 @@
 </template>
 
 <script setup>
-//number, text, date
 import { computed } from "vue";
 import RadioGroupForm from "../Forms/RadioGroupForm.vue"
-import { Input } from "flowbite-vue";
-
 
 const props = defineProps({
     modelValue: [Number, Object, String, Array],

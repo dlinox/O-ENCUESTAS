@@ -2,15 +2,15 @@
   <ClientLayout>
     <template #header.title> Encuestas </template>
     <template #header.subtitle> Listado de encuestas disponibles </template>
-    <div v-if="isLoading" class="w-100">
-      ...Cargando...
-    </div>
+
+    <LoaderSpinner v-if="isLoading" />
+
     <div v-else class="mx-auto max-w-7xl">
-      <div class="p-4 bg-white my-4">
+
+      <div class="p-5 bg-white my-4">
         <ul role="list" class="divide-y divide-gray-100">
           <li v-for="survey in surveys" :key="survey.id" class="">
-            <router-link :to="`/survey/${survey.id}/${survey.topic}/${survey.section}`"
-              class="flex justify-between gap-x-6 py-5 relative group">
+            <router-link :to="`/survey/${survey.id}`" class="flex justify-between gap-x-6 py-5 relative group">
               <div class="flex gap-x-4 ">
                 <div class="h-12 w-12 p-2 flex-none rounded-sm bg-blue-50 text-blue-500">
                   <ClipboardDocumentListIcon />
@@ -44,7 +44,7 @@
 import { computed, ref } from 'vue';
 import ClientLayout from '@/layouts/ClientLayout.vue';
 import { useDataStore } from '@/store/index.js';
-
+import LoaderSpinner from '@/components/LoaderSpinner.vue'
 import { ClipboardDocumentListIcon } from '@heroicons/vue/20/solid';
 
 const dataStore = useDataStore();
@@ -58,10 +58,15 @@ const getListSurveys = async () => {
 }
 
 const init = async () => {
-  console.log('ini survey');
+  console.log('ini surveys');
   isLoading.value = true;
+
   await getListSurveys();
-  isLoading.value = false;
+  setTimeout(() => {
+
+    isLoading.value = false;
+
+  }, 1000);
 }
 init();
 </script>

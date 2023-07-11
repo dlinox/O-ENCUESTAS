@@ -1,8 +1,8 @@
 <template>
     <list-group class="w-full">
         <list-group-item class="py-3" v-for="topic in topics" :key="topic.id" di
-            :class="currentTopic.id === topic.id ? 'text-blue-600' : ''"
-            @click="currentTopic.id === topic.id ? null : setDataStore(topic)">
+            :class="current?.id === topic.id ? 'text-blue-600' : ''"
+            @click="current?.id === topic.id ? null : setDataStore(topic)">
             <template #prefix>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
@@ -18,27 +18,16 @@
 </template>
 <script setup>
 
-import { computed, ref } from 'vue';
-import { useDataStore } from '@/store';
 import { ListGroup, ListGroupItem } from 'flowbite-vue';
 
+const props = defineProps({
+    topics: Array,
+    current: Object,
+    changeTopic: Function,
+});
 
-const dataStore = useDataStore();
-const topics = computed(() => dataStore.topics);
-const currentTopic = computed(() => dataStore.currentTopic);
-
-const setDataStore = () => { };
-
-const initComponent = async () => {
-    // let res = await surveyService.getTopics(route.params.id);
-    // res.sort((a, b) => a.ordinal - b.ordinal);
-    // dataStore.topics = res;
-    // topics.value = res;
-    // if (topics.value.length > 0) {
-    // let firtTopic = topics.value[0];
-    // setDataStore(firtTopic);
-    // }
+const setDataStore = (topic) => {
+    props.changeTopic(topic);
 }
-initComponent();
 
 </script>

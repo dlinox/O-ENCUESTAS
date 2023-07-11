@@ -11,7 +11,7 @@ import { computed } from "vue";
 import { Input } from "flowbite-vue";
 
 const props = defineProps({
-  modelValue: [String, Number, Object, Array],
+  modelValue: [Number,String , Object, Array],
   label: String,
   placeholder: String,
   type: {
