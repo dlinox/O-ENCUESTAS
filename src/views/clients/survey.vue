@@ -6,7 +6,7 @@
         </template>
 
         <template v-else>
-            <h2 class="text-xl uppercase  font-bold py-5 text-blue-950 "> {{ survey.title }} </h2>
+            <h2 class="text-sm sm:text-xl uppercase  font-bold p-5  text-blue-950 "> {{ survey.title }} </h2>
 
             <div class="grid grid-cols-4 gap-4">
 

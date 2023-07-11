@@ -2,9 +2,9 @@
   <div class="bg-blue-50 h-full min-h-screen">
     <Navbar>
       <template #logo>
-        <NavbarLogo link="/" alt="Flowbite logo" image-url="/logo.png">
-          UNA-PUNO
-        </NavbarLogo>
+        <router-link :to="{ name: 'home' }">
+          <img :src="baseUrl + 'logo.png'" alt="" width="45">
+        </router-link>
       </template>
 
       <template #menu-icon>
@@ -19,7 +19,6 @@
         </svg>
       </Button>
     </Navbar>
-
 
     <main>
       <div class="main-wrapper mx-auto max-w-7xl  sm:px-6 lg:px-8">
@@ -36,9 +35,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 const props = defineProps({});
 
-const showmenu = () => {
-  console.log('lino');
-}
+const baseUrl = import.meta.env.VITE_APP_BASE_URL;
 
 const logout = () => {
   console.log('salir');
@@ -47,10 +44,9 @@ const logout = () => {
 }
 
 </script>
-<style >
+<style>
 .input-danger {
   color: red;
-
 }
 
 .input-danger input {
