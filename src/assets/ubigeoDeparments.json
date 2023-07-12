@@ -1,0 +1,104 @@
+{
+    "data": [
+        {
+            "code": "01",
+            "title": "amazonas"
+        },
+        {
+            "code": "02",
+            "title": "ancash"
+        },
+        {
+            "code": "03",
+            "title": "apurimac"
+        },
+        {
+            "code": "04",
+            "title": "arequipa"
+        },
+        {
+            "code": "05",
+            "title": "ayacucho"
+        },
+        {
+            "code": "06",
+            "title": "cajamarca"
+        },
+        {
+            "code": "07",
+            "title": "cusco"
+        },
+        {
+            "code": "08",
+            "title": "huancavelica"
+        },
+        {
+            "code": "09",
+            "title": "huanuco"
+        },
+        {
+            "code": "10",
+            "title": "ica"
+        },
+        {
+            "code": "11",
+            "title": "junin"
+        },
+        {
+            "code": "12",
+            "title": "la libertad"
+        },
+        {
+            "code": "13",
+            "title": "lambayeque"
+        },
+        {
+            "code": "14",
+            "title": "lima"
+        },
+        {
+            "code": "15",
+            "title": "loreto"
+        },
+        {
+            "code": "16",
+            "title": "madre de dios"
+        },
+        {
+            "code": "17",
+            "title": "moquegua"
+        },
+        {
+            "code": "18",
+            "title": "pasco"
+        },
+        {
+            "code": "19",
+            "title": "piura"
+        },
+        {
+            "code": "20",
+            "title": "puno"
+        },
+        {
+            "code": "21",
+            "title": "san martin"
+        },
+        {
+            "code": "22",
+            "title": "tacna"
+        },
+        {
+            "code": "23",
+            "title": "tumbes"
+        },
+        {
+            "code": "24",
+            "title": "callao"
+        },
+        {
+            "code": "25",
+            "title": "ucayali"
+        }
+    ]
+}

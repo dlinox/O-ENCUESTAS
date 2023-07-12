@@ -1,9 +1,9 @@
 <template>
-  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 ">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img class="mx-auto h-24 w-auto" src="/logo.png" alt="UNA PUNO" />
     </div>
-    <the-card class="sm:mx-auto sm:w-full sm:max-w-sm mt-10" variant="image">
+    <the-card class=" relative sm:mx-auto sm:w-full sm:max-w-sm mt-10" variant="image">
       <Tabs v-model="loginTab">
         <Tab v-for="(item, index ) in _tabs" :key="index" :name="item.name" :title="item.title">
           <LoginReguarForm v-if="item.name === 'regular'" />

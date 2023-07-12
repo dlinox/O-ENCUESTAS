@@ -26,5 +26,5 @@ init.then((query) => {
 }).catch((error) => {
     console.log(error);
 });
-// const key = useRouteParams('key')
+
 </script>

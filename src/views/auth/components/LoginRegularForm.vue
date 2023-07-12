@@ -1,6 +1,9 @@
 <template>
     <form class="mt-4" @submit.prevent="submit">
-        <Input v-model="form.user" class="mb-2" placeholder="Ingrese su usuario" label="Usuario" />
+        <template v-if="isLoading">
+
+        </template>
+        <Input v-model="form.username" class="mb-2" placeholder="Ingrese su usuario" label="Usuario" />
         <Input v-model="form.password" class="mb-2" placeholder="Ingrese su contaseña" label="Contraseña" type="password" />
         <div class="flex justify-end mt-4">
             <Button color="default" tyep="submit">
@@ -27,13 +30,18 @@ const router = useRouter();
 
 const authService = new AuthService();
 
+const isLoading = ref(false);
+
 const form = ref({
-    user: '70757838',
-    password: '230001'
+    username: '10101010',
+    password: '10101010'
 });
 
 const submit = async () => {
-    await authService.login(form.value);
+    isLoading.value = true;
+    await authService.loginReguar(form.value);
+    isLoading.value = false;
+
     router.push({ name: 'home' });
 }
 </script>

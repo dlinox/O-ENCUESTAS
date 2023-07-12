@@ -3,7 +3,7 @@
         <input :id="`radio-${index}${questionId}`" type="radio" :value="option.id" v-model="input"
             :name="`name-${index}${questionId}`"
             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-        <label :for="`radio-${index}${questionId}`" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+        <label :for="`radio-${index}${questionId}`" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 capitalize">
             {{ option.title }}
         </label>
     </div>

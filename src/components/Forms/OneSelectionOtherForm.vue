@@ -7,7 +7,7 @@
             <RadioGroupForm :questionId="question.id" :options="question.options" v-model="input" />
         </div>
 
-        <div class="col-span-3">
+        <div class="col-span-4">
             <InputForm v-model="question.answer.text" label="Especifique"></InputForm>
         </div>
         <div class="col-span-4 text-end">

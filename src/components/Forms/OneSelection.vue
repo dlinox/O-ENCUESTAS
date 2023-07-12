@@ -1,7 +1,7 @@
 <template>
     <div class="grid grid-cols-4">
         <label for="price" class=" col-span-4 text-sm font-medium leading-6 text-gray-900 capitalize">
-            {{ question.statement }}
+            {{ question.statement }} <span class="text-red-700"> {{ question.isRequired === 'true' ? '*' : '' }} </span>
         </label>
         <div class="relative col-span-4 mt-1 rounded-md ms-4">
             <RadioGroupForm :questionId="question.id" :options="question.options" v-model="input" />

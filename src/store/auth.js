@@ -9,10 +9,8 @@ export const useAuthStore = defineStore('authStore', {
         return {
             currentUser: null,
             token: null,
-           
         }
     },
-
     actions: {
         async setCurretUser() {
             await authService.getCurrentUser();
