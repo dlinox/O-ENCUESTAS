@@ -199,6 +199,9 @@ const changeSection = async (nextSection) => {
     let _questions = await getQuestions(nextSection.id);
 
 
+    console.log('nextSection', nextSection);
+    console.log('questions', _questions);
+
     if (_questions.length > 0) {
         let updatePosition = await dataStore.setPositions(survey.value.id, currents.value.topic.id, nextSection.id);
         if (updatePosition) {

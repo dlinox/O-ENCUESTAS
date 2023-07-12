@@ -17,15 +17,15 @@ import CheckBoxesFrom from "./CheckBoxesFrom.vue";
 
 const props = defineProps({
     modelValue: {
-        type: Array,
-        default: []
+        type: [Array, String],
+        
     },
     question: Object
 });
 const emit = defineEmits(["update:modelValue"]);
 
 const input = computed({
-    get: () => props.modelValue,
+    get: () =>    Array.isArray(props.modelValue)  ? props.modelValue : props.modelValue?.split(',')  ,
     set: (value) => emit("update:modelValue", value),
 });
 </script>

@@ -6,6 +6,10 @@
         <div class="relative col-span-4 mt-1 rounded-md ms-4">
             <RadioGroupForm :questionId="question.id" :options="question.options" v-model="input" />
         </div>
+
+        <div class="col-span-3">
+            <InputForm v-model="question.answer.text" label="Especifique"></InputForm>
+        </div>
         <div class="col-span-4 text-end">
             <span class=" text-xs text-red-600 ">{{ question.error?.text }}</span>
         </div>
@@ -15,6 +19,7 @@
 <script setup>
 import { computed } from "vue";
 import RadioGroupForm from "../Forms/RadioGroupForm.vue"
+import InputForm from "../Forms/InputForm.vue"
 
 const props = defineProps({
     modelValue: [Number, Object, String, Array],

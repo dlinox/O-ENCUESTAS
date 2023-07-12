@@ -2,17 +2,18 @@
     <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center ">
         <div class="col-span-2 rounded-lg ">
 
+
             <div v-for="(question, indexQuestion) in questionsList" :key="question.id">
                 <ul>
                     <template v-if="!question.isDependent || question.show">
                         <li class="mb-4" v-if="question.type === 0">
-                            <div>
-                                <OneSelection :question="question" v-model="question.answer.options"
-                                    @update:modelValue="validation($event, question, true)" />
-                            </div>
+
+                            <OneSelection :question="question" v-model="question.answer.options"
+                                @update:modelValue="validation($event, question, true)" />
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 1">
+
                             <InputForm v-model="question.answer.text" type="text" :label="question.statement"
                                 :error="question.error" @update:modelValue="validation($event, question)" />
                         </li>
@@ -33,8 +34,15 @@
 
                         <li class="mb-4" v-else-if="question.type === 21">
                             <FacuForm :question="question" v-model="question.answer.text" />
-
                         </li>
+
+
+                        <li class="mb-4" v-if="question.type === 30">
+                            <OneSelectionOtherForm :question="question" v-model="question.answer.options"
+                                @update:modelValue="validation($event, question, true)" />
+                        </li>
+
+
                         <li class="mb-4" v-else-if="question.type === 20">
                             <ProStudyForm :question="question" v-model="question.answer.text" />
                         </li>
@@ -45,6 +53,7 @@
                         </li>
 
                         <li class="mb-4" v-else-if="question.type === 6">
+
                             <MultipleSelection :question="question" v-model="question.answer.options"
                                 @update:modelValue="validation($event, question, indexQuestion)" />
                         </li>
@@ -64,7 +73,7 @@
                                 :error="question.error ? true : false"
                                 @update:modelValue="validation(question.answer, question)" />
                             <div class="w-full text-end">
-                                <span class=" text-xs text-red-600 ">{{ question.error }}</span>
+                                <span class=" text-xs text-red-600 ">{{ question.error?.text }}</span>
                             </div>
                         </li>
 
@@ -102,6 +111,7 @@ import { SurveyService } from "@/services";
 import StudyCycleForm from '@/components/Forms/StudyCycleForm.vue';
 import FacuForm from '@/components/Forms/FacuForm.vue';
 import ProStudyForm from '@/components/Forms/ProStudyForm.vue';
+import OneSelectionOtherForm from '../../../components/Forms/OneSelectionOtherForm.vue';
 
 const surveyService = new SurveyService();
 
@@ -137,12 +147,8 @@ const validation = (val, question, isTrigger = false) => {
         onSelectTrigger(question)
     }
 
-    if (question.isRequired) {
-
-        let validForm = true;
-        validForm = required(val, question);
-
-        isValid.value = validForm;
+    if (question.isRequired === 'true') {
+        required(val, question);
     }
 }
 
@@ -156,6 +162,8 @@ const required = (val, question) => {
                     isError: true,
                     text: 'Obligatorio'
                 };
+
+                isValid.value = false;
             }
 
             else if (question.isRequired === 'false' && !IsRequired(val)) {
@@ -163,6 +171,8 @@ const required = (val, question) => {
                     isError: false,
                     text: null,
                 };
+                isValid.value = true;
+
             }
 
             else {
@@ -170,7 +180,7 @@ const required = (val, question) => {
                     isError: false,
                     text: null
                 };
-
+                isValid.value = true;
             }
         }
     });
@@ -186,24 +196,33 @@ const validateEmail = (val, question) => {
                     isError: true,
                     text: 'Obligatorio'
                 };
+
+                isValid.value = false;
             }
             else if (question.isRequired === 'false' && !IsRequired(val)) {
                 item.error = {
                     isError: false,
                     text: null,
                 };
+
+                isValid.value = true;
+
             }
             else if (!IsEmail(val)) {
                 item.error = {
                     isError: true,
                     text: 'Formato no valido',
                 };
+
+                isValid.value = false;
             }
             else {
                 item.error = {
                     isError: false,
                     text: null,
                 };
+                isValid.value = true;
+
             }
         }
     });
@@ -218,12 +237,15 @@ const validatePhone = (val, question) => {
                     isError: true,
                     text: 'Obligatorio',
                 };
+
+                isValid.value = false;
             }
             else if (!IsNumber(val)) {
                 item.error = {
                     isError: true,
                     text: 'Solo se permite numeros',
                 };
+                isValid.value = false;
             }
 
             else if (question.isRequired === 'false' && !IsRequired(val)) {
@@ -231,6 +253,8 @@ const validatePhone = (val, question) => {
                     isError: false,
                     text: null,
                 };
+
+                isValid.value = true;
             }
 
             else if (!MaxLong(val, 9)) {
@@ -238,12 +262,17 @@ const validatePhone = (val, question) => {
                     isError: true,
                     text: `Longitud debe se ${9} digitos`,
                 };
+                
+                isValid.value = false;
+
             }
             else {
                 item.error = {
                     isError: false,
                     text: null,
                 };
+
+                isValid.value = true;
             }
         }
     });
@@ -257,10 +286,10 @@ const setAnswers = () => {
     };
 
     const restInText = [1, 2, 3, 5, 8, 9, 10, 20, 50];
-
     const restInOptionsSimple = [0, 4,];
     const restInOptionsMulti = [6];
     const restInWithOther = [11];
+    const restInBoth = [30];
 
     questionsList.value.forEach((item) => {
 
@@ -278,14 +307,21 @@ const setAnswers = () => {
             }
             else if (restInOptionsMulti.includes(item.type)) {
                 answerSection.answers_.push(
-                    { "qst_": item.id, "opts_": item.answer.options, "txt_": null }
+                    { "qst_": item.id, "opts_": Array.isArray(item.answer.options) ? item.answer.options : item.answer.options?.split(','), "txt_": null }
                 );
             }
+            // Array.isArray(props.modelValue) ? props.modelValue : props.modelValue.split(',')
             else if (restInWithOther.includes(item.type)) {
 
                 let ubigeo = item.answer.text.split('%%%', 2);
                 answerSection.answers_.push(
                     { "qst_": item.id, "opts_": null, "txt_": ubigeo[0] + '%%%' + item.other }
+                );
+            }
+
+            else if (restInBoth.includes(item.type)) {
+                answerSection.answers_.push(
+                    { "qst_": item.id, "opts_": [item.answer.options], "txt_": item.answer.text }
                 );
             }
         }
@@ -295,28 +331,43 @@ const setAnswers = () => {
     return answerSection;
 }
 
-const submit = async () => {
-    isValid.value = true;
+
+const validAll = () => {
+
+
+    var countError = 0;
+
     questionsList.value.forEach((item) => {
-        //TODO: validar si ews requerido o no
-            if (!item.answer?.options && !item.answer?.text && item.isRequired === 'true' && (!item.isDependent || item.show)) {
+        if (!item.answer?.options && !item.answer?.text && item.isRequired === 'true' && (!item.isDependent || item.show)) {
             item.error = {
                 isError: true,
                 text: 'Obligatorio',
             };
 
-            isValid.value = false;
+            countError ++;
         }
         else {
             item.error = {
                 isError: false,
                 text: null,
             };
-            isValid.value = true;
         }
     })
 
-    if (isValid.value) {
+    return  countError > 0 ?  false : true;
+    
+}
+
+
+const submit = async () => {
+
+    console.log(validAll());
+
+    let valid = validAll();
+
+    console.log('valid', valid);
+
+    if (valid ) {
 
         let data = setAnswers()
         console.log(setAnswers());
@@ -327,7 +378,7 @@ const submit = async () => {
         return res;
     }
 
-    console.log('Error ...');
+    console.error('Error ...');
     emit('onFaild');
     return false;
 }
