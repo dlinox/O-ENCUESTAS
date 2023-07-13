@@ -395,19 +395,11 @@ const validAll = () => {
 };
 
 const submit = async () => {
-  console.log(validAll());
-
   let valid = validAll();
-
-  console.log("valid", valid);
-
   if (valid) {
     let data = setAnswers();
-    console.log(setAnswers());
     let res = await surveyService.saveSection(data);
-
     emit("onSuccess");
-    console.log("Guardando ...");
     return res;
   }
 

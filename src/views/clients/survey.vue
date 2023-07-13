@@ -30,7 +30,7 @@
               :changeTopic="changeTopic"
               :topics="topics"
               :current="currents.topic"
-              :isCompleted="survey.isCompleted"
+              :isCompleted="survey.hasFinished === 'true' ? true : false"
             />
           </template>
         </HModal>
@@ -57,7 +57,7 @@
             :changeTopic="changeTopic"
             :topics="topics"
             :current="currents.topic"
-            :isCompleted="survey.isCompleted"
+            :isCompleted="survey.hasFinished === 'true' ? true : false"
           />
         </div>
 
@@ -92,12 +92,17 @@
                 <div class="flex justify-between w-full">
                   <div class="previous">
                     <Button
-                      v-if="previous.section && survey.isCompleted"
+                      v-if="
+                        previous.section && survey.hasFinished === 'true'
+                          ? true
+                          : false
+                      "
                       @click="
                         async () => {
                           let isSave = await submit();
                           if (isSave) {
                             await changeSection(previous.section);
+                            goToTop();
                           }
                         }
                       "
@@ -112,13 +117,18 @@
 
                     <template v-else>
                       <Button
-                        v-if="previous.topic && survey.isCompleted"
+                        v-if="
+                          previous.topic && survey.hasFinished === 'true'
+                            ? true
+                            : false
+                        "
                         color="light"
                         @click="
                           async () => {
                             let isSave = await submit();
                             if (isSave) {
                               await changeTopic(previous.topic);
+                              goToTop();
                             }
                           }
                         "
@@ -141,6 +151,7 @@
                           let isSave = await submit();
                           if (isSave) {
                             await changeSection(nexts.section);
+                            goToTop();
                           }
                         }
                       "
@@ -162,6 +173,7 @@
                               let isSave = await submit();
                               if (isSave) {
                                 await changeTopic(nexts.topic);
+                                goToTop();
                               }
                             }
                           "
@@ -176,12 +188,14 @@
                       </template>
                       <template v-else>
                         <Button
+                          v-if="survey.hasFinished === 'false'"
                           color="green"
                           @click="
                             async () => {
                               let isSave = await submit();
                               if (isSave) {
                                 await finishSurvey();
+                                goToTop();
                               }
                             }
                           "
@@ -200,6 +214,9 @@
           </template>
         </div>
       </div>
+      <!-- <div class="fixed bottom-2 right-3">
+        <Button @click="goToTop"> Subir</Button>
+      </div> -->
     </template>
   </ClientLayout>
 </template>
@@ -214,7 +231,6 @@ import { Alert, Button } from "flowbite-vue";
 import ClientLayout from "@/layouts/ClientLayout.vue";
 
 import LoaderSpinner from "@/components/LoaderSpinner.vue";
-import HDropDown from "@/components/HDropDown.vue";
 import HModal from "@/components/HModal.vue";
 
 import IndexSurvey from "./components/IndexSurvey.vue";
@@ -250,16 +266,21 @@ const previous = ref({
 const isLoading = ref(false);
 const isLoadingForm = ref(false);
 
+const goToTop = () => {
+  window.scroll({
+    top: 80,
+    left: 0,
+    behavior: "smooth",
+  });
+};
 const finishSurvey = async () => {
   isLoadingForm.value = true;
   let res = await surveyService.finishSurvey(survey.value.id);
 
   if (res) {
-    survey.value.isCompleted = true;
-  } else {
-    alert("ocurrio un error");
+    survey.value.hasFinished = "true";
   }
-
+  //TODO: REDIRECCIONAR....?
   isLoadingForm.value = false;
 };
 
@@ -284,18 +305,13 @@ const changeTopic = async (nextTopic) => {
       questions.value = await getQuestions(currents.value.section.id);
     }
   }
-
   isLoadingForm.value = false;
+
 };
 
 const changeSection = async (nextSection) => {
   isLoadingForm.value = true;
-
   let _questions = await getQuestions(nextSection.id);
-
-  console.log("nextSection", nextSection);
-  console.log("questions", _questions);
-
   if (_questions.length > 0) {
     let updatePosition = await dataStore.setPositions(
       survey.value.id,
@@ -378,11 +394,11 @@ const setSurveydata = async (survey) => {
 
 const getSurveyData = async () => {
   survey.value = await surveyService.getSurvey(route.params.id);
+
   if (!survey.value) {
     router.push({ name: "home" });
     // router.push({ name: '404' });
   } else {
-    survey.value.isCompleted = false;
     if (survey.value.topic && survey.value.section) {
       topics.value = await getTopics(survey.value.id);
       sections.value = await getSections(survey.value.topic);

@@ -9,6 +9,17 @@ export default class SurveyService {
     return surveys.data.data;
   };
 
+  hasFinished = async (survey) => {
+    try {
+      let token = Cookies.get("token");
+      http.defaults.headers["Authorization"] = "Bearer " + token;
+      await http.get(`SURVEYS/v1/hasFinished/${survey}/`);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
   getSurvey = async (id) => {
     try {
       let token = Cookies.get("token");
