@@ -1,30 +1,49 @@
 <template>
-    <form class="mt-4" @submit.prevent="submit">
-        <template v-if="isLoading">
-
+  <form class="mt-4" @submit.prevent="submit">
+    <template v-if="isLoading">
+      <div class="loading">
+        <Spinner />
+      </div>
+    </template>
+    <Input
+      v-model="form.username"
+      class="mb-2"
+      placeholder="Ingrese su usuario"
+      label="Usuario"
+    />
+    <Input
+      v-model="form.password"
+      class="mb-2"
+      placeholder="Ingrese su contaseña"
+      label="Contraseña"
+      type="password"
+    />
+    <div class="flex justify-end mt-4">
+      <Button color="default" tyep="submit">
+        Ingresar
+        <template #suffix>
+          <svg
+            class="ml-2 -mr-1 w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
         </template>
-        <Input v-model="form.username" class="mb-2" placeholder="Ingrese su usuario" label="Usuario" />
-        <Input v-model="form.password" class="mb-2" placeholder="Ingrese su contaseña" label="Contraseña" type="password" />
-        <div class="flex justify-end mt-4">
-            <Button color="default" tyep="submit">
-                Ingresar
-                <template #suffix>
-                    <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </template>
-            </Button>
-        </div>
-    </form>
+      </Button>
+    </div>
+  </form>
 </template>
 <script setup>
-import { ref } from 'vue';
-import { AuthService } from '@/services';
-import { useRouter } from 'vue-router';
-import { Input, Button } from 'flowbite-vue';
+import { ref } from "vue";
+import { AuthService } from "@/services";
+import { useRouter } from "vue-router";
+import { Input, Button, Spinner } from "flowbite-vue";
 
 const router = useRouter();
 
@@ -33,15 +52,16 @@ const authService = new AuthService();
 const isLoading = ref(false);
 
 const form = ref({
-    username: '10101010',
-    password: '10101010'
+  username: "conxuro",
+  password: "eriksoneira",
 });
 
 const submit = async () => {
-    isLoading.value = true;
-    await authService.loginReguar(form.value);
-    isLoading.value = false;
+  isLoading.value = true;
 
-    router.push({ name: 'home' });
-}
+  await authService.loginRegular(form.value);
+  isLoading.value = false;
+
+  router.push({ name: "home" });
+};
 </script>

@@ -306,7 +306,6 @@ const changeTopic = async (nextTopic) => {
     }
   }
   isLoadingForm.value = false;
-
 };
 
 const changeSection = async (nextSection) => {

@@ -1,5 +1,5 @@
 <template>
-    <HSelect v-model="input" :label="question.statement" :error="question.error" :options="faculties"  />
+        <HSelect :isDisabled="isDisabled" v-model="input" :label="question.statement" :error="question.error" :options="faculties"  />
 </template>
 
 <script setup>
@@ -16,6 +16,7 @@ const props = defineProps({
     },
     placeholder: String,
     question: Object,
+    isDisabled: Boolean,
 });
 
 const emit = defineEmits(["update:modelValue"]);

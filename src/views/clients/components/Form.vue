@@ -7,8 +7,14 @@
       >
         <ul>
           <template v-if="!question.isDependent || question.show">
-            <li class="mb-4" v-if="question.type === 0">
+            <!-- {{ question.id }} -->
+            <li
+              class="mb-4"
+              v-if="question.type === 0"
+              :class="question.show ? 'bg-slate-100 p-3 rounded-lg' : ''"
+            >
               <OneSelection
+                :isDisabled="notChanges.includes(question.id)"
                 :question="question"
                 v-model="question.answer.options"
                 @update:modelValue="validation($event, question, true)"
@@ -17,6 +23,7 @@
 
             <li class="mb-4" v-else-if="question.type === 1">
               <InputForm
+                :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="text"
                 :isRequired="question.isRequired === 'true' ? true : false"
@@ -28,6 +35,7 @@
 
             <li class="mb-4" v-else-if="question.type === 2">
               <InputForm
+                :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="date"
                 :isRequired="question.isRequired === 'true' ? true : false"
@@ -39,6 +47,7 @@
 
             <li class="mb-4" v-else-if="question.type === 3">
               <InputForm
+                :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="number"
                 :isRequired="question.isRequired === 'true' ? true : false"
@@ -50,13 +59,18 @@
 
             <li class="mb-4" v-else-if="question.type === 50">
               <StudyCycleForm
+                :isDisabled="notChanges.includes(question.id)"
                 :question="question"
                 v-model="question.answer.text"
               />
             </li>
 
             <li class="mb-4" v-else-if="question.type === 21">
-              <FacuForm :question="question" v-model="question.answer.text" />
+              <FacuForm
+                :isDisabled="notChanges.includes(question.id)"
+                :question="question"
+                v-model="question.answer.text"
+              />
             </li>
 
             <li class="mb-4" v-if="question.type === 30">
@@ -69,6 +83,7 @@
 
             <li class="mb-4" v-else-if="question.type === 20">
               <ProStudyForm
+                :isDisabled="notChanges.includes(question.id)"
                 :question="question"
                 v-model="question.answer.text"
               />
@@ -93,6 +108,7 @@
 
             <li class="mb-4" v-else-if="question.type === 8">
               <InputForm
+                :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="email"
                 :isRequired="question.isRequired === 'true' ? true : false"
@@ -104,6 +120,7 @@
 
             <li class="mb-4" v-else-if="question.type === 9">
               <InputForm
+                :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="tel"
                 :isRequired="question.isRequired === 'true' ? true : false"
@@ -189,6 +206,7 @@ const onSelectTrigger = (question) => {
       if (item.optionTrigger === question.answer.options) {
         item.show = true;
       } else {
+        item.answer = [];
         item.show = false;
       }
     }
@@ -311,6 +329,22 @@ const validatePhone = (val, question) => {
   });
 };
 
+const notChanges = [
+  "78ae9492-a909-459f-ba53-15165c884d87",
+  "d2574937-e2fc-4eb5-b612-d767e3610a04",
+  "fb5c10df-f60d-4815-a007-a189e879054e",
+  "e8367e12-f088-4188-bed8-50342bac562c",
+  "c9175462-8e03-47b1-9450-2f126a1655c2",
+  "de9c81d9-87d5-4cf4-b2f0-5274399ff94c",
+  "a3056caa-84a9-44a0-9ee5-46a59ad3f073",
+  // s2
+  "50af5759-8009-4419-bfc2-8df851be62b1",
+  "4d36be9a-1567-4d80-a726-a5a1bc2a33c7",
+  "36f9a47d-457d-4052-ab25-47b4decb887f",
+  "574ba955-5176-4997-8e34-42524cafa862",
+  "6bc3b523-2a89-423d-99bf-53692c004633",
+];
+
 const setAnswers = () => {
   let answerSection = {
     section_: props.section.id,
@@ -324,7 +358,7 @@ const setAnswers = () => {
   const restInBoth = [30];
 
   questionsList.value.forEach((item) => {
-    if (!item.isDependent || item.show) {
+    if ((!item.isDependent || item.show) && !notChanges.includes(item.id)) {
       if (restInText.includes(item.type)) {
         answerSection.answers_.push({
           qst_: item.id,
@@ -407,4 +441,11 @@ const submit = async () => {
   emit("onFaild");
   return false;
 };
+
+const init = async () => {
+  questionsList.value.forEach((item) => {
+    onSelectTrigger(item);
+  });
+};
+init();
 </script>

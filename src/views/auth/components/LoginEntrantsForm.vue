@@ -68,25 +68,8 @@ const submit = async () => {
   let login = await authService.loginEntrants(form.value);
 
   console.log(login);
-  
+
   isLoading.value = false;
-  router.push({ name: 'home' });
-
-
+  router.push({ name: "home" });
 };
 </script>
-
-<style>
-.loading {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: 2;
-}
-</style>

@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <label
       for="price"
       class="col-span-4 text-sm font-medium leading-6 text-gray-900 capitalize"
@@ -12,7 +11,7 @@
     </label>
 
     <Input
-      required
+      :readonly="isReadonly"
       v-model="input"
       :type="type"
       :class="error?.isError ? 'input-danger' : ''"
@@ -35,6 +34,10 @@ const props = defineProps({
     type: String,
   },
   isRequired: {
+    type: Boolean,
+    default: false,
+  },
+  isReadonly: {
     type: Boolean,
     default: false,
   },
