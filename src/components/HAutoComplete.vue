@@ -1,7 +1,9 @@
 <template>
   <Combobox v-model="selected">
-    <div class="relative mt-1">
-      <label class="block text-sm font-medium leading-6 text-gray-900">
+    <div class="relative mt-1 first-letter:uppercase">
+      <label
+        class="block text-sm font-medium leading-6 text-gray-900 first-letter:uppercase"
+      >
         {{ label }}
       </label>
       <div class="relative w-full cursor-default overflow-hidden sm:text-sm">
@@ -9,7 +11,7 @@
           :class="
             error && errorThis && !selected ? 'ring-red-600' : 'ring-gray-300'
           "
-          class="w-full bg-gray-50 border-gray-300 border-none p-2.5 text-sm leading-5 text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 rounded-md"
+          class="capitalize w-full bg-gray-50 border-gray-300 border-none p-2.5 text-sm leading-5 text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 rounded-md"
           :displayValue="(item) => item?.[`${itemTitle}`]"
           @change="query = $event.target.value"
           :placeholder="placeholder"
@@ -51,7 +53,7 @@
               }"
             >
               <span
-                class="block truncate"
+                class="block truncate first-letter:uppercase"
                 :class="{ 'font-medium': selected, 'font-normal': !selected }"
               >
                 {{ item[`${itemTitle}`] }}

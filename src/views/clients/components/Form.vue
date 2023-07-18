@@ -5,9 +5,9 @@
         v-for="(question, indexQuestion) in questionsList"
         :key="question.id"
       >
+
         <ul>
           <template v-if="!question.isDependent || question.show">
-            <!-- {{ question.id }} -->
             <li
               class="mb-4"
               v-if="question.type === 0"
@@ -23,6 +23,7 @@
 
             <li class="mb-4" v-else-if="question.type === 1">
               <InputForm
+                :helperText="question.helpQuestion"
                 :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="text"
@@ -35,6 +36,7 @@
 
             <li class="mb-4" v-else-if="question.type === 2">
               <InputForm
+              :helperText="question.helpQuestion"
                 :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="date"
@@ -47,6 +49,7 @@
 
             <li class="mb-4" v-else-if="question.type === 3">
               <InputForm
+              :helperText="question.helpQuestion"
                 :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="number"
@@ -108,6 +111,7 @@
 
             <li class="mb-4" v-else-if="question.type === 8">
               <InputForm
+              :helperText="question.helpQuestion"
                 :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="email"
@@ -120,6 +124,7 @@
 
             <li class="mb-4" v-else-if="question.type === 9">
               <InputForm
+              :helperText="question.helpQuestion"
                 :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="tel"
@@ -205,7 +210,11 @@ const onSelectTrigger = (question) => {
     if (item.isDependent == question.id) {
       if (item.optionTrigger === question.answer.options) {
         item.show = true;
-      } else {
+      }
+      else if(item.optionTrigger === null) {
+        item.show = true;
+      }
+      else {
         item.answer = [];
         item.show = false;
       }

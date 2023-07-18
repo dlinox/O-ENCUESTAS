@@ -1,17 +1,20 @@
 <template>
   <div class="grid grid-cols-4">
-    <label
-      for="price"
-      class="col-span-4 text-sm font-medium leading-6 text-gray-900 capitalize"
+    <div
+      class="col-span-4 text-sm font-medium leading-6 text-gray-900 first-letter:uppercase"
     >
       {{ question.statement }}
       <span class="text-red-700">
         {{ question.isRequired === "true" ? "*" : "" }}
       </span>
-    </label>
+    </div>
+    <div class="w-full text-start">
+      <span class="text-xs text-gray-600">{{ question.helpQuestion }}</span>
+    </div>
+
     <div class="relative col-span-4 mt-1 rounded-md ms-4">
       <RadioGroupForm
-      :isDisabled="isDisabled"
+        :isDisabled="isDisabled"
         :questionId="question.id"
         :options="question.options"
         v-model="input"
@@ -34,9 +37,10 @@ const props = defineProps({
     default: "text",
     type: String,
   },
-  isDisabled:Boolean,
+  isDisabled: Boolean,
   placeholder: String,
   question: Object,
+  helperText: String,
 });
 const emit = defineEmits(["update:modelValue"]);
 

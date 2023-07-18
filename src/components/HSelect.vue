@@ -1,10 +1,9 @@
 <template>
-  <label
-    for="price"
-    class="col-span-4 text-sm font-medium leading-6 text-gray-900 capitalize"
+  <div
+    class="col-span-4 text-sm font-medium leading-6 text-gray-900 first-letter:uppercase"
   >
     {{ label }}
-  </label>
+  </div>
 
   <Listbox class="w-full" v-model="selectedItem">
     <div class="relative mt-1">

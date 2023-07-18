@@ -1,15 +1,16 @@
 <template>
   <div>
-    <label
-      for="price"
-      class="col-span-4 text-sm font-medium leading-6 text-gray-900 capitalize"
+    <div
+      class="col-span-4 text-sm font-medium leading-6 text-gray-900 first-letter:uppercase"
     >
       {{ label }}
       <span class="text-red-700">
         {{ isRequired ? "*" : "" }}
       </span>
-    </label>
-
+    </div>
+    <div class="w-full text-start first-letter:uppercase">
+      <span class="text-xs text-gray-600">{{ helperText }}</span>
+    </div>
     <Input
       :readonly="isReadonly"
       v-model="input"
@@ -29,6 +30,7 @@ const props = defineProps({
   modelValue: [Number, String, Object, Array],
   label: String,
   placeholder: String,
+  helperText: String,
   type: {
     default: "text",
     type: String,

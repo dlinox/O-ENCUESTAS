@@ -15,7 +15,7 @@
     />
     <label
       :for="`radio-${index}${questionId}`"
-      class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 capitalize"
+      class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 first-letter:uppercase"
     >
       {{ option.title }}
     </label>
