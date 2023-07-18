@@ -1,5 +1,16 @@
 <template>
   <ClientLayout>
+    <Toast
+      v-if="toast.show"
+      class="fixed top-4 right-2 z-20 shadow-lg border"
+      :class="toast.type === 'success' ? 'border-green-200' : 'border-red-200'"
+      :type="toast.type"
+      divide
+    >
+      {{ toast.text }}
+    </Toast>
+    
+
     <template v-if="isLoading">
       <LoaderSpinner v-if="isLoading" />
     </template>
@@ -87,6 +98,8 @@
               v-else
               :questions="questions"
               :section="currents.section"
+              @on-success="showToats"
+              @onFaild="showToats"
             >
               <template v-slot:footer="{ submit }">
                 <div class="flex justify-between w-full">
@@ -99,17 +112,17 @@
                       "
                       @click="
                         async () => {
-                          let isSave = await submit();
-                          if (isSave) {
-                            await changeSection(previous.section);
-                            goToTop();
-                          }
+                          await changeSection(previous.section);
+                          goToTop();
+                          // let isSave = await submit();
+                          // if (isSave) {
+                          // }
                         }
                       "
                     >
                       <div class="text-start">
                         <span>Anterior</span>
-                        <h5 class="text-lg capitalize">
+                        <h5 class="text-lg first-letter:uppercase">
                           {{ previous.section.title }}
                         </h5>
                       </div>
@@ -125,17 +138,17 @@
                         color="light"
                         @click="
                           async () => {
-                            let isSave = await submit();
-                            if (isSave) {
-                              await changeTopic(previous.topic);
-                              goToTop();
-                            }
+                            await changeTopic(previous.topic);
+                            goToTop();
+                            // let isSave = await submit();
+                            // if (isSave) {
+                            // }
                           }
                         "
                       >
                         <div class="text-start">
                           <span>Anterior</span>
-                          <h5 class="text-lg capitalize">
+                          <h5 class="text-lg first-letter:uppercase">
                             {{ previous.topic.title }}
                           </h5>
                         </div>
@@ -157,10 +170,15 @@
                       "
                     >
                       <div class="text-end">
-                        <span>Siguiente </span>
-                        <h5 class="text-lg capitalize">
-                          {{ nexts.section.title }}
-                        </h5>
+                        <span> Guardar </span>
+                        <div class="flex items-center">
+                          <small class="text-sm text-gray-50 me-2 -mb-1">
+                            Siguiente:
+                          </small>
+                          <h5 class="text-lg first-letter:uppercase">
+                            {{ nexts.section.title }}
+                          </h5>
+                        </div>
                       </div>
                     </Button>
 
@@ -179,9 +197,9 @@
                           "
                         >
                           <div class="text-end">
-                            <span>Siguiente </span>
-                            <h5 class="text-lg capitalize">
-                              {{ nexts.topic.title }}
+                            <span>Guardar </span>
+                            <h5 class="text-lg first-letter:uppercase">
+                              Siguiente: {{ nexts.topic.title }}
                             </h5>
                           </div>
                         </Button>
@@ -202,7 +220,9 @@
                         >
                           <div class="text-end">
                             <span> Guardar </span>
-                            <h5 class="text-lg capitalize">Finalizar</h5>
+                            <h5 class="text-lg first-letter:uppercase">
+                              Finalizar
+                            </h5>
                           </div>
                         </Button>
                       </template>
@@ -226,7 +246,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useDataStore } from "@/store";
 import { SurveyService } from "@/services";
 
-import { Alert, Button } from "flowbite-vue";
+import { Alert, Button, Toast } from "flowbite-vue";
 
 import ClientLayout from "@/layouts/ClientLayout.vue";
 
@@ -248,6 +268,12 @@ const topics = ref(null);
 const sections = ref(null);
 const questions = ref(null);
 
+const toast = ref({
+  show: false,
+  text: "null",
+  type: "success",
+});
+
 const currents = ref({
   section: null,
   topic: null,
@@ -265,6 +291,15 @@ const previous = ref({
 
 const isLoading = ref(false);
 const isLoadingForm = ref(false);
+
+
+const showToats = (e) => {
+  toast.value = e;
+  setTimeout(() => {
+    toast.value = false;  
+  }, 1500);
+
+}
 
 const goToTop = () => {
   window.scroll({

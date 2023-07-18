@@ -1,15 +1,15 @@
 <template>
   <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
     <div class="col-span-2 rounded-lg">
-      <div
-        v-for="(question, indexQuestion) in questionsList"
-        :key="question.id"
-      >
-
-        <ul>
+      <ul ref="refList">
+        <li
+          v-for="(question, indexQuestion) in questionsList"
+          :key="question.id"
+          class="my-3"
+          :id="question.id"
+        >
           <template v-if="!question.isDependent || question.show">
-            <li
-              class="mb-4"
+            <template
               v-if="question.type === 0"
               :class="question.show ? 'bg-slate-100 p-3 rounded-lg' : ''"
             >
@@ -19,9 +19,9 @@
                 v-model="question.answer.options"
                 @update:modelValue="validation($event, question, true)"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 1">
+            <template v-else-if="question.type === 1">
               <InputForm
                 :helperText="question.helpQuestion"
                 :isReadonly="notChanges.includes(question.id)"
@@ -32,11 +32,11 @@
                 :error="question.error"
                 @update:modelValue="validation($event, question)"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 2">
+            <template v-else-if="question.type === 2">
               <InputForm
-              :helperText="question.helpQuestion"
+                :helperText="question.helpQuestion"
                 :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="date"
@@ -45,11 +45,11 @@
                 :error="question.error"
                 @update:modelValue="validation($event, question)"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 3">
+            <template v-else-if="question.type === 3">
               <InputForm
-              :helperText="question.helpQuestion"
+                :helperText="question.helpQuestion"
                 :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="number"
@@ -58,60 +58,60 @@
                 :error="question.error"
                 @update:modelValue="validation(question.answer, question)"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 50">
+            <template v-else-if="question.type === 50">
               <StudyCycleForm
                 :isDisabled="notChanges.includes(question.id)"
                 :question="question"
                 v-model="question.answer.text"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 21">
+            <template v-else-if="question.type === 21">
               <FacuForm
                 :isDisabled="notChanges.includes(question.id)"
                 :question="question"
                 v-model="question.answer.text"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-if="question.type === 30">
+            <template v-if="question.type === 30">
               <OneSelectionOtherForm
                 :question="question"
                 v-model="question.answer.options"
                 @update:modelValue="validation($event, question, true)"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 20">
+            <template v-else-if="question.type === 20">
               <ProStudyForm
                 :isDisabled="notChanges.includes(question.id)"
                 :question="question"
                 v-model="question.answer.text"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 4">
+            <template v-else-if="question.type === 4">
               <HSelect
                 v-model="question.answer.text"
                 :label="question.statement"
                 :error="question.error"
                 @update:modelValue="validation($event, question, indexQuestion)"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 6">
+            <template v-else-if="question.type === 6">
               <MultipleSelection
                 :question="question"
                 v-model="question.answer.options"
                 @update:modelValue="validation($event, question, indexQuestion)"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 8">
+            <template v-else-if="question.type === 8">
               <InputForm
-              :helperText="question.helpQuestion"
+                :helperText="question.helpQuestion"
                 :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="email"
@@ -120,11 +120,11 @@
                 :error="question.error"
                 @update:modelValue="validateEmail($event, question)"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 9">
+            <template v-else-if="question.type === 9">
               <InputForm
-              :helperText="question.helpQuestion"
+                :helperText="question.helpQuestion"
                 :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 type="tel"
@@ -133,9 +133,9 @@
                 :error="question.error"
                 @update:modelValue="validatePhone($event, question)"
               />
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 10">
+            <template v-else-if="question.type === 10">
               <UbigeoForm
                 :question="question"
                 v-model="question.answer.text"
@@ -147,9 +147,9 @@
                   question.error?.text
                 }}</span>
               </div>
-            </li>
+            </template>
 
-            <li class="mb-4" v-else-if="question.type === 11">
+            <template v-else-if="question.type === 11">
               <UbigeoOtherForm
                 :question="question"
                 v-model="question.answer.text"
@@ -161,10 +161,11 @@
                   question.error?.text
                 }}</span>
               </div>
-            </li>
+            </template>
           </template>
-        </ul>
-      </div>
+        </li>
+      </ul>
+
       <div class="flex justify-end mt-4">
         <slot name="footer" :submit="submit"> </slot>
       </div>
@@ -199,6 +200,14 @@ const props = defineProps({
   section: Object,
 });
 
+const refList = ref(null);
+
+const toast = ref({
+  show: false,
+  text: null,
+  type: "success",
+});
+
 const emit = defineEmits(["onSuccess", "onFaild"]);
 
 const questionsList = computed(() => props.questions);
@@ -210,11 +219,9 @@ const onSelectTrigger = (question) => {
     if (item.isDependent == question.id) {
       if (item.optionTrigger === question.answer.options) {
         item.show = true;
-      }
-      else if(item.optionTrigger === null) {
+      } else if (item.optionTrigger === null) {
         item.show = true;
-      }
-      else {
+      } else {
         item.answer = [];
         item.show = false;
       }
@@ -234,6 +241,8 @@ const validation = (val, question, isTrigger = false) => {
   }
 };
 
+
+
 const required = (val, question) => {
   questionsList.value.map((item) => {
     if (item.id === question.id) {
@@ -242,7 +251,6 @@ const required = (val, question) => {
           isError: true,
           text: "Obligatorio",
         };
-
         isValid.value = false;
       } else if (question.isRequired === "false" && !IsRequired(val)) {
         item.error = {
@@ -410,6 +418,9 @@ const setAnswers = () => {
   return answerSection;
 };
 
+
+const errorIds = ref([]);
+
 const validAll = () => {
   var countError = 0;
 
@@ -424,6 +435,8 @@ const validAll = () => {
         isError: true,
         text: "Obligatorio",
       };
+
+      errorIds.value.push(item.id);
 
       countError++;
     } else {
@@ -442,12 +455,23 @@ const submit = async () => {
   if (valid) {
     let data = setAnswers();
     let res = await surveyService.saveSection(data);
-    emit("onSuccess");
+
+    toast.value.show = true;
+    toast.value.text = "Datos actualizados";
+    toast.value.type = "success";
+
+    emit("onSuccess", toast.value);
     return res;
   }
 
+  document.getElementById(errorIds.value[0]).scrollIntoView('smooth');
+  
   console.error("Error ...");
-  emit("onFaild");
+
+  toast.value.show = true;
+  toast.value.text = "Responda las preguntas de manera correcta";
+  toast.value.type = "danger";
+  emit("onFaild", toast.value);
   return false;
 };
 

@@ -33,6 +33,7 @@ export default class AuthService {
       };
     }
   };
+  
   singInSurvey = async (data) => {
     try {
       //SURVEY_AUTHENTICATIONS/v1/receive/
