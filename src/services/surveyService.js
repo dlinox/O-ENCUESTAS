@@ -27,7 +27,7 @@ export default class SurveyService {
       let survey = await http.get(`SURVEYS/v1/actual/${id}/`);
       return survey.data.data[0];
     } catch (error) {
-      console.log("error: ", error);
+
       return false;
     }
   };

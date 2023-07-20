@@ -144,13 +144,10 @@ export default class AuthService {
   loginRegular = async (data) => {
     let enchufate = await this.authenticateEnchufate(data);
 
-    console.log(enchufate);
-
     if (!enchufate.status) return enchufate;
 
     let survey = await this.reciveData(enchufate.data, data);
     // let survey = await this.singInSurvey(data); /*deprecate
-    console.log("survey: ", survey);
 
     if (!survey.status) return survey;
 

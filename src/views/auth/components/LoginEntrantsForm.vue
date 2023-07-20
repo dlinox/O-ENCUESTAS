@@ -1,5 +1,5 @@
 <template>
-  <Alert v-show="errorMessage !== null" type="danger" class="mt-4" closable>
+  <Alert v-show="errorMessage !== null" type="danger" class="mt-4" >
     {{ errorMessage }}
   </Alert>
   <form class="mt-4" @submit.prevent="submit">
@@ -55,8 +55,8 @@ const authService = new AuthService();
 const isLoading = ref(false);
 
 const form = ref({
-  username: "70757838",
-  password: "230001",
+  username: "",
+  password: "",
 });
 
 const errorMessage = ref(null);
@@ -67,7 +67,9 @@ const submit = async () => {
 
   let login = await authService.loginEntrants(form.value);
 
-  console.log(login);
+  if(!login.status){
+     errorMessage.value =  'Credenciales no válidas';
+  }
 
   isLoading.value = false;
   router.push({ name: "home" });

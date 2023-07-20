@@ -64,7 +64,7 @@ const getListSurveys = async () => {
 };
 
 const init = async () => {
-  console.log("ini surveys");
+
   isLoading.value = true;
   await getListSurveys();
   isLoading.value = false;

@@ -1,4 +1,9 @@
 <template>
+
+<Alert v-show="errorMessage !== null" type="danger" class="mt-4" >
+    {{ errorMessage }}
+  </Alert>
+
   <form class="mt-4" @submit.prevent="submit">
     <template v-if="isLoading">
       <div class="loading">
@@ -43,7 +48,7 @@
 import { ref } from "vue";
 import { AuthService } from "@/services";
 import { useRouter } from "vue-router";
-import { Input, Button, Spinner } from "flowbite-vue";
+import { Input, Button, Spinner, Alert } from "flowbite-vue";
 
 const router = useRouter();
 
@@ -52,14 +57,21 @@ const authService = new AuthService();
 const isLoading = ref(false);
 
 const form = ref({
-  username: "conxuro",
-  password: "eriksoneira",
+  username: "",
+  password: "",
 });
+
+const errorMessage = ref(null);
 
 const submit = async () => {
   isLoading.value = true;
 
-  await authService.loginRegular(form.value);
+  let login = await authService.loginRegular(form.value);
+
+  if(!login.status){
+     errorMessage.value =  'Credenciales no válidas';
+  }
+
   isLoading.value = false;
 
   router.push({ name: "home" });

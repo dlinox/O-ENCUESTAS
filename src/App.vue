@@ -9,7 +9,6 @@ const authStore = useAuthStore();
 const appLoading = ref(false);
 
 const init = async () => {
-     console.log('init app');
 
      appLoading.value = false;
      setTimeout(() => {

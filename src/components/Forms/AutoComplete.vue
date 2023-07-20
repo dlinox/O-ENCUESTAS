@@ -52,7 +52,7 @@ const getData = async (e) => {
         return;
     }
     else {
-        console.log(e);
+  
         setTimeout(() => {
             let res = dataApi.value.filter((item) => item.title.toLowerCase().indexOf(e) > -1);
             results.value = res;

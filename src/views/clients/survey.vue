@@ -9,7 +9,6 @@
     >
       {{ toast.text }}
     </Toast>
-    
 
     <template v-if="isLoading">
       <LoaderSpinner v-if="isLoading" />
@@ -292,14 +291,12 @@ const previous = ref({
 const isLoading = ref(false);
 const isLoadingForm = ref(false);
 
-
 const showToats = (e) => {
   toast.value = e;
   setTimeout(() => {
-    toast.value = false;  
+    toast.value = false;
   }, 1500);
-
-}
+};
 
 const goToTop = () => {
   window.scroll({
@@ -447,7 +444,7 @@ const getSurveyData = async () => {
 };
 
 const initSurvey = async () => {
-  console.log("init survey ");
+
   isLoading.value = true;
   await getSurveyData();
   isLoading.value = false;

@@ -1,16 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import authGuard from '@/utils/authGuard.js';
+import authGuard from "@/utils/authGuard.js";
 
-import HomeCliente from "../views/clients/index.vue"
-import Loading from "../views/loading.vue"
+import HomeCliente from "../views/clients/index.vue";
+import Loading from "../views/loading.vue";
 
 const routes = [
-
   {
     path: "/loading",
     component: Loading,
-
   },
 
   {
@@ -45,17 +43,17 @@ const routes = [
       },
     ],
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
 
   {
     path: "/",
-    name: 'home',
+    name: "home",
     component: HomeCliente,
     meta: {
-      requiresAuth: true
-    }
+      requiresAuth: true,
+    },
   },
 
   {
@@ -63,10 +61,9 @@ const routes = [
     name: "login",
     component: () => import("../views/auth/login.vue"),
     meta: {
-      requiresAuth: false
-    }
+      requiresAuth: false,
+    },
   },
-
 
   {
     path: "/survey/:id/:topic?/:section?",
@@ -74,7 +71,7 @@ const routes = [
     component: () => import("../views/clients/survey.vue"),
     meta: {
       authGuard: true,
-    }
+    },
   },
 
   {
@@ -89,12 +86,18 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.VITE_APP_MODE === 'production' ? import.meta.env.VITE_APP_BASE_URL : '/'),
-  base: import.meta.env.VITE_APP_MODE === 'production' ? import.meta.env.VITE_APP_BASE_URL : '',
+  history: createWebHistory(
+    import.meta.env.VITE_APP_MODE === "production"
+      ? import.meta.env.VITE_APP_BASE_URL
+      : "/"
+  ),
+  base:
+    import.meta.env.VITE_APP_MODE === "production"
+      ? import.meta.env.VITE_APP_BASE_URL
+      : "",
   routes,
 });
 
 router.beforeEach(authGuard);
-
 
 export default router;
