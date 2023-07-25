@@ -241,8 +241,6 @@ const validation = (val, question, isTrigger = false) => {
   }
 };
 
-
-
 const required = (val, question) => {
   questionsList.value.map((item) => {
     if (item.id === question.id) {
@@ -418,7 +416,6 @@ const setAnswers = () => {
   return answerSection;
 };
 
-
 const errorIds = ref([]);
 
 const validAll = () => {
@@ -464,8 +461,8 @@ const submit = async () => {
     return res;
   }
 
-  document.getElementById(errorIds.value[0]).scrollIntoView('smooth');
-  
+  document.getElementById(errorIds.value[0]).scrollIntoView("smooth");
+
   console.error("Error ...");
 
   toast.value.show = true;

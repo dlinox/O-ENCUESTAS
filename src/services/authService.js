@@ -33,7 +33,7 @@ export default class AuthService {
       };
     }
   };
-  
+
   singInSurvey = async (data) => {
     try {
       //SURVEY_AUTHENTICATIONS/v1/receive/
@@ -49,7 +49,6 @@ export default class AuthService {
         // "nro_documento": data.document,
         // "codigo_programa": data.academicProgramCode,
       });
-
       return {
         data: res.data,
         status: true,
@@ -67,10 +66,8 @@ export default class AuthService {
   //*LOGIN ENTRANTS STUDENT
   getDataAdmition = async (dni) => {
     const urlApiAdmi = import.meta.env.VITE_APP_URL_API_ADMI;
-
     try {
       let res = await http.get(urlApiAdmi + dni);
-
       return {
         data: res.data.data,
         status: res.data.status,
@@ -88,14 +85,12 @@ export default class AuthService {
   authenticateEnchufate = async (data) => {
     try {
       let formData = new FormData();
-
       formData.append("username", data.username);
       formData.append("password", data.password);
       let userAuth = await http.post(
         "https://intranet.unap.edu.pe/biblioteca/api/get-student-information",
         formData
       );
-
       if (userAuth.data == "Contraseña incorrecta.") {
         return {
           data: null,
@@ -106,7 +101,7 @@ export default class AuthService {
         return {
           data: userAuth.data,
           status: true,
-          message: "(e) iniciando ...",
+          message: "(e) Iniciando ...",
         };
       }
     } catch (error) {
@@ -118,26 +113,43 @@ export default class AuthService {
     }
   };
 
-  loginEntrants = async (data) => {
-    // let enchufate = await this.authenticateEnchufate(data);
-    // if (!enchufate.status) return enchufate;
+  loginEntrantsWithEnchufate = async (data) => {
+    let enchufate = await this.authenticateEnchufate(data);
+    if (!enchufate.status) return enchufate;
+    let admition = await this.getDataAdmition(data.username);
+    if (!admition.status) return admition;
+    let survey = await this.reciveData(enchufate.data, data);
+    if (!survey.status) return survey;
+    let token = survey.data.token;
+    Cookies.set("token", token);
+    http.defaults.headers["Authorization"] = "Bearer " + survey.data.token;
+    return survey;
+  };
 
-    let fake = await this.loginEnchufateFake(data.username, data.password);
-    if (!fake.status) return fake;
-
+  loginEntrantsAux = async (data) => {
     let admition = await this.getDataAdmition(data.username);
     if (!admition.status) return admition;
 
     let survey = await this.singInSurvey(data);
     if (!survey.status) return survey;
-
-    // let toke = encrypt(survey.data.token);
     let token = survey.data.token;
-
     Cookies.set("token", token);
     http.defaults.headers["Authorization"] = "Bearer " + survey.data.token;
-
     return survey;
+  };
+
+  loginEntrants = async (data) => {
+    let typeLogin = import.meta.env.VITE_APP_LOGIN_ENTRANTS;
+    if (typeLogin === "enchufate") {
+      let res = await this.loginEntrantsWithEnchufate(data);
+      return res;
+    } else if ("aux") {
+      console.log("aux");
+      let res = await this.loginEntrantsAux(data);
+      return res;
+    }
+
+    console.error("Service login no defined");
   };
 
   //*LOGIN REGULAR STUDENT
@@ -147,7 +159,6 @@ export default class AuthService {
     if (!enchufate.status) return enchufate;
 
     let survey = await this.reciveData(enchufate.data, data);
-    // let survey = await this.singInSurvey(data); /*deprecate
 
     if (!survey.status) return survey;
 
