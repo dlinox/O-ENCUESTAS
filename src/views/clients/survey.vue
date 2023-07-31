@@ -1,15 +1,27 @@
 <template>
   <ClientLayout>
-    <Toast
-      v-if="toast.show"
-      class="fixed top-4 right-2 z-20 shadow-lg border"
-      :class="toast.type === 'success' ? 'border-green-200' : 'border-red-200'"
-      :type="toast.type"
-      divide
+    <transition
+      enter-active-class="transition duration-100 ease-out"
+      enter-from-class="transform scale-95 opacity-0"
+      enter-to-class="transform scale-100 opacity-100"
+      leave-active-class="transition duration-75 ease-in"
+      leave-from-class="transform scale-100 opacity-100"
+      leave-to-class="transform scale-95 opacity-0"
     >
-      {{ toast.text }}
-    </Toast>
-
+      <Toast
+        v-if="toast.show"
+        class="fixed top-4 right-2 z-20 shadow-lg border rounded"
+        :class="
+          toast.type === 'success' ? 'border-green-200' : 'border-red-200'
+        "
+        :type="toast.type"
+        translate="yes"
+        transition="left"
+        divide
+      >
+        {{ toast.text }}
+      </Toast>
+    </transition>
     <template v-if="isLoading">
       <LoaderSpinner v-if="isLoading" />
     </template>
@@ -64,6 +76,7 @@
 
         <div class="col-span-4 lg:col-span-1 hidden md:block">
           <IndexSurvey
+            class="sticky top-2"
             :changeTopic="changeTopic"
             :topics="topics"
             :current="currents.topic"
@@ -74,14 +87,31 @@
         <div
           class="col-span-4 lg:col-span-3 rounded-lg bg-white p-6 shadow-lg mb-4"
         >
-          <div class="">
-            <h3 class="text-lg font-semibold mb-3 uppercase">
-              {{ currents.topic?.title }}
-            </h3>
-            <h4 class="text-sm uppercase mb-4 font-bold">
-              {{ currents.section?.title }}
-            </h4>
-          </div>
+          <h2
+            class="text-3xl font-semibold mb-4 text-gray-700 first-letter:uppercase"
+          >
+            {{ currents.topic?.title }}
+          </h2>
+          <p
+            class="text-xl font-light uppercase flex items-center underline underline-offset-8 text-blue-800"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5 me-2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
+              />
+            </svg>
+
+            {{ currents.section?.title }}
+          </p>
 
           <template v-if="!sections">
             <h4
@@ -101,9 +131,10 @@
               @onFaild="showToats"
             >
               <template v-slot:footer="{ submit }">
-                <div class="flex justify-between w-full">
+                <div class="grid md:grid-cols-2 w-full gap-4">
                   <div class="previous">
                     <Button
+                      class="w-full"
                       v-if="
                         previous.section && survey.hasFinished === 'true'
                           ? true
@@ -119,11 +150,30 @@
                         }
                       "
                     >
-                      <div class="text-start">
-                        <span>Anterior</span>
-                        <h5 class="text-lg first-letter:uppercase">
-                          {{ previous.section.title }}
-                        </h5>
+                      <div class="flex items-center justify-start">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="h-6 w-6 self-center me-4 rotate-180"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                          />
+                        </svg>
+
+                        <div class="text-start">
+                          <p class="font-light">Anterior</p>
+                          <h4
+                            class="font-semibold text-lg first-letter:uppercase pb-0"
+                          >
+                            {{ previous.section.title }}
+                          </h4>
+                        </div>
                       </div>
                     </Button>
 
@@ -144,12 +194,32 @@
                             // }
                           }
                         "
+                        class="w-full"
                       >
-                        <div class="text-start">
-                          <span>Anterior</span>
-                          <h5 class="text-lg first-letter:uppercase">
-                            {{ previous.topic.title }}
-                          </h5>
+                        <div class="flex items-center justify-start">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="h-6 w-6 self-center me-4 rotate-180"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                            />
+                          </svg>
+
+                          <div class="text-start">
+                            <p class="font-light">Anterior</p>
+                            <h4
+                              class="font-semibold text-lg first-letter:uppercase pb-0"
+                            >
+                              {{ previous.topic.title }}
+                            </h4>
+                          </div>
                         </div>
                       </Button>
                     </template>
@@ -167,17 +237,39 @@
                           }
                         }
                       "
+                      class="w-full"
                     >
-                      <div class="text-end">
-                        <span> Guardar </span>
-                        <div class="flex items-center">
-                          <small class="text-sm text-gray-50 me-2 -mb-1">
-                            Siguiente:
-                          </small>
-                          <h5 class="text-lg first-letter:uppercase">
+                      <div class="flex items-center justify-end">
+                        <div class="text-end">
+                          <p class="font-light">
+                            Guardar (<small class="uppercase">{{
+                              currents.section.title
+                            }}</small
+                            >)
+                          </p>
+                          <h4
+                            class="font-semibold text-lg first-letter:uppercase pb-0"
+                          >
                             {{ nexts.section.title }}
-                          </h5>
+                          </h4>
                         </div>
+
+                        <!-- Icono al final -->
+
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="h-6 w-6 self-center ms-4"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                          />
+                        </svg>
                       </div>
                     </Button>
 
@@ -194,15 +286,40 @@
                               }
                             }
                           "
+                          class="w-full"
                         >
-                          <div class="text-end">
-                            <span>Guardar </span>
-                            <h5 class="text-lg first-letter:uppercase">
-                              Siguiente: {{ nexts.topic.title }}
-                            </h5>
+                          <div class="flex items-center justify-end">
+                            <div class="text-end">
+                              <p class="font-light">
+                                Guardar (<small class="uppercase">{{
+                                  currents.section.title
+                                }}</small
+                                >)
+                              </p>
+                              <h4
+                                class="font-semibold text-lg first-letter:uppercase pb-0"
+                              >
+                                {{ nexts.topic.title }}
+                              </h4>
+                            </div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="h-6 w-6 self-center ms-4"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                              />
+                            </svg>
                           </div>
                         </Button>
                       </template>
+
                       <template v-else>
                         <Button
                           v-if="survey.hasFinished === 'false'"
@@ -216,12 +333,44 @@
                               }
                             }
                           "
+                          class="w-full"
                         >
                           <div class="text-end">
                             <span> Guardar </span>
                             <h5 class="text-lg first-letter:uppercase">
                               Finalizar
                             </h5>
+                          </div>
+                        </Button>
+
+                        <Button
+                          v-else
+                          @click="
+                            async () => {
+                              let isSave = await submit();
+                              if (isSave) {
+                                goToTop();
+                              }
+                            }
+                          "
+                          class="w-full"
+                        >
+                          <div class="text-end">
+                            <div class="flex items-center justify-end">
+                              <div class="text-end">
+                                <p class="font-light">
+                                  Guardar (<small class="uppercase">{{
+                                    currents.section.title
+                                  }}</small
+                                  >)
+                                </p>
+                                <h4
+                                  class="font-semibold text-lg first-letter:uppercase pb-0"
+                                >
+                                  {{ currents.section.title }}
+                                </h4>
+                              </div>
+                            </div>
                           </div>
                         </Button>
                       </template>
@@ -233,9 +382,6 @@
           </template>
         </div>
       </div>
-      <!-- <div class="fixed bottom-2 right-3">
-        <Button @click="goToTop"> Subir</Button>
-      </div> -->
     </template>
   </ClientLayout>
 </template>
@@ -444,7 +590,6 @@ const getSurveyData = async () => {
 };
 
 const initSurvey = async () => {
-
   isLoading.value = true;
   await getSurveyData();
   isLoading.value = false;

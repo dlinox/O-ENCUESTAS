@@ -1,6 +1,12 @@
 <template>
-  <label class="block text-sm font-medium leading-6 text-gray-900  first-letter:uppercase">
+  <label
+    class="block text-sm font-medium leading-6 text-gray-900 first-letter:uppercase"
+  >
     {{ question.statement }}
+
+    <span class="text-red-600 font-mono">
+      {{ question.isRequired === "true" ? "*" : "" }}
+    </span>
   </label>
 
   <div class="grid grid-cols-3 gap-x-5">
@@ -18,6 +24,7 @@
 
     <div>
       <HAutoComplete
+      
         :error="error"
         :items="provincias"
         itemValue="code"
@@ -39,6 +46,7 @@
 
     <div class="col-span-3 mt-2">
       <InputForm
+        :is-required="question.isRequired === 'true' ? true : false"
         :helperText="question.helpQuestion"
         v-model="question.other"
         label="Dirección"
@@ -60,6 +68,7 @@ const emit = defineEmits(["update:modelValue", "clickInput"]);
 const props = defineProps({
   modelValue: [Number, Object, String, Array],
   question: [Object, Array],
+  isReadonly: Boolean,
   error: {
     type: Boolean,
     default: false,

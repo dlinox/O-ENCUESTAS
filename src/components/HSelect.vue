@@ -3,6 +3,10 @@
     class="col-span-4 text-sm font-medium leading-6 text-gray-900 first-letter:uppercase"
   >
     {{ label }}
+
+    <span class="text-red-600 font-mono">
+        {{ isRequired ? "*" : "" }}
+      </span>
   </div>
 
   <Listbox class="w-full" v-model="selectedItem">
@@ -112,6 +116,10 @@ const props = defineProps({
     },
   },
   isDisabled: {
+    type: Boolean,
+    default: false,
+  },
+  isRequired: {
     type: Boolean,
     default: false,
   }

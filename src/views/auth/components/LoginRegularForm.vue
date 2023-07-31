@@ -1,6 +1,5 @@
 <template>
-
-<Alert v-show="errorMessage !== null" type="danger" class="mt-4" >
+  <Alert v-show="errorMessage !== null" type="danger" class="mt-4">
     {{ errorMessage }}
   </Alert>
 
@@ -15,30 +14,43 @@
       class="mb-2"
       placeholder="Ingrese su usuario"
       label="Usuario"
+      autocomplete="username"
     />
     <Input
       v-model="form.password"
       class="mb-2"
-      placeholder="Ingrese su contaseña"
+      placeholder="Ingrese su contraseña"
       label="Contraseña"
       type="password"
+      autocomplete="password"
     />
-    <div class="flex justify-end mt-4">
-      <Button color="default" tyep="submit">
+    <div class="flex justify-center mt-4">
+      <Button
+        class="w-full flex justify-between capitalize"
+        color="default"
+        type="submit"
+        size="lg"
+      >
         Ingresar
         <template #suffix>
-          <svg
-            class="ml-2 -mr-1 w-5 h-5"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
+          <template v-if="isLoading">
+            <Spinner />
+          </template>
+
+          <template v-else>
+            <svg
+              class="ml-2 -mr-1 w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </template>
         </template>
       </Button>
     </div>
@@ -68,8 +80,8 @@ const submit = async () => {
 
   let login = await authService.loginRegular(form.value);
 
-  if(!login.status){
-     errorMessage.value =  'Credenciales no válidas';
+  if (!login.status) {
+    errorMessage.value = "Credenciales no válidas";
   }
 
   isLoading.value = false;

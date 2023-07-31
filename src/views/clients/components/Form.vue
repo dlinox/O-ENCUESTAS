@@ -1,17 +1,20 @@
 <template>
   <div class="grid grid-cols-2 mt-4 bg-white mx-auto justify-center">
     <div class="col-span-2 rounded-lg">
-      <ul ref="refList">
+      <ul ref="refList" class="">
         <li
           v-for="(question, indexQuestion) in questionsList"
           :key="question.id"
-          class="my-3"
           :id="question.id"
+          :class="[
+            !question.isDependent || question.show ? 'pt-2 pb-5' : '',
+            question.show ? 'bg-slate-50  -mt-3 px-4 pt-2 rounded-lg' : '',
+          ]"
         >
           <template v-if="!question.isDependent || question.show">
             <template
               v-if="question.type === 0"
-              :class="question.show ? 'bg-slate-100 p-3 rounded-lg' : ''"
+              :class="question.show ? 'bg-slate-600 p-3 rounded-lg' : ''"
             >
               <OneSelection
                 :isDisabled="notChanges.includes(question.id)"
@@ -70,6 +73,7 @@
 
             <template v-else-if="question.type === 21">
               <FacuForm
+                :isRequired="question.isRequired === 'true' ? true : false"
                 :isDisabled="notChanges.includes(question.id)"
                 :question="question"
                 v-model="question.answer.text"
@@ -87,6 +91,7 @@
             <template v-else-if="question.type === 20">
               <ProStudyForm
                 :isDisabled="notChanges.includes(question.id)"
+                :isRequired="question.isRequired === 'true' ? true : false"
                 :question="question"
                 v-model="question.answer.text"
               />
@@ -94,6 +99,7 @@
 
             <template v-else-if="question.type === 4">
               <HSelect
+                :isRequired="question.isRequired === 'true' ? true : false"
                 v-model="question.answer.text"
                 :label="question.statement"
                 :error="question.error"
@@ -138,6 +144,7 @@
             <template v-else-if="question.type === 10">
               <UbigeoForm
                 :question="question"
+                :isReadonly="notChanges.includes(question.id)"
                 v-model="question.answer.text"
                 :error="question.error ? true : false"
                 @update:modelValue="validation(question.answer, question)"
@@ -151,6 +158,7 @@
 
             <template v-else-if="question.type === 11">
               <UbigeoOtherForm
+                :isReadonly="notChanges.includes(question.id)"
                 :question="question"
                 v-model="question.answer.text"
                 :error="question.error ? true : false"
@@ -352,6 +360,12 @@ const notChanges = [
   "c9175462-8e03-47b1-9450-2f126a1655c2",
   "de9c81d9-87d5-4cf4-b2f0-5274399ff94c",
   "a3056caa-84a9-44a0-9ee5-46a59ad3f073",
+  "ab123cd2-c64d-44d2-8023-af2849bf6f9d",
+  "bd4313bd-1709-4bfd-8fae-bfe2eb6e5d05",
+  
+  "2cb7930e-344f-4371-a2d1-da1579bfe33e", //Correo electrónico personal
+  "16373178-2cb7-4a9e-be10-33d1145fcb48", //Lugar De Nacimiento
+  "85c4a938-b006-45a8-bdbd-1c4223656ab6", //¿Presenta alguna discapacidad?
   // s2
   "50af5759-8009-4419-bfc2-8df851be62b1",
   "4d36be9a-1567-4d80-a726-a5a1bc2a33c7",
@@ -420,11 +434,15 @@ const errorIds = ref([]);
 
 const validAll = () => {
   var countError = 0;
+  errorIds.value = [];
 
   questionsList.value.forEach((item) => {
     if (
-      !item.answer?.options &&
       !item.answer?.text &&
+      ((item.answer?.options &&
+        Array.isArray(item.answer?.options) &&
+        item.answer?.options.length === 0) ||
+        !item.answer?.options) &&
       item.isRequired === "true" &&
       (!item.isDependent || item.show)
     ) {

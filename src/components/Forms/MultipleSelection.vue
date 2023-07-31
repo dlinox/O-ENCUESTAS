@@ -5,6 +5,10 @@
       class="col-span-4 text-sm font-medium leading-6 text-gray-900 first-letter:uppercase"
     >
       {{ question.statement }}
+
+      <span class="text-red-600 font-mono">
+        {{ question.isRequired === 'true' ? "*" : "" }}
+      </span>
     </label>
     <div class="relative mt-1 rounded-md col-span-4 ps-4">
       <CheckBoxesFrom

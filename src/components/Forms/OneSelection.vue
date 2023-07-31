@@ -8,7 +8,7 @@
         {{ question.isRequired === "true" ? "*" : "" }}
       </span>
     </div>
-    <div class="w-full text-start">
+    <div class="w-full text-start first-letter:uppercase">
       <span class="text-xs text-gray-600">{{ question.helpQuestion }}</span>
     </div>
 

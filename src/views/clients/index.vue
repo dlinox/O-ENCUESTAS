@@ -26,7 +26,9 @@
                     {{ survey.title }}
                   </h5>
 
-                  <p class="mt-1 truncate text-xs leading-5 text-gray-500">
+                  <p
+                    class="mt-1 truncate text-xs leading-5 text-gray-500 uppercase"
+                  >
                     {{ survey.description ? survey.description : survey.title }}
                   </p>
                 </div>
@@ -35,9 +37,7 @@
                 <p class="text-sm leading-6 text-gray-900">
                   {{ survey.stage }}
                 </p>
-                <p class="mt-1 text-xs leading-5 text-gray-500">
-                  Publicado: 23 de junio de 2023
-                </p>
+                <p class="mt-1 text-xs leading-5 text-gray-500">-</p>
               </div>
             </router-link>
           </li>

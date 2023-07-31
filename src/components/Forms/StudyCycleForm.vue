@@ -1,6 +1,7 @@
 <template>
   <HSelect
     :isDisabled="isDisabled"
+    :isRequired="question.isRequired === 'true' ? true : false"
     v-model="input"
     :label="question.statement"
     :error="question.error"

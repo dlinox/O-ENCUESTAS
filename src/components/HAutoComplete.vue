@@ -29,6 +29,7 @@
         @after-leave="query = ''"
       >
         <ComboboxOptions
+        
           class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
         >
           <div
@@ -44,6 +45,8 @@
             :key="item[`${itemValue}`]"
             :value="item"
             v-slot="{ selected, active }"
+
+            :disabled="isDisabled"
           >
             <li
               class="relative cursor-default select-none py-2 pl-10 pr-4"
@@ -115,6 +118,11 @@ const props = defineProps({
   placeholder: {
     type: String,
     // default: 'Label'
+  },
+
+  isDisabled: {
+    type: Boolean,
+    default: false,
   },
 });
 

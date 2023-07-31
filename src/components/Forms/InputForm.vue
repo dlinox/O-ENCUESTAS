@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <div class="">
     <div
-      class="col-span-4 text-sm font-medium leading-6 text-gray-900 first-letter:uppercase"
+      class="col-span-4 font-medium  leading-6 text-gray-900 first-letter:uppercase"
     >
       {{ label }}
-      <span class="text-red-700">
+      <span class="text-red-600 font-mono">
         {{ isRequired ? "*" : "" }}
       </span>
     </div>
+
     <div class="w-full text-start first-letter:uppercase">
       <span class="text-xs text-gray-600">{{ helperText }}</span>
     </div>
@@ -16,6 +17,7 @@
       v-model="input"
       :type="type"
       :class="error?.isError ? 'input-danger' : ''"
+      
     />
     <div class="w-full text-end">
       <span class="text-xs text-red-600">{{ error?.text }}</span>
