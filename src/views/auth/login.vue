@@ -51,7 +51,7 @@
                 Regulares:
               </strong>
 
-              Ingresar usando su cuenta de "Enchufate"
+              Ingresar usando su cuenta de Aula Virtual / Intranet
             </div>
             <div class="flex items-start flex-col">
               <strong class="flex">
@@ -89,7 +89,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div class="hidden md:flex flex-col items-center">
             <!-- Logo -->
-            <img src="logo.png" alt="Logo UNA-PUNO" class="mb-4" width="100" />
+            <img src="/logo.png" alt="Logo UNA-PUNO" class="mb-4" width="100" />
             <!-- Descripción -->
             <h1 class="text-2xl text-gray-700 mb-4">
               Bienvenido al sistema de encuestas de la UNA-PUNO
@@ -115,7 +115,7 @@
                   Regulares:
                 </strong>
 
-                Ingresar usando su cuenta de "Enchufate"
+                Ingresar usando su cuenta de Aula Virtual / Intranet
               </div>
               <div class="flex items-start flex-col">
                 <strong class="flex">
@@ -148,7 +148,7 @@
 
           <div class="px-0 sm:w-96 mx-auto md:px-0 flex flex-col">
             <div class="md:hidden flex flex-col items-center">
-              <img src="logo.png" alt="Logo UNA-PUNO" class="mb-4" width="70" />
+              <img src="/logo.png" alt="Logo UNA-PUNO" class="mb-4" width="70" />
 
               <h1
                 class="text-md px-8 sm:text-xl text-center font-semibold text-gray-700 mb-4"

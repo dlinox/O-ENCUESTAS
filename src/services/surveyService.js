@@ -10,7 +10,7 @@ export default class SurveyService {
       let token = Cookies.get("token");
       http.defaults.headers["Authorization"] = "Bearer " + token;
       let surveys = await http.get("SURVEYS/v1/");
-      console.log(surveys);
+
       return surveys.data.data;
     } catch (error) {
       let status = error.response?.status;
