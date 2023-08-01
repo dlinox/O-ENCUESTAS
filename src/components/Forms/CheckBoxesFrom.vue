@@ -27,16 +27,13 @@ const props = defineProps({
   options: Array,
   modelValue: {
     type: [Number, Object, String, Array],
-    default: null,
+    default: [],
   },
 });
 const emit = defineEmits(["update:modelValue"]);
 
 const input = computed({
-  get: () =>
-    Array.isArray(props.modelValue)
-      ? props.modelValue.filter((element) => element !== "")
-      : null,
-  set: (value) => emit("update:modelValue", value ),
+  get: () => props.modelValue,
+    set: (value) => emit("update:modelValue", value),
 });
 </script>

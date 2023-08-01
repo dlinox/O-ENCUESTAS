@@ -1,6 +1,7 @@
 import http from "../utils/https";
 import Cookies from "js-cookie";
 import enchuData from "@/assets/datademo.json";
+import axios from "axios";
 
 export default class AuthService {
   reciveData = async (data, credentias) => {
@@ -36,18 +37,9 @@ export default class AuthService {
 
   singInSurvey = async (data) => {
     try {
-      //SURVEY_AUTHENTICATIONS/v1/receive/
       let res = await http.post("SURVEY_AUTHENTICATIONS/v1/", {
         usr_: data.username,
         pwd_: data.password,
-        // "user":  data.username,
-        // "password": data.password,
-        // "codigo_ingreso": null,
-        // "nombres": data.name,
-        // "segundo_apellido": data.paternalSurname,
-        // "primer_apellido": data.maternalSurname,
-        // "nro_documento": data.document,
-        // "codigo_programa": data.academicProgramCode,
       });
       return {
         data: res.data,
@@ -194,13 +186,22 @@ export default class AuthService {
   };
 
   getCurrentUser = async () => {
-    //*pendiente
-    let validation = this.validateUser();
-
-    if (validation) {
-      return;
+    let isValid = this.validateUser();
+    if (isValid) {
+      try {
+        let token = Cookies.get("token");
+        http.defaults.headers["Authorization"] = "Bearer " + token;
+        let currentUser = await http.get(`IsRegular/`);
+        return currentUser.data.justEntered === 1 ? true : false;
+        // return  true;
+      } catch (error) {
+        let status = error.response?.status;
+        if (status === 401) {
+          this.logout();
+        }
+        return true;
+      }
     }
-    http.defaults.headers["Authorization"] = "Bearer " + route.key;
   };
 
   logout = () => {

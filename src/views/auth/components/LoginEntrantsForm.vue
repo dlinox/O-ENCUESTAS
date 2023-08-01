@@ -63,9 +63,7 @@ import { useRouter } from "vue-router";
 import { Input, Button, Spinner, Alert } from "flowbite-vue";
 
 const router = useRouter();
-
 const authService = new AuthService();
-
 const isLoading = ref(false);
 
 const form = ref({

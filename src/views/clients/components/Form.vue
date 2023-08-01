@@ -3,13 +3,13 @@
     <div class="col-span-2 rounded-lg">
       <ul ref="refList" class="">
         <li
-          v-for="(question, indexQuestion) in questionsList"
-          :key="question.id"
-          :id="question.id"
-          :class="[
-            !question.isDependent || question.show ? 'pt-2 pb-5' : '',
-            question.show ? 'bg-slate-50  -mt-3 px-4 pt-2 rounded-lg' : '',
-          ]"
+        v-for="(question, indexQuestion) in questionsList"
+        :key="question.id"
+        :id="question.id"
+        :class="[
+          !question.isDependent || question.show ? 'pt-2 pb-5' : '',
+          question.show ? 'bg-slate-50  -mt-3 px-4 pt-2 rounded-lg' : '',
+        ]"
         >
           <template v-if="!question.isDependent || question.show">
             <template
@@ -179,6 +179,8 @@
       </div>
     </div>
   </div>
+
+  
 </template>
 
 <script setup>
@@ -200,6 +202,9 @@ import StudyCycleForm from "@/components/Forms/StudyCycleForm.vue";
 import FacuForm from "@/components/Forms/FacuForm.vue";
 import ProStudyForm from "@/components/Forms/ProStudyForm.vue";
 import OneSelectionOtherForm from "../../../components/Forms/OneSelectionOtherForm.vue";
+import { useAuthStore } from "@/store/auth";
+
+const authStore = useAuthStore();
 
 const surveyService = new SurveyService();
 
@@ -352,7 +357,7 @@ const validatePhone = (val, question) => {
   });
 };
 
-const notChanges = [
+const notChangesRegular = [
   "78ae9492-a909-459f-ba53-15165c884d87",
   "d2574937-e2fc-4eb5-b612-d767e3610a04",
   "fb5c10df-f60d-4815-a007-a189e879054e",
@@ -362,8 +367,28 @@ const notChanges = [
   "a3056caa-84a9-44a0-9ee5-46a59ad3f073",
   "ab123cd2-c64d-44d2-8023-af2849bf6f9d",
   "bd4313bd-1709-4bfd-8fae-bfe2eb6e5d05",
-  
-  "2cb7930e-344f-4371-a2d1-da1579bfe33e", //Correo electrónico personal
+  // "654a124d-93e4-4a1b-84e2-4e189fb4a0dc",
+  // "2cb7930e-344f-4371-a2d1-da1579bfe33e",
+  "16373178-2cb7-4a9e-be10-33d1145fcb48",
+  "b37c3cce-8d8a-45e3-90bd-59e0bcb9cccb", //*R
+  "50af5759-8009-4419-bfc2-8df851be62b1",
+  "4d36be9a-1567-4d80-a726-a5a1bc2a33c7",
+  "36f9a47d-457d-4052-ab25-47b4decb887f",
+  "574ba955-5176-4997-8e34-42524cafa862",
+  "6bc3b523-2a89-423d-99bf-53692c004633",
+];
+
+const notChangesEntrants = [
+  "78ae9492-a909-459f-ba53-15165c884d87",
+  "d2574937-e2fc-4eb5-b612-d767e3610a04",
+  "fb5c10df-f60d-4815-a007-a189e879054e",
+  "e8367e12-f088-4188-bed8-50342bac562c",
+  "c9175462-8e03-47b1-9450-2f126a1655c2",
+  "de9c81d9-87d5-4cf4-b2f0-5274399ff94c",
+  "a3056caa-84a9-44a0-9ee5-46a59ad3f073",
+  "ab123cd2-c64d-44d2-8023-af2849bf6f9d",
+  "bd4313bd-1709-4bfd-8fae-bfe2eb6e5d05",
+  // "2cb7930e-344f-4371-a2d1-da1579bfe33e", //Correo electrónico personal
   "16373178-2cb7-4a9e-be10-33d1145fcb48", //Lugar De Nacimiento
   "85c4a938-b006-45a8-bdbd-1c4223656ab6", //¿Presenta alguna discapacidad?
   // s2
@@ -373,6 +398,10 @@ const notChanges = [
   "574ba955-5176-4997-8e34-42524cafa862",
   "6bc3b523-2a89-423d-99bf-53692c004633",
 ];
+
+const notChanges = computed(() =>
+  authStore.currentUser ? notChangesEntrants : notChangesRegular
+);
 
 const setAnswers = () => {
   let answerSection = {
@@ -387,7 +416,10 @@ const setAnswers = () => {
   const restInBoth = [30];
 
   questionsList.value.forEach((item) => {
-    if ((!item.isDependent || item.show) && !notChanges.includes(item.id)) {
+    if (
+      (!item.isDependent || item.show) &&
+      !notChanges.value.includes(item.id)
+    ) {
       if (restInText.includes(item.type)) {
         answerSection.answers_.push({
           qst_: item.id,
