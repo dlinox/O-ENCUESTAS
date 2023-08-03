@@ -27,6 +27,22 @@
     </template>
 
     <template v-else>
+      <Modal
+        v-if="modalFinished"
+        @close="modalFinished = !modalFinished"
+        :escapable="true"
+      >
+        <template #header>
+          <div class="flex items-center text-lg">Ficha Integral Completada</div>
+        </template>
+        <template #body>
+          <div class="flex flex-col items-center">
+            ¡Felicidades, has completado exitosamente la ficha integral! Ahora
+            estás listo para matricularte.
+          </div>
+        </template>
+      </Modal>
+
       <div class="z-10 fixed right-2 top-1/2 block md:hidden">
         <HModal>
           <template v-slot:activator="{ modal }">
@@ -87,8 +103,14 @@
         <div
           class="col-span-4 lg:col-span-3 rounded-lg bg-white p-6 shadow-lg mb-4"
         >
+
+        <Alert type="success" class="col-span-4 text-xl mb-3" ref="alert" v-if="survey.hasFinished">
+          ¡Felicidades, has completado exitosamente la ficha integral! Ahora
+            estás listo para matricularte.
+        </Alert>
+
           <h2
-            class="text-3xl font-semibold mb-4 text-gray-700 first-letter:uppercase"
+            class="md:text-3xl text-2xl  font-semibold mb-4 text-gray-700 first-letter:uppercase"
           >
             {{ currents.topic?.title }}
           </h2>
@@ -113,6 +135,7 @@
             {{ currents.section?.title }}
           </p>
 
+      
           <template v-if="!sections">
             <h4
               class="text-center text-lg uppercase font-extrabold text-gray-400 align-items-center"
@@ -391,7 +414,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useDataStore } from "@/store";
 import { SurveyService } from "@/services";
 
-import { Alert, Button, Toast } from "flowbite-vue";
+import { Alert, Button, Modal, Toast } from "flowbite-vue";
 
 import ClientLayout from "@/layouts/ClientLayout.vue";
 
@@ -460,6 +483,12 @@ const finishSurvey = async () => {
   }
   //TODO: REDIRECCIONAR....?
   isLoadingForm.value = false;
+};
+
+const modalFinished = ref(false);
+
+const showModalFinished = () => {
+  modalFinished.value = true;
 };
 
 const changeTopic = async (nextTopic) => {

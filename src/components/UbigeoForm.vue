@@ -12,7 +12,6 @@
         placeholder="Departamento"
         :error="error"
         :items="departamentos"
-        @mouseup="getDepartamentos"
         itemValue="code"
         v-model="form.departamento"
         @update:modelValue="changeDepartamento"
@@ -118,6 +117,7 @@ const setInputs = async (ubigeo) => {
 };
 
 const init = async () => {
+  getDepartamentos();
   if (input.value) {
     await setInputs(input.value);
   }

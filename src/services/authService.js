@@ -147,13 +147,9 @@ export default class AuthService {
   //*LOGIN REGULAR STUDENT
   loginRegular = async (data) => {
     let enchufate = await this.authenticateEnchufate(data);
-
     if (!enchufate.status) return enchufate;
-
     let survey = await this.reciveData(enchufate.data, data);
-
     if (!survey.status) return survey;
-
     Cookies.set("token", survey.data.token);
     http.defaults.headers["Authorization"] = "Bearer " + survey.data.token;
 

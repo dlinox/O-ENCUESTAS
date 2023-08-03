@@ -137,9 +137,10 @@ let query = ref("");
 let errorThis = ref(false);
 
 let filteredItem = computed(() =>
-  query.value === ""
-    ? []
-    : props.items.filter((item) =>
+  // query.value === ""
+  //   ? []
+  //   : 
+  props.items.filter((item) =>
         item[`${props.itemTitle}`]
           .toLowerCase()
           .replace(/\s+/g, "")
