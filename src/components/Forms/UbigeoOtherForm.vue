@@ -19,18 +19,19 @@
         itemValue="code"
         v-model="form.departamento"
         @update:modelValue="changeDepartamento"
+        :isDisabled="isReadonly"
       />
     </div>
 
     <div>
       <HAutoComplete
-      
         :error="error"
         :items="provincias"
         itemValue="code"
         placeholder="Provincia"
         v-model="form.provincia"
         @update:modelValue="changeProvincia"
+        :isDisabled="isReadonly"
       />
     </div>
     <div>
@@ -41,6 +42,7 @@
         placeholder="Distrito"
         v-model="form.distrito"
         @update:modelValue="input = $event.code"
+        :isDisabled="isReadonly"
       />
     </div>
 
@@ -50,6 +52,7 @@
         :helperText="question.helpQuestion"
         v-model="question.other"
         label="Dirección"
+        :isReadonly="isReadonly"
       ></InputForm>
     </div>
   </div>

@@ -6,7 +6,6 @@ import { ref } from 'vue';
 const appLoading = ref(false);
 
 const init = async () => {
-
      appLoading.value = false;
      setTimeout(() => {
      }, 100);

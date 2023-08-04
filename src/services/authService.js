@@ -1,7 +1,6 @@
 import http from "../utils/https";
 import Cookies from "js-cookie";
 import enchuData from "@/assets/datademo.json";
-import axios from "axios";
 
 export default class AuthService {
   reciveData = async (data, credentias) => {
