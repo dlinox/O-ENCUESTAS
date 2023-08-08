@@ -1,11 +1,10 @@
 import axios from "axios";
 
+import  departments  from '../assets/dev.json'; 
+
 export default class UbigeoService {
   getDepartamentos = async () => {
-    let departamentos = await axios.get(
-      "https://service2.unap.edu.pe/SURVEY_PLACES/v1/departments/"
-    );
-    return departamentos.data.data;
+    return departments.data;
   };
   getProvincias = async (departamento) => {
     let provincias = await axios.get(

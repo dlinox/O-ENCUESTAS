@@ -5,7 +5,38 @@ import enchuData from "@/assets/datademo.json";
 export default class AuthService {
   reciveData = async (data, credentias) => {
     try {
-      //SURVEY_AUTHENTICATIONS/v1/receive/
+      // SURVEY_AUTHENTICATIONS/v1/receive/
+
+      // console.log('aqui');
+      // let datos = {
+      //   // usr_: data.username,
+      //   // pwd_: data.password,
+      //   user: credentias.username,
+      //   password: credentias.password,
+      //   codigo_ingreso: data.userName,
+      //   nombres: data.name,
+      //   segundo_apellido: data.paternalSurname,
+      //   primer_apellido: data.maternalSurname,
+      //   nro_documento: data.document,
+      //   codigo_programa: data.academicProgramCode,
+      //   uuid: data.id,
+      // };
+
+      // let res = fetch(
+      //   "https://service2.unap.edu.pe/SURVEY_AUTHENTICATIONS/v1/receive/",
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json", // Tipo de contenido del cuerpo de la solicitud
+      //     },
+      //     body: JSON.stringify(datos),
+      //   }
+      // );
+
+      // let json = res.json();
+
+      // // console.log(json);
+
       let res = await http.post("SURVEY_AUTHENTICATIONS/v1/receive/", {
         // usr_: data.username,
         // pwd_: data.password,
@@ -186,7 +217,7 @@ export default class AuthService {
       try {
         let token = Cookies.get("token");
         http.defaults.headers["Authorization"] = "Bearer " + token;
-        let currentUser = await http.get(`IsRegular/`);
+        let currentUser = await http.get(`IsRegular_/`);
         return currentUser.data.justEntered === 1 ? true : false;
         // return  true;
       } catch (error) {

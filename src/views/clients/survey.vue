@@ -33,12 +33,18 @@
         :escapable="true"
       >
         <template #header>
-          <div class="flex items-center text-xl text-green-500">Ficha Integral Completada</div>
+          <div class="flex items-center text-xl text-green-500">
+            Ficha Integral Completada
+          </div>
         </template>
         <template #body>
           <div class="flex flex-col items-center text-green-500">
-            ¡Felicidades, has completado exitosamente la ficha integral! Ahora
-            estás listo para matricularte.
+            <p>¡Felicidades, has completado exitosamente la ficha integral!</p>
+            <p>Ahora estás listo para matricularte.</p>
+
+            <h2 class="font-medium mt-3">
+              TOME UNA FOTO DE ESTE MENSAJE PARA MOSTRARLO EN SU MATRICULA
+            </h2>
           </div>
         </template>
       </Modal>
@@ -91,8 +97,6 @@
         </Alert>
 
         <div class="col-span-4 lg:col-span-1 hidden md:block">
-
- 
           <IndexSurvey
             class="sticky top-2"
             :changeTopic="changeTopic"
@@ -100,24 +104,20 @@
             :current="currents.topic"
             :isCompleted="survey.hasFinished === 'true' ? true : false"
           />
-
-          <Alert
-            type="success"
-            class="col-span-4 font-medium text-xl mt-3"
-            ref="alert"
-            v-if="survey.hasFinished === 'true'  ? true : false"
-          >
-            ¡Felicidades, has completado exitosamente la ficha integral! 
-            <p>
-              Ahora estás listo para matricularte.
-            </p>
-          </Alert>
         </div>
 
         <div
           class="col-span-4 lg:col-span-3 rounded-lg bg-white p-6 shadow-lg mb-4"
         >
-    
+          <Alert
+            type="success"
+            class="col-span-4 font-medium text-xl mb-3"
+            ref="alert"
+            v-if="survey.hasFinished === 'true' ? true : false"
+          >
+            ¡Felicidades, has completado exitosamente la ficha integral!
+            <p>Ahora estás listo para matricularte.</p>
+          </Alert>
 
           <h2
             class="md:text-3xl text-2xl font-semibold mb-4 text-gray-700 first-letter:uppercase"
@@ -383,7 +383,6 @@
                               let isSave = await submit();
                               if (isSave) {
                                 goToTop();
-                            
                               }
                             }
                           "
@@ -498,7 +497,6 @@ const finishSurvey = async () => {
 
 const modalFinished = ref(false);
 
-
 const changeTopic = async (nextTopic) => {
   isLoadingForm.value = true;
 
@@ -581,6 +579,8 @@ const getPrevElement = (element, elements) => {
 };
 
 const setCurrerts = async (survey) => {
+
+
   currents.value.section = sections.value.find(
     (item) => item.id === survey.section
   );
@@ -588,8 +588,13 @@ const setCurrerts = async (survey) => {
 };
 
 const setNexts = async () => {
-  nexts.value.topic = getNextElement(currents.value.topic, topics.value);
-  nexts.value.section = getNextElement(currents.value.section, sections.value);
+
+  nexts.value.topic = await getNextElement(currents.value.topic, topics.value);
+
+  nexts.value.section = await getNextElement(
+    currents.value.section,
+    sections.value
+  );
 };
 
 const setPrevius = async () => {

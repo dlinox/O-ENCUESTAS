@@ -3,13 +3,13 @@
     <div class="col-span-2 rounded-lg">
       <ul ref="refList" class="">
         <li
-        v-for="(question, indexQuestion) in questionsList"
-        :key="question.id"
-        :id="question.id"
-        :class="[
-          !question.isDependent || question.show ? 'pt-2 pb-5' : '',
-          question.show ? 'bg-slate-50  -mt-3 px-4 pt-2 rounded-lg' : '',
-        ]"
+          v-for="(question, indexQuestion) in questionsList"
+          :key="question.id"
+          :id="question.id"
+          :class="[
+            !question.isDependent || question.show ? 'pt-2 pb-5' : '',
+            question.show ? 'bg-slate-50  -mt-3 px-4 pt-2 rounded-lg' : '',
+          ]"
         >
           <template v-if="!question.isDependent || question.show">
             <template
@@ -179,8 +179,6 @@
       </div>
     </div>
   </div>
-
-  
 </template>
 
 <script setup>
@@ -362,20 +360,22 @@ const notChangesRegular = [
   "d2574937-e2fc-4eb5-b612-d767e3610a04",
   "fb5c10df-f60d-4815-a007-a189e879054e",
   "e8367e12-f088-4188-bed8-50342bac562c",
-  "c9175462-8e03-47b1-9450-2f126a1655c2",
   "de9c81d9-87d5-4cf4-b2f0-5274399ff94c",
-  // "a3056caa-84a9-44a0-9ee5-46a59ad3f073",genero
-  // "ab123cd2-c64d-44d2-8023-af2849bf6f9d",
-  "bd4313bd-1709-4bfd-8fae-bfe2eb6e5d05",
-  // "654a124d-93e4-4a1b-84e2-4e189fb4a0dc",
-  // "2cb7930e-344f-4371-a2d1-da1579bfe33e",
-  "16373178-2cb7-4a9e-be10-33d1145fcb48",
-  // "b37c3cce-8d8a-45e3-90bd-59e0bcb9cccb", //*R
+
   "50af5759-8009-4419-bfc2-8df851be62b1",
   "4d36be9a-1567-4d80-a726-a5a1bc2a33c7",
   "36f9a47d-457d-4052-ab25-47b4decb887f",
   "574ba955-5176-4997-8e34-42524cafa862",
   "6bc3b523-2a89-423d-99bf-53692c004633",
+
+    // "c9175462-8e03-47b1-9450-2f126a1655c2",
+  // "a3056caa-84a9-44a0-9ee5-46a59ad3f073",genero
+  // "ab123cd2-c64d-44d2-8023-af2849bf6f9d",
+  // "bd4313bd-1709-4bfd-8fae-bfe2eb6e5d05",
+  // "654a124d-93e4-4a1b-84e2-4e189fb4a0dc",
+  // "2cb7930e-344f-4371-a2d1-da1579bfe33e",
+  // "16373178-2cb7-4a9e-be10-33d1145fcb48",
+  // "b37c3cce-8d8a-45e3-90bd-59e0bcb9cccb", //*R
 ];
 
 const notChangesEntrants = [
