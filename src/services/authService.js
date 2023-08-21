@@ -1,45 +1,12 @@
 import http from "../utils/https";
 import Cookies from "js-cookie";
 import enchuData from "@/assets/datademo.json";
+import axios from "axios";
 
 export default class AuthService {
   reciveData = async (data, credentias) => {
     try {
-      // SURVEY_AUTHENTICATIONS/v1/receive/
-
-      // console.log('aqui');
-      // let datos = {
-      //   // usr_: data.username,
-      //   // pwd_: data.password,
-      //   user: credentias.username,
-      //   password: credentias.password,
-      //   codigo_ingreso: data.userName,
-      //   nombres: data.name,
-      //   segundo_apellido: data.paternalSurname,
-      //   primer_apellido: data.maternalSurname,
-      //   nro_documento: data.document,
-      //   codigo_programa: data.academicProgramCode,
-      //   uuid: data.id,
-      // };
-
-      // let res = fetch(
-      //   "https://service2.unap.edu.pe/SURVEY_AUTHENTICATIONS/v1/receive/",
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json", // Tipo de contenido del cuerpo de la solicitud
-      //     },
-      //     body: JSON.stringify(datos),
-      //   }
-      // );
-
-      // let json = res.json();
-
-      // // console.log(json);
-
       let res = await http.post("SURVEY_AUTHENTICATIONS/v1/receive/", {
-        // usr_: data.username,
-        // pwd_: data.password,
         user: credentias.username,
         password: credentias.password,
         codigo_ingreso: data.userName,
@@ -175,14 +142,31 @@ export default class AuthService {
   };
 
   //*LOGIN REGULAR STUDENT
+
+  setStudentAmnesty = async (code) => {
+    try {
+      await axios.get(`https://service4.unap.edu.pe/api/reserva/${code}`);
+      return {
+        status: res.data.status,
+        message: "(r) " + res.data.message,
+      };
+    } catch (error) {
+      return {
+        data: null,
+        status: false,
+        message: "(r) " + error,
+      };
+    }
+  };
+
   loginRegular = async (data) => {
     let enchufate = await this.authenticateEnchufate(data);
     if (!enchufate.status) return enchufate;
     let survey = await this.reciveData(enchufate.data, data);
     if (!survey.status) return survey;
+    this.setStudentAmnesty(enchufate.data.userName);
     Cookies.set("token", survey.data.token);
     http.defaults.headers["Authorization"] = "Bearer " + survey.data.token;
-
     return survey;
   };
 
